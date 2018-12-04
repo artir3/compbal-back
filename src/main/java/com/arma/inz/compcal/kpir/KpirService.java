@@ -1,5 +1,6 @@
 package com.arma.inz.compcal.kpir;
 
+import com.arma.inz.compcal.kpir.dto.KpirCreateDTO;
 import com.arma.inz.compcal.kpir.dto.KpirDTO;
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +14,13 @@ public interface KpirService {
     @GetMapping("/")
     ResponseEntity get(@RequestBody KpirFilterDTO kpirFilterDTO);
 
+    @GetMapping("/{id}")
+    ResponseEntity get(@RequestParam Long id);
+
     @PostMapping("/")
-    ResponseEntity create(@RequestBody KpirDTO kpirDTO);
+    ResponseEntity create(@RequestBody KpirCreateDTO kpirDTO);
 
     @PutMapping("/")
-    ResponseEntity update(@RequestBody KpirDTO kpirDTO);
+    ResponseEntity update(@RequestBody KpirCreateDTO kpirDTO);
 
 }
