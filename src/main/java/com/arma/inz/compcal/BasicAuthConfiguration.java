@@ -47,7 +47,7 @@ public class BasicAuthConfiguration
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
     }
 
@@ -71,7 +71,7 @@ public class BasicAuthConfiguration
                 .authorizeRequests()
                 .antMatchers("/user/registration").permitAll()
                 .antMatchers("/user/login").permitAll()
-                .antMatchers("/user/authorize/*").permitAll()
+                .antMatchers("/user/authorize/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

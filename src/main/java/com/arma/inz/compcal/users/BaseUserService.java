@@ -19,15 +19,12 @@ public interface BaseUserService {
     @GetMapping("/loginbyhash")
     ResponseEntity loginByHash(@RequestBody String hash);
 
-//    @GetMapping("/")
-//    ResponseEntity get();
-
     @GetMapping("/")
     ResponseEntity get(@RequestBody String hash);
 
     @PutMapping("/")
     ResponseEntity update(@RequestBody UserDTO userDTO);
 
-    @PostMapping("/authorize/{authorizationHash}")
+    @GetMapping("/authorize/{authorizationHash}")
     ResponseEntity authorize(@PathVariable String authorizationHash);
 }

@@ -1,5 +1,7 @@
 package com.arma.inz.compcal.users;
 
+import com.arma.inz.compcal.mail.EmailService;
+import com.arma.inz.compcal.mail.MailSender;
 import com.arma.inz.compcal.users.dto.UserDTO;
 import com.arma.inz.compcal.users.dto.UserLoginDTO;
 import com.arma.inz.compcal.users.dto.UserRegistrationDTO;
@@ -30,6 +32,9 @@ public class BaseUserServiceImpl implements BaseUserService {
     @Autowired
     private BankAccountRepository bankAccountRepository;
 
+    @Autowired
+    private EmailService emailService;
+
     @PostMapping("/user/email")
     public BaseUser findUserByEmail(@RequestBody BaseUser user) {
         return baseUserRepository.findByEmail(user.getEmail());
@@ -46,24 +51,25 @@ public class BaseUserServiceImpl implements BaseUserService {
         entity.setModifiedAt(LocalDateTime.now());
         entity.setCreatedAt(LocalDateTime.now());
         BaseUser save = baseUserRepository.save(entity);
-        sendEmailWithAuthorizationHash();
+        sendEmailWithAuthorizationHash(entity.getEmail(), entity.getHash());
         return new ResponseEntity( save != null, HttpStatus.OK);
     }
 
-    private void sendEmailWithAuthorizationHash() {
+    private void sendEmailWithAuthorizationHash(String email, String hash) {
+        emailService.sendActivationEmail(email, hash);
     }
 
     @Override
     public ResponseEntity login(@RequestBody UserLoginDTO user) {
         String hash = Base64.getEncoder().encodeToString((user.getEmail() + ":" + user.getPassword()).getBytes());
         BaseUser entity = baseUserRepository.findOneByHash(hash);
-        return new ResponseEntity( entity != null, HttpStatus.OK);
+        return new ResponseEntity( entity != null && entity.isActive(), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity loginByHash(@RequestBody String hash) {
         BaseUser entity = baseUserRepository.findOneByHash(hash);
-        return new ResponseEntity( entity != null, HttpStatus.OK);
+        return new ResponseEntity( entity != null && entity.isActive(), HttpStatus.OK);
     }
 
     @Override
