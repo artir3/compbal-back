@@ -76,7 +76,7 @@ public class BaseUserControllerImpl implements BaseUserController {
         Optional<BaseUser> optional = baseUserRepository.findById(userDTO.getId());
         if (optional != null){
             BaseUser entity = optional.get();
-            BeanUtils.copyProperties(userDTO, entity, "id", "email", "nip", "createdAt");
+            BeanUtils.copyProperties(userDTO, entity, "id", "email", "nip", "createdAt", "bankAccountSet");
             entity.setModifiedAt(LocalDateTime.now());
             baseUserRepository.save(entity);
         }
