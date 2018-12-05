@@ -5,12 +5,14 @@ import com.arma.inz.compcal.kpir.dto.KpirDTO;
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Controller
 public class KpirControllerImpl implements KpirController {
     @Autowired
     private KpirRepository kpirRepository;

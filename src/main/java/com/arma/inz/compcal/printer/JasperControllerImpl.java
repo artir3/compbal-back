@@ -3,8 +3,8 @@ package com.arma.inz.compcal.printer;
 import com.arma.inz.compcal.kpir.KpirController;
 import com.arma.inz.compcal.kpir.dto.KpirDTO;
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
-import com.arma.inz.compcal.users.BaseUser;
 import com.arma.inz.compcal.users.BaseUserController;
+import com.arma.inz.compcal.users.dto.UserDTO;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
@@ -12,6 +12,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSaver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.jasperreports.JasperReportsUtils;
 
 import java.io.*;
@@ -23,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Controller
 public class JasperControllerImpl implements JasperController {
 
     @Autowired
@@ -63,7 +65,7 @@ public class JasperControllerImpl implements JasperController {
 
     @Override
     public byte[] generateKpir(String authorization, KpirFilterDTO kpirFilterDTO) throws IOException {
-        BaseUser baseUser = baseUserController.getBaseUser(authorization.substring(5));
+        UserDTO baseUser = baseUserController.getBaseUser(authorization.substring(5));
         List<KpirDTO> kpirDTOList = kpirController.getListByFilter(authorization.substring(5), kpirFilterDTO);
         Map<String, Object> parameters = new HashMap<>();
 

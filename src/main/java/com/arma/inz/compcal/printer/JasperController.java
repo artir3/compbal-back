@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
 
-@Controller
 public interface JasperController {
 
     void compileFile(JasperEnum file) throws JRException;

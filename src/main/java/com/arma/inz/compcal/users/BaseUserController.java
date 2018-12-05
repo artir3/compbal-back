@@ -6,7 +6,6 @@ import com.arma.inz.compcal.users.dto.UserRegistrationDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@Controller
 public interface BaseUserController {
     boolean registration(UserRegistrationDTO user);
 
@@ -14,7 +13,7 @@ public interface BaseUserController {
 
     boolean loginByHash(@RequestBody String hash);
 
-    BaseUser getBaseUser(@RequestBody String hash);
+    UserDTO getBaseUser(@RequestBody String hash);
 
     boolean updateBaseUser(UserDTO userDTO);
 

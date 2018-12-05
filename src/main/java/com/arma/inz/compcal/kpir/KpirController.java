@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
-@Controller
 public interface KpirController {
 
     List<KpirDTO> getListByFilter(String hash, KpirFilterDTO kpirFilterDTO);

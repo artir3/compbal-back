@@ -9,17 +9,17 @@ import lombok.extern.java.Log;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.HashSet;
 import java.util.Optional;
 
-@RestController
-@CrossOrigin(origins ="http://localhost:4200")
 @Log
+@Controller
 public class BaseUserControllerImpl implements BaseUserController {
 
     @Autowired
@@ -58,13 +58,13 @@ public class BaseUserControllerImpl implements BaseUserController {
     }
 
     @Override
-    public boolean loginByHash(@RequestBody String hash) {
+    public boolean loginByHash(String hash) {
         BaseUser entity = baseUserRepository.findOneByHash(hash);
         return entity != null && entity.isActive();
     }
 
     @Override
-    public BaseUser getBaseUser(@RequestBody String hash) {
+    public UserDTO getBaseUser(String hash) {
         BaseUser entity = baseUserRepository.findOneByHash(hash);
         return entity;
     }
