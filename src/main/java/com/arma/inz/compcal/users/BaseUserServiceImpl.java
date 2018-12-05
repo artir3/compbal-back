@@ -40,8 +40,8 @@ public class BaseUserServiceImpl implements BaseUserService {
 
     @Override
     public ResponseEntity get(String authorization) {
-        BaseUser baseUser = baseUserController.getBaseUser(header.hashFromHeader(authorization));
-        return new ResponseEntity( baseUser, HttpStatus.OK);
+        UserDTO baseUser = baseUserController.getBaseUser(header.hashFromHeader(authorization));
+        return new ResponseEntity(baseUser, HttpStatus.OK);
     }
 
     @Override

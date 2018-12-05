@@ -66,7 +66,9 @@ public class BaseUserControllerImpl implements BaseUserController {
     @Override
     public UserDTO getBaseUser(String hash) {
         BaseUser entity = baseUserRepository.findOneByHash(hash);
-        return entity;
+        UserDTO result = new UserDTO();
+        BeanUtils.copyProperties(entity, result);
+        return result;
     }
 
     @Override
