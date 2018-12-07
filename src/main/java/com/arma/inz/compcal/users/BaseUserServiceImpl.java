@@ -33,7 +33,7 @@ public class BaseUserServiceImpl implements BaseUserService {
     }
 
     @Override
-    public ResponseEntity loginByHash(String authorization) {
+    public ResponseEntity login(String authorization) {
         boolean login = baseUserController.loginByHash(header.hashFromHeader(authorization));
         return new ResponseEntity( login, HttpStatus.OK);
     }

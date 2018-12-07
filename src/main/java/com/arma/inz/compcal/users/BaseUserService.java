@@ -15,8 +15,8 @@ public interface BaseUserService {
     @PostMapping("/login")
     ResponseEntity login(@RequestBody UserLoginDTO user);
 
-    @GetMapping("/loginbyhash")
-    ResponseEntity loginByHash(@RequestHeader(value="Authorization") String authorization);
+    @GetMapping("/login")
+    ResponseEntity login(@RequestHeader(value="Authorization") String authorization);
 
     @GetMapping("/")
     ResponseEntity get(@RequestHeader(value="Authorization") String authorization);
