@@ -2,6 +2,7 @@ package com.arma.inz.compcal.contractor;
 
 import com.arma.inz.compcal.kpir.Kpir;
 import lombok.Data;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table
+@Audited
 public class Contractor {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

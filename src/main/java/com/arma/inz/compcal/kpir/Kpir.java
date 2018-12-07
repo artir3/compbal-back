@@ -2,6 +2,7 @@ package com.arma.inz.compcal.kpir;
 
 import com.arma.inz.compcal.contractor.Contractor;
 import lombok.Data;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table
+@Audited
 public class Kpir {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
