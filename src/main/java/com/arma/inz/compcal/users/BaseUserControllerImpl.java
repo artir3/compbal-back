@@ -5,6 +5,7 @@ import com.arma.inz.compcal.users.dto.UserDTO;
 import com.arma.inz.compcal.users.dto.UserLoginDTO;
 import com.arma.inz.compcal.users.dto.UserRegistrationDTO;
 import com.arma.inz.compcal.users.enums.RolesEnum;
+import com.arma.inz.compcal.users.enums.TaxFormEnum;
 import lombok.extern.java.Log;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,7 @@ public class BaseUserControllerImpl implements BaseUserController {
         BaseUser entity = baseUserRepository.findOneByHash(hash);
         UserDTO result = new UserDTO();
         BeanUtils.copyProperties(entity, result);
+        result.setTaxForm(entity.getTaxForm().name());
         return result;
     }
 
@@ -77,6 +79,7 @@ public class BaseUserControllerImpl implements BaseUserController {
         if (optional != null){
             BaseUser entity = optional.get();
             BeanUtils.copyProperties(userDTO, entity, "id", "email", "nip", "createdAt", "bankAccountSet");
+            entity.setTaxForm(TaxFormEnum.valueOf(userDTO.getTaxForm()));
             entity.setModifiedAt(LocalDateTime.now());
             baseUserRepository.save(entity);
         }

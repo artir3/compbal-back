@@ -19,7 +19,6 @@ public class UserDTO {
     private String zip;
     private String city;
     private String taxForm;
-    private String vatForm;
     private String pkd;
     private String regon;
     private String country;
