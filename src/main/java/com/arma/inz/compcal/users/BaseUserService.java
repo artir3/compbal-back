@@ -6,7 +6,6 @@ import com.arma.inz.compcal.users.dto.UserRegistrationDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins ="http://localhost:4200")
 @RequestMapping("/user")
 public interface BaseUserService {
     @PostMapping("/registration")
@@ -18,9 +17,11 @@ public interface BaseUserService {
     @GetMapping("/login/hash")
     ResponseEntity loginHash(@RequestHeader(value="Authorization") String authorization);
 
+    @CrossOrigin
     @GetMapping("/")
     ResponseEntity get(@RequestHeader(value="Authorization") String authorization);
 
+    @CrossOrigin
     @PutMapping("/")
     ResponseEntity update(@RequestBody UserDTO userDTO);
 
