@@ -18,49 +18,50 @@ public class BaseUserServiceImpl implements BaseUserService {
 
     @Autowired
     private BaseUserController baseUserController;
-    
+
     @Autowired
     private AuthorizationHeaderUtils header;
 
     @Override
     public ResponseEntity registration(UserRegistrationDTO user) {
         boolean registration = baseUserController.registration(user);
-        return new ResponseEntity( registration, HttpStatus.OK);
+        return new ResponseEntity<>(registration, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity login(UserLoginDTO user) {
         boolean login = baseUserController.login(user);
-        return new ResponseEntity( login, HttpStatus.OK);
+        return new ResponseEntity<>(login, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity loginHash(String authorization) {
         boolean login = baseUserController.loginByHash(header.hashFromHeader(authorization));
-        return new ResponseEntity( login, HttpStatus.OK);
+        return new ResponseEntity<>(login, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity get(String authorization) {
         UserDTO baseUser = baseUserController.getBaseUser(header.hashFromHeader(authorization));
-        return new ResponseEntity(baseUser, HttpStatus.OK);
+        return new ResponseEntity<>(baseUser, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity update(UserDTO userDTO) {
         boolean update = baseUserController.updateBaseUser(userDTO);
-        return new ResponseEntity( update, HttpStatus.OK);
+        return new ResponseEntity<>(update, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity authorize(String authorizationHash) {
         boolean authorize = baseUserController.authorize(authorizationHash);
-        return new ResponseEntity( authorize, HttpStatus.OK);
+        return new ResponseEntity<>(authorize, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity deleteAccount(Long id) {
         boolean delete = baseUserController.deleteAccount(id);
-        return new ResponseEntity( delete, HttpStatus.OK);    }
+        return new ResponseEntity<>(delete, HttpStatus.OK);
+    }
 
 }

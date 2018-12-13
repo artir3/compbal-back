@@ -76,7 +76,7 @@ public class BaseUserControllerImpl implements BaseUserController {
         BeanUtils.copyProperties(entity, result, "password");
         result.setTaxForm(entity.getTaxForm().name());
 
-        Set<BankAccountDTO> bankAccounts = new HashSet<BankAccountDTO>();
+        Set<BankAccountDTO> bankAccounts = new HashSet<>();
         for (BankAccount account: entity.getBankAccountSet()) {
             BankAccountDTO dto = new BankAccountDTO();
             BeanUtils.copyProperties(account, dto);
@@ -90,7 +90,7 @@ public class BaseUserControllerImpl implements BaseUserController {
     @Override
     public boolean updateBaseUser(UserDTO userDTO) {
         Optional<BaseUser> optional = baseUserRepository.findById(userDTO.getId());
-        if (optional != null){
+        if (optional.isEmpty()){
             BaseUser entity = optional.get();
             BeanUtils.copyProperties(userDTO, entity, "id", "email", "nip", "createdAt", "bankAccountSet");
             entity.setTaxForm(TaxFormEnum.valueOf(userDTO.getTaxForm()));
@@ -104,7 +104,7 @@ public class BaseUserControllerImpl implements BaseUserController {
             baseUserRepository.save(entity);
 
             for (BankAccountDTO dto:userDTO.getBankAccountSet()) {
-                BankAccount bankAccount = null;
+                BankAccount bankAccount;
                 if(dto.getId() != null){
                     bankAccount = bankAccountRepository.findById(dto.getId()).get();
                 } else {
@@ -118,7 +118,7 @@ public class BaseUserControllerImpl implements BaseUserController {
                 bankAccountRepository.save(bankAccount);
             }
         }
-        return optional != null;
+        return optional.isEmpty();
 
     }
 
