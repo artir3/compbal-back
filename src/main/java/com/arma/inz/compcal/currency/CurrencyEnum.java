@@ -43,8 +43,8 @@ public enum CurrencyEnum {
     CurrencyEnum(String label){
         this.label = label;
     }
-    @Override
-    public String toString() {
+
+    public String getLabel(){
         return this.label;
     }
 }
