@@ -12,16 +12,16 @@ import java.time.LocalDateTime;
 public class Currency {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column
+    @Column(name = "id")
     private Long id;
 
-    @Column
+    @Column(name = "addedAt")
     private LocalDateTime addedAt;
 
-    @Column
+    @Column(name = "code")
     @Enumerated(EnumType.STRING)
     private CurrencyEnum code;
 
-    @Column(precision = 8, scale = 4)
+    @Column(precision = 8, scale = 4, name = "exchangeValue")
     private BigDecimal exchangeValue;
 }

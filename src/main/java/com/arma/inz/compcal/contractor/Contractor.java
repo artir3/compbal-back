@@ -17,9 +17,9 @@ public class Contractor {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
-    @Column
+    @Column(name = "createdAt")
     private LocalDateTime createdAt;
-    @Column
+    @Column(name = "modifiedAt")
     private LocalDateTime modifiedAt;
     @OneToMany(mappedBy = "contractor", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Kpir> kpirList;

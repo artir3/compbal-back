@@ -17,47 +17,47 @@ public class Kpir {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
-    @Column
+    @Column(name = "createdAt")
     private LocalDateTime createdAt;
-    @Column
+    @Column(name = "modifiedAt")
     private LocalDateTime modifiedAt;
-    @Column
+    @Column(name = "idx")
     private Integer idx;
-    @Column
+    @Column(name = "economicEventDate")
     private LocalDateTime economicEventDate;
-    @Column
+    @Column(name = "registrationNumber")
     private String registrationNumber;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Contractor contractor;
-    @Column
+    @Column(name = "description")
     private String description;
-    @Column
+    @Column(name = "soldIncome")
     private BigDecimal soldIncome;
-    @Column
+    @Column(name = "otherIncome")
     private BigDecimal otherIncome;
-    @Column
+    @Column(name = "allIncome")
     private BigDecimal allIncome;
-    @Column
+    @Column(name = "purchaseCosts")
     private BigDecimal purchaseCosts;
-    @Column
+    @Column(name = "purchaseSideCosts")
     private BigDecimal purchaseSideCosts;
-    @Column
+    @Column(name = "marketingCosts")
     private BigDecimal marketingCosts;
-    @Column
+    @Column(name = "paymentCost")
     private BigDecimal paymentCost;
-    @Column
+    @Column(name = "otherCosts")
     private BigDecimal otherCosts;
-    @Column
+    @Column(name = "sumCosts")
     private BigDecimal sumCosts;
-    @Column
+    @Column(name = "other")
     private String other;
-    @Column
+    @Column(name = "comments")
     private String comments;
-    @Column
+    @Column(name = "payed")
     private Boolean payed;
-    @Column
+    @Column(name = "paymentDateMin")
     private LocalDateTime paymentDateMin;
-    @Column
+    @Column(name = "paymentDateMax")
     private LocalDateTime paymentDateMax;
 
 

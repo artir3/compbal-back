@@ -2,8 +2,10 @@ package com.arma.inz.compcal.users;
 
 import com.arma.inz.compcal.users.enums.RolesEnum;
 import com.arma.inz.compcal.users.enums.TaxFormEnum;
-import com.arma.inz.compcal.users.enums.VatFormEnum;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,6 +14,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table
+@ToString(exclude = "bankAccountSet")
 public class BaseUser {
 
     @Id
@@ -22,7 +25,7 @@ public class BaseUser {
     private boolean active;
     @Column(name = "hash")
     private String hash;
-    @Column
+    @Column(name = "roles")
     @Enumerated(EnumType.STRING)
     private RolesEnum roles;
     @Column(unique=true, name = "email")
@@ -47,21 +50,18 @@ public class BaseUser {
     private String zip;
     @Column(name = "city")
     private String city;
-    @Column
+    @Column(name = "taxForm")
     @Enumerated(EnumType.STRING)
     private TaxFormEnum taxForm;
-    @Column
-    @Enumerated(EnumType.STRING)
-    private VatFormEnum vatForm;
     @Column(name = "pkd")
     private String pkd;
     @Column(name = "regon")
     private String regon;
-    @OneToMany(mappedBy = "baseUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "baseUser", cascade = CascadeType.ALL, fetch=FetchType.LAZY/*, orphanRemoval = true*/)
     private Set<BankAccount> bankAccountSet;
-    @Column
+    @Column(name = "createdAt")
     private LocalDateTime createdAt;
-    @Column
+    @Column(name = "modifiedAt")
     private LocalDateTime modifiedAt;
     @Column(name = "country")
     private String country;
