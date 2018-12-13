@@ -58,4 +58,9 @@ public class BaseUserServiceImpl implements BaseUserService {
         return new ResponseEntity( authorize, HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity deleteAccount(Long id) {
+        boolean delete = baseUserController.deleteAccount(id);
+        return new ResponseEntity( delete, HttpStatus.OK);    }
+
 }

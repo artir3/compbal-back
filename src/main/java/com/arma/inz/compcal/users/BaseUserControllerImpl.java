@@ -1,6 +1,8 @@
 package com.arma.inz.compcal.users;
 
+import com.arma.inz.compcal.currency.CurrencyEnum;
 import com.arma.inz.compcal.mail.EmailService;
+import com.arma.inz.compcal.users.dto.BankAccountDTO;
 import com.arma.inz.compcal.users.dto.UserDTO;
 import com.arma.inz.compcal.users.dto.UserLoginDTO;
 import com.arma.inz.compcal.users.dto.UserRegistrationDTO;
@@ -11,6 +13,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Log
 @Controller
@@ -42,6 +46,7 @@ public class BaseUserControllerImpl implements BaseUserController {
         entity.setRoles(RolesEnum.USER);
         entity.setModifiedAt(LocalDateTime.now());
         entity.setCreatedAt(LocalDateTime.now());
+        entity.setTaxForm(TaxFormEnum.valueOf(user.getTaxForm()));
         BaseUser save = baseUserRepository.save(entity);
         sendEmailWithAuthorizationHash(entity.getEmail(), entity.getHash());
         return save != null;
@@ -68,8 +73,17 @@ public class BaseUserControllerImpl implements BaseUserController {
     public UserDTO getBaseUser(String hash) {
         BaseUser entity = baseUserRepository.findOneByHash(hash);
         UserDTO result = new UserDTO();
-        BeanUtils.copyProperties(entity, result);
+        BeanUtils.copyProperties(entity, result, "password");
         result.setTaxForm(entity.getTaxForm().name());
+
+        Set<BankAccountDTO> bankAccounts = new HashSet<BankAccountDTO>();
+        for (BankAccount account: entity.getBankAccountSet()) {
+            BankAccountDTO dto = new BankAccountDTO();
+            BeanUtils.copyProperties(account, dto);
+            dto.setCurrency(account.getCurrency().name());
+            bankAccounts.add(dto);
+        }
+        result.setBankAccountSet(bankAccounts);
         return result;
     }
 
@@ -81,7 +95,28 @@ public class BaseUserControllerImpl implements BaseUserController {
             BeanUtils.copyProperties(userDTO, entity, "id", "email", "nip", "createdAt", "bankAccountSet");
             entity.setTaxForm(TaxFormEnum.valueOf(userDTO.getTaxForm()));
             entity.setModifiedAt(LocalDateTime.now());
+
+            if (!StringUtils.isEmpty(userDTO.getPassword())){
+                entity.setHash(Base64.getEncoder().encodeToString((userDTO.getEmail() + ":" + userDTO.getPassword()).getBytes()));
+                entity.setPassword(new BCryptPasswordEncoder().encode(userDTO.getPassword()));
+            }
+
             baseUserRepository.save(entity);
+
+            for (BankAccountDTO dto:userDTO.getBankAccountSet()) {
+                BankAccount bankAccount = null;
+                if(dto.getId() != null){
+                    bankAccount = bankAccountRepository.findById(dto.getId()).get();
+                } else {
+                    bankAccount = new BankAccount();
+                    bankAccount.setCreatedAt(LocalDateTime.now());
+                    bankAccount.setBaseUser(entity);
+                }
+                BeanUtils.copyProperties(dto, bankAccount, "id", "baseUser");
+                bankAccount.setCurrency(CurrencyEnum.valueOf(dto.getCurrency()));
+                bankAccount.setModifiedAt(LocalDateTime.now());
+                bankAccountRepository.save(bankAccount);
+            }
         }
         return optional != null;
 
@@ -95,6 +130,13 @@ public class BaseUserControllerImpl implements BaseUserController {
             baseUserRepository.save(entity);
         }
         return entity != null;
+    }
+
+    @Override
+    public boolean deleteAccount(Long id) {
+        if (id == null){ return false; }
+        bankAccountRepository.deleteById(id);
+        return true;
     }
 
 }

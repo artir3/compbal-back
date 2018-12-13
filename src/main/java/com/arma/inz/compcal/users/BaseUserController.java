@@ -18,4 +18,6 @@ public interface BaseUserController {
     boolean updateBaseUser(UserDTO userDTO);
 
     boolean authorize(String authorizationHash);
+
+    boolean deleteAccount(Long id);
 }

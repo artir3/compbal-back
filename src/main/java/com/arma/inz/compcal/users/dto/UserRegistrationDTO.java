@@ -16,4 +16,5 @@ public class UserRegistrationDTO {
     private String city;
     private String country;
     private String password;
+    private String taxForm;
 }
