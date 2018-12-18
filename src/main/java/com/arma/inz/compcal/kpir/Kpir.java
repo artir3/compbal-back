@@ -1,8 +1,10 @@
 package com.arma.inz.compcal.kpir;
 
 import com.arma.inz.compcal.contractor.Contractor;
+import com.arma.inz.compcal.users.BaseUser;
 import lombok.Data;
-//import org.hibernate.envers.Audited;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -11,7 +13,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table
-//@Audited
+@ToString(exclude = "baseUser")
 public class Kpir {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -59,6 +61,8 @@ public class Kpir {
     private LocalDateTime paymentDateMin;
     @Column(name = "paymentDateMax")
     private LocalDateTime paymentDateMax;
-
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+    @JoinColumn(name="baseUser_id", nullable=false)
+    private BaseUser baseUser;
 }

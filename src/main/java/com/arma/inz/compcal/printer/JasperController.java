@@ -2,7 +2,6 @@ package com.arma.inz.compcal.printer;
 
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
 import net.sf.jasperreports.engine.JRException;
-import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 import java.io.OutputStream;

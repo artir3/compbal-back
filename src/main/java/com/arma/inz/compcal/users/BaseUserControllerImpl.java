@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.Base64;
@@ -59,6 +57,7 @@ public class BaseUserControllerImpl implements BaseUserController {
     @Override
     public boolean login(UserLoginDTO user) {
         String hash = Base64.getEncoder().encodeToString((user.getEmail() + ":" + user.getPassword()).getBytes());
+        String pass = new BCryptPasswordEncoder().encode(user.getPassword());
         BaseUser entity = baseUserRepository.findOneByHash(hash);
         return entity != null && entity.isActive();
     }
@@ -70,7 +69,7 @@ public class BaseUserControllerImpl implements BaseUserController {
     }
 
     @Override
-    public UserDTO getBaseUser(String hash) {
+    public UserDTO getUserDTO(String hash) {
         BaseUser entity = baseUserRepository.findOneByHash(hash);
         UserDTO result = new UserDTO();
         BeanUtils.copyProperties(entity, result, "password");
@@ -88,18 +87,23 @@ public class BaseUserControllerImpl implements BaseUserController {
     }
 
     @Override
+    public BaseUser getBaseUser(String hash) {
+        return baseUserRepository.findOneByHash(hash);
+    }
+
+    @Override
     public boolean updateBaseUser(UserDTO userDTO) {
         Optional<BaseUser> optional = baseUserRepository.findById(userDTO.getId());
-        if (optional.isEmpty()){
+        if (optional != null){
             BaseUser entity = optional.get();
-            BeanUtils.copyProperties(userDTO, entity, "id", "email", "nip", "createdAt", "bankAccountSet");
+            BeanUtils.copyProperties(userDTO, entity, "id", "email", "nip", "createdAt", "bankAccountSet", "password");
             entity.setTaxForm(TaxFormEnum.valueOf(userDTO.getTaxForm()));
             entity.setModifiedAt(LocalDateTime.now());
 
-            if (!StringUtils.isEmpty(userDTO.getPassword())){
-                entity.setHash(Base64.getEncoder().encodeToString((userDTO.getEmail() + ":" + userDTO.getPassword()).getBytes()));
-                entity.setPassword(new BCryptPasswordEncoder().encode(userDTO.getPassword()));
-            }
+//            if (!StringUtils.isEmpty(userDTO.getPassword())){
+//                entity.setHash(Base64.getEncoder().encodeToString((userDTO.getEmail() + ":" + userDTO.getPassword()).getBytes()));
+//                entity.setPassword(new BCryptPasswordEncoder().encode(userDTO.getPassword()));
+//            }
 
             baseUserRepository.save(entity);
 
@@ -118,7 +122,7 @@ public class BaseUserControllerImpl implements BaseUserController {
                 bankAccountRepository.save(bankAccount);
             }
         }
-        return optional.isEmpty();
+        return optional != null;
 
     }
 

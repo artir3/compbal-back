@@ -3,9 +3,7 @@ package com.arma.inz.compcal.users;
 import com.arma.inz.compcal.users.enums.RolesEnum;
 import com.arma.inz.compcal.users.enums.TaxFormEnum;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

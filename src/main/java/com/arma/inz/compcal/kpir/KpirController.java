@@ -3,7 +3,6 @@ package com.arma.inz.compcal.kpir;
 import com.arma.inz.compcal.kpir.dto.KpirCreateDTO;
 import com.arma.inz.compcal.kpir.dto.KpirDTO;
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
-import org.springframework.stereotype.Controller;
 
 import java.util.List;
 

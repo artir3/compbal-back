@@ -65,7 +65,7 @@ public class JasperControllerImpl implements JasperController {
 
     @Override
     public byte[] generateKpir(String authorization, KpirFilterDTO kpirFilterDTO) throws IOException {
-        UserDTO baseUser = baseUserController.getBaseUser(authorization.substring(5));
+        UserDTO baseUser = baseUserController.getUserDTO(authorization.substring(5));
         List<KpirDTO> kpirDTOList = kpirController.getListByFilter(authorization.substring(5), kpirFilterDTO);
         Map<String, Object> parameters = new HashMap<>();
 

@@ -1,8 +1,10 @@
 package com.arma.inz.compcal.contractor;
 
 import com.arma.inz.compcal.kpir.Kpir;
+import com.arma.inz.compcal.users.BaseUser;
 import lombok.Data;
-//import org.hibernate.envers.Audited;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,7 +13,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table
-//@Audited
+@ToString(exclude = "baseUser")
 public class Contractor {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -45,6 +47,14 @@ public class Contractor {
     private String city;
     @Column(name = "country")
     private String country;
+    @Column(name = "phone")
+    private String phone;
+    @Column(name = "trade")
+    private String trade;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+    @JoinColumn(name="baseUser_id", nullable=false)
+    private BaseUser baseUser;
 
     public String getPrettyName(){
         return this.firstName + " " + this.surname;
@@ -53,5 +63,9 @@ public class Contractor {
     public String getPrettyAddress(){
         return this.street + " " + this.parcelNo + "/" + this.homeNo
                 + "\n" + this.zip + ", " + this.city + " " + this.country;
+    }
+
+    public String getPrettyContact() {
+        return "Email: " + this.email + "\nTelefon: " + this.phone;
     }
 }

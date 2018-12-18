@@ -3,7 +3,6 @@ package com.arma.inz.compcal.users;
 import com.arma.inz.compcal.users.dto.UserDTO;
 import com.arma.inz.compcal.users.dto.UserLoginDTO;
 import com.arma.inz.compcal.users.dto.UserRegistrationDTO;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 
 public interface BaseUserController {
@@ -13,7 +12,9 @@ public interface BaseUserController {
 
     boolean loginByHash(@RequestBody String hash);
 
-    UserDTO getBaseUser(@RequestBody String hash);
+    UserDTO getUserDTO(@RequestBody String hash);
+
+    BaseUser getBaseUser(@RequestBody String hash);
 
     boolean updateBaseUser(UserDTO userDTO);
 
