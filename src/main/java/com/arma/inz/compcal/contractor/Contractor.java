@@ -1,7 +1,7 @@
 package com.arma.inz.compcal.contractor;
 
 import com.arma.inz.compcal.kpir.Kpir;
-import com.arma.inz.compcal.users.BankAccount;
+import com.arma.inz.compcal.bankaccount.BankAccount;
 import com.arma.inz.compcal.users.BaseUser;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

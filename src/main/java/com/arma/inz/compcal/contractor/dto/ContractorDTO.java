@@ -1,6 +1,9 @@
 package com.arma.inz.compcal.contractor.dto;
 
+import com.arma.inz.compcal.bankaccount.BankAccountDTO;
 import lombok.Data;
+
+import java.util.Set;
 
 @Data
 public class ContractorDTO {
@@ -18,4 +21,5 @@ public class ContractorDTO {
     private String country;
     private String phone;
     private String trade;
+    private Set<BankAccountDTO> bankAccount;
 }
