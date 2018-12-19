@@ -21,5 +21,5 @@ public class ContractorDTO {
     private String country;
     private String phone;
     private String trade;
-    private Set<BankAccountDTO> bankAccount;
+    private Set<BankAccountDTO> bankAccounts;
 }

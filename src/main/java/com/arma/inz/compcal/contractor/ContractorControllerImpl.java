@@ -50,7 +50,7 @@ public class ContractorControllerImpl implements ContractorController {
             dto = new ContractorDTO();
             BeanUtils.copyProperties(contractor, dto);
             Set<BankAccountDTO> bankAccountDTOSet = bankAccountController.copyToDTO(contractor.getBankAccounts());
-            dto.setBankAccount(bankAccountDTOSet);
+            dto.setBankAccounts(bankAccountDTOSet);
         }
         return dto;
     }
@@ -60,11 +60,10 @@ public class ContractorControllerImpl implements ContractorController {
         Optional<Contractor> optional = contractorRepository.findById(dto.getId());
         if (optional != null) {
             Contractor contractor = optional.get();
-            BeanUtils.copyProperties(dto, contractor, "id", "baseUser", "createdAt", "kpirList");
+            BeanUtils.copyProperties(dto, contractor, "id", "baseUser", "createdAt", "kpirList", "bankAccounts");
             contractor.setModifiedAt(LocalDateTime.now());
-            Set<BankAccount> bankAccounts = bankAccountController.saveOrUpdate(dto.getBankAccount());
-            contractor.setBankAccounts(bankAccounts);
-            contractorRepository.save(contractor);
+            Contractor entity = contractorRepository.save(contractor);
+            bankAccountController.saveOrUpdate(dto.getBankAccounts(), entity);
         }
         return optional != null;
     }
@@ -72,13 +71,12 @@ public class ContractorControllerImpl implements ContractorController {
     @Override
     public Boolean createOne(BaseUser baseUser, ContractorDTO dto) {
         Contractor entity = new Contractor();
-        BeanUtils.copyProperties(dto, entity, "id");
+        BeanUtils.copyProperties(dto, entity, "id", "kpirList", "bankAccounts");
         entity.setBaseUser(baseUser);
         entity.setModifiedAt(LocalDateTime.now());
         entity.setCreatedAt(LocalDateTime.now());
-        Set<BankAccount> bankAccounts = bankAccountController.saveOrUpdate(dto.getBankAccount());
-        entity.setBankAccounts(bankAccounts);
         entity = contractorRepository.save(entity);
+        bankAccountController.saveOrUpdate(dto.getBankAccounts(), entity);
         return entity.getId() != null;
     }
 

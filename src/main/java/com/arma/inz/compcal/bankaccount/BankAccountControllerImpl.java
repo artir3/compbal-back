@@ -1,9 +1,13 @@
 package com.arma.inz.compcal.bankaccount;
 
+import com.arma.inz.compcal.contractor.Contractor;
 import com.arma.inz.compcal.currency.CurrencyEnum;
+import com.arma.inz.compcal.users.BaseUser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -17,28 +21,37 @@ public class BankAccountControllerImpl implements BankAccountController {
     private BankAccountRepository bankAccountRepository;
 
     @Override
-    public Set<BankAccount> saveOrUpdate(Collection<BankAccountDTO> collection) {
-        Set<BankAccount> bankAccounts = new HashSet<>();
+    public void saveOrUpdate(Collection<BankAccountDTO> collection, Contractor contractor) {
         for (BankAccountDTO dto: collection) {
-            bankAccounts.add(saveOrUpdate(dto));
+            saveOrUpdate(dto, null, contractor);
         }
-        return bankAccounts;
     }
 
     @Override
-    public BankAccount saveOrUpdate(BankAccountDTO dto) {
-        BankAccount bankAccount;
-        if(dto.getId() != null){
-            bankAccount = bankAccountRepository.findById(dto.getId()).get();
-        } else {
-            bankAccount = new BankAccount();
-            bankAccount.setCreatedAt(LocalDateTime.now());
-//                    bankAccount.setBaseUser(entity);
+    public void saveOrUpdate(Collection<BankAccountDTO> bankAccountSet, BaseUser baseUser) {
+        for (BankAccountDTO dto: bankAccountSet) {
+            saveOrUpdate(dto, baseUser, null);
         }
-        BeanUtils.copyProperties(dto, bankAccount, "id", "baseUser");
-        bankAccount.setCurrency(CurrencyEnum.valueOf(dto.getCurrency()));
-        bankAccount.setModifiedAt(LocalDateTime.now());
-        return bankAccountRepository.save(bankAccount);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void saveOrUpdate(BankAccountDTO dto, BaseUser baseUser, Contractor contractor) {
+        if (dto != null) {
+            BankAccount bankAccount;
+            if (dto.getId() != null) {
+                bankAccount = bankAccountRepository.findById(dto.getId()).get();
+            } else {
+                bankAccount = new BankAccount();
+                bankAccount.setCreatedAt(LocalDateTime.now());
+                bankAccount.setContractor(contractor);
+                bankAccount.setBaseUser(baseUser);
+            }
+            BeanUtils.copyProperties(dto, bankAccount, "id", "baseUser", "contractor", "createdAt");
+            bankAccount.setCurrency(CurrencyEnum.valueOf(dto.getCurrency()));
+            bankAccount.setModifiedAt(LocalDateTime.now());
+            bankAccountRepository.save(bankAccount);
+        }
     }
 
     @Override

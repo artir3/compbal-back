@@ -26,7 +26,7 @@ public class Contractor {
     private LocalDateTime modifiedAt;
     @OneToMany(mappedBy = "contractor", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Kpir> kpirList;
-    @Column(unique=true, name = "email")
+    @Column(unique = true, name = "email")
     private String email;
     @Column(name = "firstName")
     private String firstName;
@@ -54,17 +54,17 @@ public class Contractor {
     private String trade;
     @ManyToOne(fetch = FetchType.LAZY)
     @EqualsAndHashCode.Exclude
-    @JoinColumn(name="baseUser_id", nullable=false)
+    @JoinColumn(name = "baseUser_id", nullable = false)
     private BaseUser baseUser;
-    @OneToMany(/*mappedBy = "baseUser",*/ cascade = CascadeType.ALL, fetch=FetchType.LAZY/*, orphanRemoval = true*/)
+    @OneToMany(mappedBy = "contractor", cascade = CascadeType.ALL, fetch = FetchType.LAZY/*, orphanRemoval = true*/)
     private Set<BankAccount> bankAccounts;
 
-    public String getPrettyName(){
+    public String getPrettyName() {
         return this.firstName + " " + this.surname;
     }
 
-    public String getPrettyAddress(){
-        return this.street + " " + this.parcelNo + "/" + this.homeNo
+    public String getPrettyAddress() {
+        return this.street + " " + this.parcelNo + (this.homeNo != null ? "/" + this.homeNo : "")
                 + "\n" + this.zip + ", " + this.city + " " + this.country;
     }
 

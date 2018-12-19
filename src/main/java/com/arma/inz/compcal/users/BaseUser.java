@@ -27,7 +27,7 @@ public class BaseUser {
     @Column(name = "roles")
     @Enumerated(EnumType.STRING)
     private RolesEnum roles;
-    @Column(unique=true, name = "email")
+    @Column(unique = true, name = "email")
     private String email;
     @Column(name = "password")
     private String password;
@@ -56,7 +56,7 @@ public class BaseUser {
     private String pkd;
     @Column(name = "regon")
     private String regon;
-    @OneToMany(/*mappedBy = "baseUser",*/ cascade = CascadeType.ALL, fetch=FetchType.LAZY/*, orphanRemoval = true*/)
+    @OneToMany(mappedBy = "baseUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY/*, orphanRemoval = true*/)
     private Set<BankAccount> bankAccounts;
     @Column(name = "createdAt")
     private LocalDateTime createdAt;

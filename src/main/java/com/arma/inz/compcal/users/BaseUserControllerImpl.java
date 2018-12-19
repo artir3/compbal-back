@@ -93,9 +93,8 @@ public class BaseUserControllerImpl implements BaseUserController {
 //                entity.setPassword(new BCryptPasswordEncoder().encode(userDTO.getPassword()));
 //            }
 
-            Set<BankAccount> bankAccounts = bankAccountController.saveOrUpdate(userDTO.getBankAccountSet());
-            entity.setBankAccounts(bankAccounts);
-            baseUserRepository.save(entity);
+            entity = baseUserRepository.save(entity);
+            bankAccountController.saveOrUpdate(userDTO.getBankAccountSet(), entity);
         }
         return optional != null;
     }

@@ -1,12 +1,17 @@
 package com.arma.inz.compcal.bankaccount;
 
+import com.arma.inz.compcal.contractor.Contractor;
+import com.arma.inz.compcal.users.BaseUser;
+
 import java.util.Collection;
 import java.util.Set;
 
 public interface BankAccountController {
-    Set<BankAccount> saveOrUpdate(Collection<BankAccountDTO> bankAccountSet);
+    void saveOrUpdate(Collection<BankAccountDTO> bankAccountSet, Contractor contractor);
 
-    BankAccount saveOrUpdate(BankAccountDTO dto);
+    void saveOrUpdate(Collection<BankAccountDTO> bankAccountSet, BaseUser baseUser);
+
+    void saveOrUpdate(BankAccountDTO bankAccountDTO, BaseUser baseUser, Contractor contractor);
 
     boolean delete(Long id);
 
