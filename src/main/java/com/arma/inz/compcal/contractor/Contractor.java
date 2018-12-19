@@ -1,6 +1,7 @@
 package com.arma.inz.compcal.contractor;
 
 import com.arma.inz.compcal.kpir.Kpir;
+import com.arma.inz.compcal.users.BankAccount;
 import com.arma.inz.compcal.users.BaseUser;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -55,6 +56,8 @@ public class Contractor {
     @EqualsAndHashCode.Exclude
     @JoinColumn(name="baseUser_id", nullable=false)
     private BaseUser baseUser;
+    @OneToMany(/*mappedBy = "baseUser",*/ cascade = CascadeType.ALL, fetch=FetchType.LAZY/*, orphanRemoval = true*/)
+    private Set<BankAccount> bankAccounts;
 
     public String getPrettyName(){
         return this.firstName + " " + this.surname;

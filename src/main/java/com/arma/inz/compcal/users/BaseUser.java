@@ -55,8 +55,8 @@ public class BaseUser {
     private String pkd;
     @Column(name = "regon")
     private String regon;
-    @OneToMany(mappedBy = "baseUser", cascade = CascadeType.ALL, fetch=FetchType.LAZY/*, orphanRemoval = true*/)
-    private Set<BankAccount> bankAccountSet;
+    @OneToMany(/*mappedBy = "baseUser",*/ cascade = CascadeType.ALL, fetch=FetchType.LAZY/*, orphanRemoval = true*/)
+    private Set<BankAccount> bankAccounts;
     @Column(name = "createdAt")
     private LocalDateTime createdAt;
     @Column(name = "modifiedAt")

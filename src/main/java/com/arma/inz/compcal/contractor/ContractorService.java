@@ -23,7 +23,7 @@ public interface ContractorService {
     ResponseEntity update(@RequestBody ContractorDTO dto);
 
     @PostMapping("/")
-    ResponseEntity create(@PathVariable String authorization, @RequestBody ContractorDTO dto);
+    ResponseEntity create(@RequestHeader(value="Authorization") String authorization, @RequestBody ContractorDTO dto);
 
     @CrossOrigin
     @DeleteMapping("/{id}")

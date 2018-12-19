@@ -76,7 +76,7 @@ public class BaseUserControllerImpl implements BaseUserController {
         result.setTaxForm(entity.getTaxForm().name());
 
         Set<BankAccountDTO> bankAccounts = new HashSet<>();
-        for (BankAccount account: entity.getBankAccountSet()) {
+        for (BankAccount account: entity.getBankAccounts()) {
             BankAccountDTO dto = new BankAccountDTO();
             BeanUtils.copyProperties(account, dto);
             dto.setCurrency(account.getCurrency().name());
@@ -114,7 +114,7 @@ public class BaseUserControllerImpl implements BaseUserController {
                 } else {
                     bankAccount = new BankAccount();
                     bankAccount.setCreatedAt(LocalDateTime.now());
-                    bankAccount.setBaseUser(entity);
+//                    bankAccount.setBaseUser(entity);
                 }
                 BeanUtils.copyProperties(dto, bankAccount, "id", "baseUser");
                 bankAccount.setCurrency(CurrencyEnum.valueOf(dto.getCurrency()));

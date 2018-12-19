@@ -22,10 +22,10 @@ public class BankAccount {
     @Column(name = "currency")
     @Enumerated(EnumType.STRING)
     private CurrencyEnum currency;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @EqualsAndHashCode.Exclude
-    @JoinColumn(name="baseUser_id", nullable=false)
-    private BaseUser baseUser;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @EqualsAndHashCode.Exclude
+//    @JoinColumn(name="baseUser_id", nullable=false)
+//    private BaseUser baseUser;
     @Column(name = "createdAt")
     private LocalDateTime createdAt;
     @Column(name = "modifiedAt")
