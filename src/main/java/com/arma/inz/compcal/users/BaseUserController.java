@@ -20,5 +20,4 @@ public interface BaseUserController {
 
     boolean authorize(String authorizationHash);
 
-    boolean deleteAccount(Long id);
 }

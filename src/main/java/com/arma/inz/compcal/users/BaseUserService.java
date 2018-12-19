@@ -28,8 +28,4 @@ public interface BaseUserService {
     @GetMapping("/authorize/{authorizationHash}")
     ResponseEntity authorize(@PathVariable String authorizationHash);
 
-    @CrossOrigin
-    @DeleteMapping("/account/{id}")
-    ResponseEntity deleteAccount(@PathVariable Long id);
-
 }

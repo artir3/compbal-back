@@ -1,5 +1,6 @@
 package com.arma.inz.compcal.users;
 
+import com.arma.inz.compcal.bankaccount.BankAccount;
 import com.arma.inz.compcal.users.enums.RolesEnum;
 import com.arma.inz.compcal.users.enums.TaxFormEnum;
 import lombok.Data;

@@ -1,5 +1,6 @@
 package com.arma.inz.compcal.users.dto;
 
+import com.arma.inz.compcal.bankaccount.BankAccountDTO;
 import lombok.Data;
 import lombok.ToString;
 

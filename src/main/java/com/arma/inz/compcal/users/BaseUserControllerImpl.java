@@ -1,8 +1,8 @@
 package com.arma.inz.compcal.users;
 
-import com.arma.inz.compcal.currency.CurrencyEnum;
+import com.arma.inz.compcal.bankaccount.BankAccount;
+import com.arma.inz.compcal.bankaccount.BankAccountController;
 import com.arma.inz.compcal.mail.EmailService;
-import com.arma.inz.compcal.users.dto.BankAccountDTO;
 import com.arma.inz.compcal.users.dto.UserDTO;
 import com.arma.inz.compcal.users.dto.UserLoginDTO;
 import com.arma.inz.compcal.users.dto.UserRegistrationDTO;
@@ -13,13 +13,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
-import java.util.Base64;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Log
 @Controller
@@ -29,7 +25,7 @@ public class BaseUserControllerImpl implements BaseUserController {
     private BaseUserRepository baseUserRepository;
 
     @Autowired
-    private BankAccountRepository bankAccountRepository;
+    private BankAccountController bankAccountController;
 
     @Autowired
     private EmailService emailService;
@@ -57,7 +53,6 @@ public class BaseUserControllerImpl implements BaseUserController {
     @Override
     public boolean login(UserLoginDTO user) {
         String hash = Base64.getEncoder().encodeToString((user.getEmail() + ":" + user.getPassword()).getBytes());
-        String pass = new BCryptPasswordEncoder().encode(user.getPassword());
         BaseUser entity = baseUserRepository.findOneByHash(hash);
         return entity != null && entity.isActive();
     }
@@ -75,14 +70,7 @@ public class BaseUserControllerImpl implements BaseUserController {
         BeanUtils.copyProperties(entity, result, "password");
         result.setTaxForm(entity.getTaxForm().name());
 
-        Set<BankAccountDTO> bankAccounts = new HashSet<>();
-        for (BankAccount account: entity.getBankAccounts()) {
-            BankAccountDTO dto = new BankAccountDTO();
-            BeanUtils.copyProperties(account, dto);
-            dto.setCurrency(account.getCurrency().name());
-            bankAccounts.add(dto);
-        }
-        result.setBankAccountSet(bankAccounts);
+        result.setBankAccountSet(bankAccountController.copyToDTO(entity.getBankAccounts()));
         return result;
     }
 
@@ -105,25 +93,11 @@ public class BaseUserControllerImpl implements BaseUserController {
 //                entity.setPassword(new BCryptPasswordEncoder().encode(userDTO.getPassword()));
 //            }
 
+            Set<BankAccount> bankAccounts = bankAccountController.saveOrUpdate(userDTO.getBankAccountSet());
+            entity.setBankAccounts(bankAccounts);
             baseUserRepository.save(entity);
-
-            for (BankAccountDTO dto:userDTO.getBankAccountSet()) {
-                BankAccount bankAccount;
-                if(dto.getId() != null){
-                    bankAccount = bankAccountRepository.findById(dto.getId()).get();
-                } else {
-                    bankAccount = new BankAccount();
-                    bankAccount.setCreatedAt(LocalDateTime.now());
-//                    bankAccount.setBaseUser(entity);
-                }
-                BeanUtils.copyProperties(dto, bankAccount, "id", "baseUser");
-                bankAccount.setCurrency(CurrencyEnum.valueOf(dto.getCurrency()));
-                bankAccount.setModifiedAt(LocalDateTime.now());
-                bankAccountRepository.save(bankAccount);
-            }
         }
         return optional != null;
-
     }
 
     @Override
@@ -134,13 +108,6 @@ public class BaseUserControllerImpl implements BaseUserController {
             baseUserRepository.save(entity);
         }
         return entity != null;
-    }
-
-    @Override
-    public boolean deleteAccount(Long id) {
-        if (id == null){ return false; }
-        bankAccountRepository.deleteById(id);
-        return true;
     }
 
 }

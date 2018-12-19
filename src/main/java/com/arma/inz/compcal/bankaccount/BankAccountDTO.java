@@ -1,4 +1,4 @@
-package com.arma.inz.compcal.users.dto;
+package com.arma.inz.compcal.bankaccount;
 
 import lombok.Data;
 

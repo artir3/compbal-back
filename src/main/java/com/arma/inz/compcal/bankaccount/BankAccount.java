@@ -1,4 +1,4 @@
-package com.arma.inz.compcal.users;
+package com.arma.inz.compcal.bankaccount;
 
 import com.arma.inz.compcal.currency.CurrencyEnum;
 import lombok.Data;

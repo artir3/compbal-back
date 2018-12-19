@@ -1,4 +1,4 @@
-package com.arma.inz.compcal.users;
+package com.arma.inz.compcal.bankaccount;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
