@@ -9,7 +9,7 @@ public class KpirFilterDTO {
     private Integer selectedYear;
     private Integer selectedMonth;
     private LocalDateTime economicEventDate;
-    private String name;
+    private String company;
     private String nip;
     private Boolean isPayed;
     private Boolean notPayed;

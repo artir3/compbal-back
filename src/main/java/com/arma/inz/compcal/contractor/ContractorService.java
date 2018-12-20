@@ -12,7 +12,7 @@ public interface ContractorService {
 
     @CrossOrigin
     @PostMapping("")
-    ResponseEntity get(@RequestBody ContractorFilterDTO contractorFilterDTO);
+    ResponseEntity get(@RequestHeader(value="Authorization") String authorization, @RequestBody ContractorFilterDTO contractorFilterDTO);
 
     @CrossOrigin
     @GetMapping("/{id}")

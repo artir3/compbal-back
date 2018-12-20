@@ -109,4 +109,10 @@ public class BaseUserControllerImpl implements BaseUserController {
         return entity != null;
     }
 
+    @Override
+    public LocalDateTime registrationDate(String hash) {
+        BaseUser baseUser = getBaseUser(hash);
+        return baseUser.getCreatedAt();
+    }
+
 }

@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+
 @Log
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
@@ -58,6 +60,11 @@ public class BaseUserServiceImpl implements BaseUserService {
         return new ResponseEntity<>(authorize, HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity registrationDate(String authorization) {
+        LocalDateTime registrationDate = baseUserController.registrationDate(header.hashFromHeader(authorization));
+        return new ResponseEntity<>(registrationDate, HttpStatus.OK);
+    }
 
 
 }

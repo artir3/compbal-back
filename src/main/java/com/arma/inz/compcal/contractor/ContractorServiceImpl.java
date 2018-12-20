@@ -23,8 +23,12 @@ public class ContractorServiceImpl implements ContractorService {
     private AuthorizationHeaderUtils header;
 
     @Override
-    public ResponseEntity get(ContractorFilterDTO contractorFilterDTO) {
-        List<ContractorMiniDTO> list = contractorController.getAll(contractorFilterDTO);
+    public ResponseEntity get(String authorization, ContractorFilterDTO contractorFilterDTO) {
+        BaseUser baseUser = header.getUserFromAuthorization(authorization);
+        if (baseUser == null){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+        List<ContractorMiniDTO> list = contractorController.getAll(baseUser, contractorFilterDTO);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 

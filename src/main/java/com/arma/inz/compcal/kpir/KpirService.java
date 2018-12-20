@@ -1,6 +1,8 @@
 package com.arma.inz.compcal.kpir;
 
+import com.arma.inz.compcal.contractor.dto.ContractorDTO;
 import com.arma.inz.compcal.kpir.dto.KpirCreateDTO;
+import com.arma.inz.compcal.kpir.dto.KpirDTO;
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,16 +11,23 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/kpir")
 public interface KpirService {
 
-    @GetMapping("/")
-    ResponseEntity get(@RequestHeader(value="Authorization") String authorization,@RequestBody KpirFilterDTO kpirFilterDTO);
+    @CrossOrigin
+    @PostMapping("")
+    ResponseEntity get(@RequestHeader(value="Authorization") String authorization, @RequestBody KpirFilterDTO kpirFilterDTO);
 
+    @CrossOrigin
     @GetMapping("/{id}")
-    ResponseEntity get(@RequestParam Long id);
+    ResponseEntity get(@PathVariable Long id);
+
+    @CrossOrigin
+    @PutMapping("/")
+    ResponseEntity update(@RequestBody KpirCreateDTO dto);
 
     @PostMapping("/")
-    ResponseEntity create(@RequestBody KpirCreateDTO kpirDTO);
+    ResponseEntity create(@RequestHeader(value="Authorization") String authorization, @RequestBody KpirCreateDTO dto);
 
-    @PutMapping("/")
-    ResponseEntity update(@RequestBody KpirCreateDTO kpirDTO);
+    @CrossOrigin
+    @DeleteMapping("/{id}")
+    ResponseEntity delete(@PathVariable Long id);
 
 }

@@ -5,6 +5,8 @@ import com.arma.inz.compcal.users.dto.UserLoginDTO;
 import com.arma.inz.compcal.users.dto.UserRegistrationDTO;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalDateTime;
+
 public interface BaseUserController {
     boolean registration(UserRegistrationDTO user);
 
@@ -20,4 +22,5 @@ public interface BaseUserController {
 
     boolean authorize(String authorizationHash);
 
+    LocalDateTime registrationDate(String hash);
 }

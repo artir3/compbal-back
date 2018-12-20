@@ -1,9 +1,13 @@
 package com.arma.inz.compcal.kpir;
 
 import com.arma.inz.compcal.AuthorizationHeaderUtils;
+import com.arma.inz.compcal.contractor.dto.ContractorDTO;
+import com.arma.inz.compcal.contractor.dto.ContractorFilterDTO;
+import com.arma.inz.compcal.contractor.dto.ContractorMiniDTO;
 import com.arma.inz.compcal.kpir.dto.KpirCreateDTO;
 import com.arma.inz.compcal.kpir.dto.KpirDTO;
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
+import com.arma.inz.compcal.users.BaseUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,25 +25,39 @@ public class KpirServiceImpl implements KpirService {
 
     @Override
     public ResponseEntity get(String authorization, KpirFilterDTO kpirFilterDTO) {
-        List<KpirDTO> list = kpirController.getListByFilter(header.hashFromHeader(authorization), kpirFilterDTO);
-        return new ResponseEntity( list, HttpStatus.OK);
+        BaseUser baseUser = header.getUserFromAuthorization(authorization);
+        if (baseUser == null){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+        List<KpirDTO> list = kpirController.getAll(baseUser, kpirFilterDTO);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity get(Long id) {
-        KpirCreateDTO dto = kpirController.getOne(id);
-        return new ResponseEntity( dto, HttpStatus.OK);
+        KpirCreateDTO kpirCreateDTO = kpirController.getOne(id);
+        return new ResponseEntity<>(kpirCreateDTO, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity create(KpirCreateDTO kpirDTO) {
-        Long id = kpirController.create(kpirDTO);
-        return new ResponseEntity( id, HttpStatus.OK);
+    public ResponseEntity update(KpirCreateDTO dto) {
+        Boolean update = kpirController.updateOne(dto);
+        return new ResponseEntity<>(update, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity update(KpirCreateDTO kpirDTO) {
-        Boolean update = kpirController.update(kpirDTO);
-        return new ResponseEntity( update, HttpStatus.OK);
+    public ResponseEntity create(String authorization, KpirCreateDTO dto) {
+        BaseUser baseUser = header.getUserFromAuthorization(authorization);
+        if (baseUser == null){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+        Boolean created = kpirController.createOne(baseUser, dto);
+        return new ResponseEntity<>(created, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity delete(Long id) {
+        Boolean deleted = kpirController.deleteOne(id);
+        return new ResponseEntity<>(deleted, HttpStatus.OK);
     }
 }

@@ -9,13 +9,13 @@ import com.arma.inz.compcal.users.BaseUser;
 import java.util.List;
 
 public interface ContractorController {
-    List<ContractorMiniDTO> getAll();
+    List<ContractorMiniDTO> getAll(BaseUser baseUser, ContractorFilterDTO contractorFilterDTO);
 
     ContractorMiniDTO parseToDTO(Contractor contractor);
 
-    List<ContractorMiniDTO> getAll(ContractorFilterDTO filterDTO);
-
     ContractorDTO getOne(Long id);
+
+    Contractor getOneEntity(Long id);
 
     Boolean updateOne(ContractorDTO dto);
 

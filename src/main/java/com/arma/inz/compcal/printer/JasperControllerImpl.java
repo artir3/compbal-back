@@ -1,8 +1,10 @@
 package com.arma.inz.compcal.printer;
 
+import com.arma.inz.compcal.AuthorizationHeaderUtils;
 import com.arma.inz.compcal.kpir.KpirController;
 import com.arma.inz.compcal.kpir.dto.KpirDTO;
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
+import com.arma.inz.compcal.users.BaseUser;
 import com.arma.inz.compcal.users.BaseUserController;
 import com.arma.inz.compcal.users.dto.UserDTO;
 import net.sf.jasperreports.engine.JRException;
@@ -32,6 +34,9 @@ public class JasperControllerImpl implements JasperController {
 
     @Autowired
     private KpirController kpirController;
+
+    @Autowired
+    private AuthorizationHeaderUtils header;
 
     @Autowired
     private JasperController jasperController;
@@ -65,8 +70,8 @@ public class JasperControllerImpl implements JasperController {
 
     @Override
     public byte[] generateKpir(String authorization, KpirFilterDTO kpirFilterDTO) throws IOException {
-        UserDTO baseUser = baseUserController.getUserDTO(authorization.substring(5));
-        List<KpirDTO> kpirDTOList = kpirController.getListByFilter(authorization.substring(5), kpirFilterDTO);
+        BaseUser baseUser = header.getUserFromAuthorization(authorization);
+        List<KpirDTO> kpirDTOList = kpirController.getAll(baseUser, kpirFilterDTO);
         Map<String, Object> parameters = new HashMap<>();
 
         String prefix = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + "-" + baseUser.getCompany().toUpperCase() + "-KPIR";

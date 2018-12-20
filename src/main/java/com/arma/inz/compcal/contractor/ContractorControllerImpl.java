@@ -32,17 +32,6 @@ public class ContractorControllerImpl implements ContractorController {
     private EntityManager entityManager;
 
     @Override
-    public List<ContractorMiniDTO> getAll() {
-        List<Contractor> contractors = contractorRepository.findAll();
-        List<ContractorMiniDTO> miniDTOS = new ArrayList<>();
-        for (Contractor contractor : contractors) {
-            ContractorMiniDTO dto = parseToDTO(contractor);
-            miniDTOS.add(dto);
-        }
-        return miniDTOS;
-    }
-
-    @Override
     public ContractorMiniDTO parseToDTO(Contractor contractor) {
         ContractorMiniDTO dto = new ContractorMiniDTO();
         BeanUtils.copyProperties(contractor, dto);
@@ -53,7 +42,7 @@ public class ContractorControllerImpl implements ContractorController {
     }
 
     @Override
-    public List<ContractorMiniDTO> getAll(ContractorFilterDTO filterDTO) {
+    public List<ContractorMiniDTO> getAll(BaseUser baseUser, ContractorFilterDTO filterDTO) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Contractor> query = builder.createQuery(Contractor.class);
         Root<Contractor> root = query.from(Contractor.class);
@@ -73,9 +62,8 @@ public class ContractorControllerImpl implements ContractorController {
             Expression<String> fullName = builder.concat(concat, builder.lower(root.<String>get("surname")));
             predicates.add(builder.like(fullName,"%" + filterDTO.getPerson().trim().toLowerCase() + "%"));
         }
-        if (!(predicates != null && predicates.isEmpty())) {
-            query.where(builder.and(predicates.toArray(new Predicate[predicates.size()])));
-        }
+        predicates.add(builder.equal(root.get("baseUser"), baseUser));
+        query.where(builder.and(predicates.toArray(new Predicate[predicates.size()])));
 
         List<Contractor> list = entityManager.createQuery(query).getResultList();
         List<ContractorMiniDTO> result = new ArrayList<>();
@@ -98,6 +86,12 @@ public class ContractorControllerImpl implements ContractorController {
             dto.setBankAccounts(bankAccountDTOSet);
         }
         return dto;
+    }
+
+    @Override
+    public Contractor getOneEntity(Long id) {
+        Optional<Contractor> entity = contractorRepository.findById(id);
+        return entity != null? entity.get() : null;
     }
 
     @Override
