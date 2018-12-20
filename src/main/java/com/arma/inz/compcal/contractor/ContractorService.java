@@ -2,7 +2,7 @@ package com.arma.inz.compcal.contractor;
 
 
 import com.arma.inz.compcal.contractor.dto.ContractorDTO;
-import com.arma.inz.compcal.contractor.dto.ContractorMiniDTO;
+import com.arma.inz.compcal.contractor.dto.ContractorFilterDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 public interface ContractorService {
 
     @CrossOrigin
-    @GetMapping("/")
-    ResponseEntity get();
+    @PostMapping("")
+    ResponseEntity get(@RequestBody ContractorFilterDTO contractorFilterDTO);
 
     @CrossOrigin
     @GetMapping("/{id}")

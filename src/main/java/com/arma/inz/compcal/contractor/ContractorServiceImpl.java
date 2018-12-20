@@ -2,6 +2,7 @@ package com.arma.inz.compcal.contractor;
 
 import com.arma.inz.compcal.AuthorizationHeaderUtils;
 import com.arma.inz.compcal.contractor.dto.ContractorDTO;
+import com.arma.inz.compcal.contractor.dto.ContractorFilterDTO;
 import com.arma.inz.compcal.contractor.dto.ContractorMiniDTO;
 import com.arma.inz.compcal.users.BaseUser;
 import com.arma.inz.compcal.users.BaseUserController;
@@ -22,7 +23,7 @@ public class ContractorServiceImpl implements ContractorService {
     private AuthorizationHeaderUtils header;
 
     @Override
-    public ResponseEntity get() {
+    public ResponseEntity get(ContractorFilterDTO contractorFilterDTO) {
         List<ContractorMiniDTO> list = contractorController.getAll();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
