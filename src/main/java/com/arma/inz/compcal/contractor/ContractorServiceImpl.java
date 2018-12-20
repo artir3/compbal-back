@@ -24,7 +24,7 @@ public class ContractorServiceImpl implements ContractorService {
 
     @Override
     public ResponseEntity get(ContractorFilterDTO contractorFilterDTO) {
-        List<ContractorMiniDTO> list = contractorController.getAll();
+        List<ContractorMiniDTO> list = contractorController.getAll(contractorFilterDTO);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 

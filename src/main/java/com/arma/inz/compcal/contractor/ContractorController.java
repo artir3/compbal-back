@@ -2,6 +2,7 @@ package com.arma.inz.compcal.contractor;
 
 
 import com.arma.inz.compcal.contractor.dto.ContractorDTO;
+import com.arma.inz.compcal.contractor.dto.ContractorFilterDTO;
 import com.arma.inz.compcal.contractor.dto.ContractorMiniDTO;
 import com.arma.inz.compcal.users.BaseUser;
 
@@ -9,6 +10,10 @@ import java.util.List;
 
 public interface ContractorController {
     List<ContractorMiniDTO> getAll();
+
+    ContractorMiniDTO parseToDTO(Contractor contractor);
+
+    List<ContractorMiniDTO> getAll(ContractorFilterDTO filterDTO);
 
     ContractorDTO getOne(Long id);
 
