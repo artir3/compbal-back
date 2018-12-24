@@ -28,6 +28,6 @@ public interface BaseUserService {
     @GetMapping("/authorize/{authorizationHash}")
     ResponseEntity authorize(@PathVariable String authorizationHash);
 
-    @PostMapping("/registration/date")
+    @GetMapping("/registration/date")
     ResponseEntity registrationDate(@RequestHeader(value="Authorization") String authorization);
 }

@@ -29,7 +29,7 @@ public class Contractor {
     @Column(unique = true, name = "email")
     private String email;
     @Column(name = "firstName")
-    private String firstName;
+    private String firstname;
     @Column(name = "company")
     private String company;
     @Column(name = "nip")
@@ -60,15 +60,11 @@ public class Contractor {
     private Set<BankAccount> bankAccounts;
 
     public String getPrettyName() {
-        return this.firstName + " " + this.surname;
+        return this.firstname + " " + this.surname;
     }
 
     public String getPrettyAddress() {
-        return this.street + " " + this.parcelNo + (this.homeNo != null ? "/" + this.homeNo : "")
-                + "\n" + this.zip + ", " + this.city + " " + this.country;
-    }
-
-    public String getPrettyContact() {
-        return "Email: " + this.email + "\nTelefon: " + this.phone;
+        return "ul. " + this.street + " " + this.parcelNo + (this.homeNo != null ? "/" + this.homeNo : "")
+                + ", " + this.zip + " " + this.city + " " + this.country;
     }
 }

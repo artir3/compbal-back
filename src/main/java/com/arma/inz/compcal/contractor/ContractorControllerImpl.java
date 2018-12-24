@@ -37,7 +37,6 @@ public class ContractorControllerImpl implements ContractorController {
         BeanUtils.copyProperties(contractor, dto);
         dto.setAddress(contractor.getPrettyAddress());
         dto.setPersonName(contractor.getPrettyName());
-        dto.setContact(contractor.getPrettyContact());
         return dto;
     }
 
@@ -58,7 +57,7 @@ public class ContractorControllerImpl implements ContractorController {
             predicates.add(builder.like(builder.lower(root.<String> get("trade")),"%" + filterDTO.getTrade().trim().toLowerCase() + "%"));
         }
         if (filterDTO.getPerson() != null && !filterDTO.getPerson().isEmpty()) {
-            Expression<String> concat = builder.concat(builder.lower(root.<String>get("firstName")), " ");
+            Expression<String> concat = builder.concat(builder.lower(root.<String>get("firstname")), " ");
             Expression<String> fullName = builder.concat(concat, builder.lower(root.<String>get("surname")));
             predicates.add(builder.like(fullName,"%" + filterDTO.getPerson().trim().toLowerCase() + "%"));
         }

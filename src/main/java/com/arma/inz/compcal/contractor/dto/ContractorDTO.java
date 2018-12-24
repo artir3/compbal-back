@@ -9,7 +9,7 @@ import java.util.Set;
 public class ContractorDTO {
     private Long id;
     private String email;
-    private String firstName;
+    private String firstname;
     private String company;
     private String nip;
     private String surname;

@@ -8,7 +8,8 @@ public class ContractorMiniDTO {
     private String personName;
     private String company;
     private String nip;
-    private String contact;
+    private String email;
+    private String phone;
     private String address;
     private String trade;
 

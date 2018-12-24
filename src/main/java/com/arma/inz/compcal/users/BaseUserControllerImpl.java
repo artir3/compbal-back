@@ -1,6 +1,5 @@
 package com.arma.inz.compcal.users;
 
-import com.arma.inz.compcal.bankaccount.BankAccount;
 import com.arma.inz.compcal.bankaccount.BankAccountController;
 import com.arma.inz.compcal.mail.EmailService;
 import com.arma.inz.compcal.users.dto.UserDTO;
@@ -15,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Log

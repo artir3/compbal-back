@@ -6,15 +6,16 @@ import com.arma.inz.compcal.kpir.dto.KpirCreateDTO;
 import com.arma.inz.compcal.kpir.dto.KpirDTO;
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
 import com.arma.inz.compcal.users.BaseUser;
+import org.hibernate.Hibernate;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.type.IntegerType;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,16 +55,25 @@ public class KpirControllerImpl implements KpirController {
             predicates.add(builder.equal(root.<Boolean> get("payed"),filterDTO.getNotPayed()));
         }
 
-        if (filterDTO.getEconomicEventDate() != null && Boolean.TRUE.equals(filterDTO.getNotPayed())) {
+        if (filterDTO.getEconomicEventDate() != null) {
             predicates.add(builder.equal(root.<LocalDateTime> get("economicEventDate"),filterDTO.getEconomicEventDate()));
         }
 
-        //    private Integer selectedYear;
-        //    private Integer selectedMonth;
-        //    private Boolean overdue;
+        Expression<Integer> year = builder.function("year", Integer.class, root.<LocalDateTime> get("economicEventDate"));
+        predicates.add(builder.equal(year, filterDTO.getSelectedYear()));
+
+        if (filterDTO.getSelectedMonth() != null) {
+            Expression<Integer> month = builder.function("month", Integer.class, root.<LocalDateTime> get("economicEventDate"));
+            predicates.add(builder.equal(month, filterDTO.getSelectedMonth()));
+        }
+
+        if (Boolean.TRUE.equals(filterDTO.getOverdue())) {
+            predicates.add(builder.equal(root.<Boolean> get("payed"),Boolean.FALSE));
+            predicates.add(builder.lessThan(root.<LocalDateTime> get("paymentDateMax"),LocalDateTime.now()));
+        }
 
         predicates.add(builder.equal(root.get("baseUser"), baseUser));
-        query.where(builder.and(predicates.toArray(new Predicate[predicates.size()])));
+        query.where(builder.and(builder.and(predicates.toArray(new Predicate[predicates.size()]))));
 
         List<Kpir> list = entityManager.createQuery(query).getResultList();
         List<KpirDTO> result = new ArrayList<>();
