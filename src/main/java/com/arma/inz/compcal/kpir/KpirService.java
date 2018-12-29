@@ -30,4 +30,7 @@ public interface KpirService {
     @DeleteMapping("/{id}")
     ResponseEntity delete(@PathVariable Long id);
 
+    @CrossOrigin
+    @GetMapping("/idx")
+    ResponseEntity getNextIdx(@RequestHeader(value="Authorization") String authorization);
 }

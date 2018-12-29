@@ -18,4 +18,6 @@ public interface KpirController {
     Boolean createOne(BaseUser baseUser, KpirCreateDTO dto);
 
     Boolean deleteOne(Long id);
+
+    Integer getNextIdx(BaseUser baseUser);
 }

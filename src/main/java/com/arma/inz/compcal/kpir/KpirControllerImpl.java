@@ -137,4 +137,11 @@ public class KpirControllerImpl implements KpirController {
         }
         return optional != null;
     }
+
+    @Override
+    public Integer getNextIdx(BaseUser baseUser) {
+        return kpirRepository.getLastIdByThisYearAndBaseUser(LocalDateTime.now().getYear(), baseUser) + 1;
+//return 0;
+
+    }
 }

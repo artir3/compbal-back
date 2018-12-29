@@ -60,4 +60,13 @@ public class KpirServiceImpl implements KpirService {
         Boolean deleted = kpirController.deleteOne(id);
         return new ResponseEntity<>(deleted, HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity getNextIdx(String authorization) {
+        BaseUser baseUser = header.getUserFromAuthorization(authorization);
+        if (baseUser == null){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+        Integer result = kpirController.getNextIdx(baseUser);
+        return new ResponseEntity<>(result, HttpStatus.OK);    }
 }
