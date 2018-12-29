@@ -6,6 +6,7 @@ import com.arma.inz.compcal.bankaccount.BankAccountDTO;
 import com.arma.inz.compcal.contractor.dto.ContractorDTO;
 import com.arma.inz.compcal.contractor.dto.ContractorFilterDTO;
 import com.arma.inz.compcal.contractor.dto.ContractorMiniDTO;
+import com.arma.inz.compcal.contractor.dto.ContractorSelectDTO;
 import com.arma.inz.compcal.users.BaseUser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,5 +126,17 @@ public class ContractorControllerImpl implements ContractorController {
             contractorRepository.delete(optional.get());
         }
         return optional != null;
+    }
+
+    @Override
+    public List<ContractorSelectDTO> getAllToSelect(BaseUser baseUser) {
+        Set<Contractor> list = contractorRepository.findAllByBaseUser(baseUser);
+        List<ContractorSelectDTO> result = new ArrayList<>();
+        for (Contractor contractor : list) {
+            ContractorSelectDTO target = new ContractorSelectDTO();
+            BeanUtils.copyProperties(contractor, target);
+            result.add(target);
+        }
+        return result;
     }
 }

@@ -4,6 +4,7 @@ import com.arma.inz.compcal.AuthorizationHeaderUtils;
 import com.arma.inz.compcal.contractor.dto.ContractorDTO;
 import com.arma.inz.compcal.contractor.dto.ContractorFilterDTO;
 import com.arma.inz.compcal.contractor.dto.ContractorMiniDTO;
+import com.arma.inz.compcal.contractor.dto.ContractorSelectDTO;
 import com.arma.inz.compcal.users.BaseUser;
 import com.arma.inz.compcal.users.BaseUserController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,4 +60,13 @@ public class ContractorServiceImpl implements ContractorService {
         Boolean deleted = contractorController.deleteOne(id);
         return new ResponseEntity<>(deleted, HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity getAllToSelect(String authorization) {
+        BaseUser baseUser = header.getUserFromAuthorization(authorization);
+        if (baseUser == null){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+        List<ContractorSelectDTO> list = contractorController.getAllToSelect(baseUser);
+        return new ResponseEntity<>(list, HttpStatus.OK);    }
 }

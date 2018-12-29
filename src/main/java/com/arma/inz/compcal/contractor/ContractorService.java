@@ -28,4 +28,9 @@ public interface ContractorService {
     @CrossOrigin
     @DeleteMapping("/{id}")
     ResponseEntity delete(@PathVariable Long id);
+
+    @CrossOrigin
+    @PostMapping("")
+    ResponseEntity getAllToSelect(@RequestHeader(value="Authorization") String authorization);
+
 }

@@ -4,6 +4,7 @@ package com.arma.inz.compcal.contractor;
 import com.arma.inz.compcal.contractor.dto.ContractorDTO;
 import com.arma.inz.compcal.contractor.dto.ContractorFilterDTO;
 import com.arma.inz.compcal.contractor.dto.ContractorMiniDTO;
+import com.arma.inz.compcal.contractor.dto.ContractorSelectDTO;
 import com.arma.inz.compcal.users.BaseUser;
 
 import java.util.List;
@@ -22,4 +23,6 @@ public interface ContractorController {
     Boolean createOne(BaseUser baseUser, ContractorDTO dto);
 
     Boolean deleteOne(Long id);
+
+    List<ContractorSelectDTO> getAllToSelect(BaseUser baseUser);
 }
