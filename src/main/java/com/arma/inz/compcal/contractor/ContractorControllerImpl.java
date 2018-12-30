@@ -12,8 +12,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import javax.persistence.EntityManager;
-import javax.persistence.criteria.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +27,6 @@ public class ContractorControllerImpl implements ContractorController {
     @Autowired
     private BankAccountController bankAccountController;
 
-    @Autowired
-    private EntityManager entityManager;
-
     @Override
     public ContractorMiniDTO parseToDTO(Contractor contractor) {
         ContractorMiniDTO dto = new ContractorMiniDTO();
@@ -43,29 +38,7 @@ public class ContractorControllerImpl implements ContractorController {
 
     @Override
     public List<ContractorMiniDTO> getAll(BaseUser baseUser, ContractorFilterDTO filterDTO) {
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Contractor> query = builder.createQuery(Contractor.class);
-        Root<Contractor> root = query.from(Contractor.class);
-        query = query.select(root).distinct(true);
-        List<Predicate> predicates = new ArrayList<>();
-        if (filterDTO.getCompany()!= null && !filterDTO.getCompany().isEmpty()) {
-            predicates.add(builder.like(builder.lower(root.<String> get("company")),"%" + filterDTO.getCompany().trim().toLowerCase() + "%"));
-        }
-        if (filterDTO.getNip()!= null && !filterDTO.getNip().isEmpty()) {
-            predicates.add(builder.like(builder.lower(root.<String> get("nip")),"%" + filterDTO.getNip().trim().toLowerCase() + "%"));
-        }
-        if (filterDTO.getTrade()!= null && !filterDTO.getTrade().isEmpty()) {
-            predicates.add(builder.like(builder.lower(root.<String> get("trade")),"%" + filterDTO.getTrade().trim().toLowerCase() + "%"));
-        }
-        if (filterDTO.getPerson() != null && !filterDTO.getPerson().isEmpty()) {
-            Expression<String> concat = builder.concat(builder.lower(root.<String>get("firstname")), " ");
-            Expression<String> fullName = builder.concat(concat, builder.lower(root.<String>get("surname")));
-            predicates.add(builder.like(fullName,"%" + filterDTO.getPerson().trim().toLowerCase() + "%"));
-        }
-        predicates.add(builder.equal(root.get("baseUser"), baseUser));
-        query.where(builder.and(predicates.toArray(new Predicate[predicates.size()])));
-
-        List<Contractor> list = entityManager.createQuery(query).getResultList();
+        List<Contractor> list = contractorRepository.findAll(ContractorSpecification.getAllByFilter(baseUser, filterDTO));
         List<ContractorMiniDTO> result = new ArrayList<>();
         for (Contractor contractor : list) {
             ContractorMiniDTO dto = parseToDTO(contractor);
@@ -130,7 +103,7 @@ public class ContractorControllerImpl implements ContractorController {
 
     @Override
     public List<ContractorSelectDTO> getAllToSelect(BaseUser baseUser) {
-        Set<Contractor> list = contractorRepository.findAllByBaseUser(baseUser);
+        List<Contractor> list = contractorRepository.findAll(ContractorSpecification.byBaseUser(baseUser));
         List<ContractorSelectDTO> result = new ArrayList<>();
         for (Contractor contractor : list) {
             ContractorSelectDTO target = new ContractorSelectDTO();

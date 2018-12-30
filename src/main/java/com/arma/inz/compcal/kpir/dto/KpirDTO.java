@@ -7,7 +7,8 @@ import java.time.LocalDateTime;
 
 @Data
 public class KpirDTO {
-    private Long idx;
+    private Long id;
+    private Integer idx;
     private LocalDateTime economicEventDate;
     private String registrationNumber;
     private String fullName;
@@ -24,4 +25,8 @@ public class KpirDTO {
     private BigDecimal sumCosts;
     private String other;
     private String comments;
+    private Boolean payed;
+    private LocalDateTime paymentDateMin;
+    private LocalDateTime paymentDateMax;
+
 }

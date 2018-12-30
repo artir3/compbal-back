@@ -30,6 +30,8 @@ public class Kpir {
     @Column(name = "registrationNumber")
     private String registrationNumber;
     @ManyToOne(fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+
     private Contractor contractor;
     @Column(name = "description")
     private String description;

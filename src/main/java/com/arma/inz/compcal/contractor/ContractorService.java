@@ -30,7 +30,7 @@ public interface ContractorService {
     ResponseEntity delete(@PathVariable Long id);
 
     @CrossOrigin
-    @PostMapping("")
+    @GetMapping("")
     ResponseEntity getAllToSelect(@RequestHeader(value="Authorization") String authorization);
 
 }
