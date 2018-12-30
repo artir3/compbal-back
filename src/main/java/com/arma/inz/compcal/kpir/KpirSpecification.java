@@ -15,13 +15,12 @@ import java.util.List;
 public class KpirSpecification {
     //    https://docs.spring.io/spring-data/jpa/docs/current/reference/html/
 
-    public static Specification<Kpir> getNextIdx(Integer searchByYear, BaseUser baseUser) {
+    public static Specification<Kpir> getAllByYearAndUser(Integer searchByYear, BaseUser baseUser) {
         return (root, query, builder) -> {
             Expression<Integer> year = builder.function("year", Integer.class, root.<LocalDateTime>get("economicEventDate"));
             Predicate predicateYear = builder.equal(year, searchByYear);
-            Predicate predicateIdx = builder.isNotNull(root.get("idx"));
             Predicate predicateUser = builder.equal(root.get("baseUser"), baseUser);
-            return builder.and(predicateUser, predicateYear, predicateIdx);
+            return builder.and(predicateUser, predicateYear);
         };
     }
 
