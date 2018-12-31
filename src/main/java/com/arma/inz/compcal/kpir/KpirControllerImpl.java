@@ -65,10 +65,12 @@ public class KpirControllerImpl implements KpirController {
     @Override
     public Boolean createOne(BaseUser baseUser, KpirCreateDTO dto) {
         Kpir entity = new Kpir();
-        BeanUtils.copyProperties(dto, entity, "id", "kpirList", "bankAccounts", "contractor");
+        BeanUtils.copyProperties(dto, entity, "id", "kpirList", "bankAccounts", "contractor", "type");
         entity.setBaseUser(baseUser);
         entity.setModifiedAt(LocalDateTime.now());
         entity.setCreatedAt(LocalDateTime.now());
+        entity.setType(KpirTypeEnum.valueOf(dto.getType()));
+
         boolean isTodaysKpir = LocalDate.now().equals(entity.getEconomicEventDate().toLocalDate());
         if (isTodaysKpir) {
             entity.setIdx(dto.getIdx());
@@ -91,7 +93,8 @@ public class KpirControllerImpl implements KpirController {
         if (optional != null) {
             Kpir entity = optional.get();
             boolean recalculate = !entity.getEconomicEventDate().equals(kpirDTO.getEconomicEventDate());
-            BeanUtils.copyProperties(kpirDTO, entity, "id", "idx", "kpirList", "bankAccounts", "contractor", "createdAt");
+            BeanUtils.copyProperties(kpirDTO, entity, "id", "idx", "kpirList", "bankAccounts", "contractor", "createdAt", "type");
+            BeanUtils.copyProperties(kpirDTO, entity, "id", "idx", "kpirList", "bankAccounts", "contractor", "createdAt", "type");
             entity.setModifiedAt(LocalDateTime.now());
             kpirRepository.save(entity);
             if (recalculate){

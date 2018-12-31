@@ -18,13 +18,15 @@ public class KpirCreateDTO {
     private BigDecimal allIncome;
     private BigDecimal purchaseCosts;
     private BigDecimal purchaseSideCosts;
-    private BigDecimal marketingCosts;
     private BigDecimal paymentCost;
     private BigDecimal otherCosts;
     private BigDecimal sumCosts;
     private String other;
+    private BigDecimal radCosts;
+    private String radDescription;
     private String comments;
     private Boolean payed;
     private LocalDateTime paymentDateMin;
     private LocalDateTime paymentDateMax;
+    private String type;
 }

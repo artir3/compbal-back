@@ -66,6 +66,10 @@ public class KpirSpecification {
                 predicates.add(builder.lessThan(root.<LocalDateTime>get("paymentDateMax"), LocalDateTime.now()));
             }
 
+            if (filterDTO.getType() != null) {
+                predicates.add(builder.equal(root.<KpirTypeEnum>get("type"), KpirTypeEnum.valueOf(filterDTO.getType())));
+            }
+
             predicates.add(builder.equal(root.get("baseUser"), baseUser));
             return builder.and(predicates.toArray(new Predicate[predicates.size()]));
         };

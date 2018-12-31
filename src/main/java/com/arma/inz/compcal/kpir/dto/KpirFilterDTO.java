@@ -15,4 +15,5 @@ public class KpirFilterDTO {
     private Boolean notPayed;
     private Boolean overdue;
     private String registrationNumber;
+    private String type;
 }

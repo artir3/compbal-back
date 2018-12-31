@@ -31,7 +31,6 @@ public class Kpir {
     private String registrationNumber;
     @ManyToOne(fetch = FetchType.LAZY)
     @EqualsAndHashCode.Exclude
-
     private Contractor contractor;
     @Column(name = "description")
     private String description;
@@ -45,8 +44,6 @@ public class Kpir {
     private BigDecimal purchaseCosts;
     @Column(name = "purchaseSideCosts")
     private BigDecimal purchaseSideCosts;
-    @Column(name = "marketingCosts")
-    private BigDecimal marketingCosts;
     @Column(name = "paymentCost")
     private BigDecimal paymentCost;
     @Column(name = "otherCosts")
@@ -55,6 +52,10 @@ public class Kpir {
     private BigDecimal sumCosts;
     @Column(name = "other")
     private String other;
+    @Column(name = "radCosts")
+    private BigDecimal radCosts;
+    @Column(name = "radDescription")
+    private String radDescription;
     @Column(name = "comments")
     private String comments;
     @Column(name = "payed")
@@ -63,6 +64,9 @@ public class Kpir {
     private LocalDateTime paymentDateMin;
     @Column(name = "paymentDateMax")
     private LocalDateTime paymentDateMax;
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    private KpirTypeEnum type;
     @ManyToOne(fetch = FetchType.LAZY)
     @EqualsAndHashCode.Exclude
     @JoinColumn(name="baseUser_id", nullable=false)
