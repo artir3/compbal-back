@@ -1,5 +1,6 @@
 package com.arma.inz.compcal.users;
 
+import com.arma.inz.compcal.users.dto.ActivateDTO;
 import com.arma.inz.compcal.users.dto.UserDTO;
 import com.arma.inz.compcal.users.dto.UserLoginDTO;
 import com.arma.inz.compcal.users.dto.UserRegistrationDTO;
@@ -20,7 +21,7 @@ public interface BaseUserController {
 
     boolean updateBaseUser(UserDTO userDTO);
 
-    boolean authorize(String authorizationHash);
+    boolean authorize(ActivateDTO activateDTO);
 
     LocalDateTime registrationDate(String hash);
 }

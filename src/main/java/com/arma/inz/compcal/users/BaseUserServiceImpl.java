@@ -1,6 +1,7 @@
 package com.arma.inz.compcal.users;
 
 import com.arma.inz.compcal.AuthorizationHeaderUtils;
+import com.arma.inz.compcal.users.dto.ActivateDTO;
 import com.arma.inz.compcal.users.dto.UserDTO;
 import com.arma.inz.compcal.users.dto.UserLoginDTO;
 import com.arma.inz.compcal.users.dto.UserRegistrationDTO;
@@ -55,8 +56,8 @@ public class BaseUserServiceImpl implements BaseUserService {
     }
 
     @Override
-    public ResponseEntity authorize(String authorizationHash) {
-        boolean authorize = baseUserController.authorize(authorizationHash);
+    public ResponseEntity authorize(ActivateDTO activateDTO) {
+        boolean authorize = baseUserController.authorize(activateDTO);
         return new ResponseEntity<>(authorize, HttpStatus.OK);
     }
 

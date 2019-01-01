@@ -72,7 +72,7 @@ public class BasicAuthConfiguration
                 .antMatchers("/user/registration").permitAll()
                 .antMatchers("/user/login").permitAll()
                 .antMatchers("/user/login/hash").permitAll()
-                .antMatchers("/user/authorize/**").permitAll()
+                .antMatchers("/user/authorize").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

@@ -2,6 +2,7 @@ package com.arma.inz.compcal.users;
 
 import com.arma.inz.compcal.bankaccount.BankAccountController;
 import com.arma.inz.compcal.mail.EmailService;
+import com.arma.inz.compcal.users.dto.ActivateDTO;
 import com.arma.inz.compcal.users.dto.UserDTO;
 import com.arma.inz.compcal.users.dto.UserLoginDTO;
 import com.arma.inz.compcal.users.dto.UserRegistrationDTO;
@@ -14,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Log
@@ -87,12 +87,6 @@ public class BaseUserControllerImpl implements BaseUserController {
             BeanUtils.copyProperties(userDTO, entity, "id", "email", "nip", "createdAt", "bankAccountSet", "password");
             entity.setTaxForm(TaxFormEnum.valueOf(userDTO.getTaxForm()));
             entity.setModifiedAt(LocalDateTime.now());
-
-//            if (!StringUtils.isEmpty(userDTO.getPassword())){
-//                entity.setHash(Base64.getEncoder().encodeToString((userDTO.getEmail() + ":" + userDTO.getPassword()).getBytes()));
-//                entity.setPassword(new BCryptPasswordEncoder().encode(userDTO.getPassword()));
-//            }
-
             entity = baseUserRepository.save(entity);
             bankAccountController.saveOrUpdate(userDTO.getBankAccountSet(), entity);
         }
@@ -100,8 +94,10 @@ public class BaseUserControllerImpl implements BaseUserController {
     }
 
     @Override
-    public boolean authorize(String authorizationHash) {
-        BaseUser entity = baseUserRepository.findOneByHash(authorizationHash);
+    public boolean authorize(ActivateDTO activateDTO) {
+        int nAdditionalSigns = (activateDTO.getCode().length() / 3) % 4;
+        String code = activateDTO.getCode() + String.join("", Collections.nCopies(nAdditionalSigns, "="));
+        BaseUser entity = baseUserRepository.findOneByHash(code);
         if (entity != null) {
             entity.setActive(Boolean.TRUE);
             baseUserRepository.save(entity);

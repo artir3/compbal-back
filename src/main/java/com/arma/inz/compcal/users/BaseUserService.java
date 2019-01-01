@@ -1,5 +1,6 @@
 package com.arma.inz.compcal.users;
 
+import com.arma.inz.compcal.users.dto.ActivateDTO;
 import com.arma.inz.compcal.users.dto.UserDTO;
 import com.arma.inz.compcal.users.dto.UserLoginDTO;
 import com.arma.inz.compcal.users.dto.UserRegistrationDTO;
@@ -25,8 +26,8 @@ public interface BaseUserService {
     @PutMapping("/")
     ResponseEntity update(@RequestBody UserDTO userDTO);
 
-    @GetMapping("/authorize/{authorizationHash}")
-    ResponseEntity authorize(@PathVariable String authorizationHash);
+    @PostMapping("/authorize")
+    ResponseEntity authorize(@RequestBody ActivateDTO activateDTO);
 
     @GetMapping("/registration/date")
     ResponseEntity registrationDate(@RequestHeader(value="Authorization") String authorization);

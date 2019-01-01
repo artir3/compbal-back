@@ -29,8 +29,8 @@ public class EmailServiceImpl implements EmailService {
         String header = "Comp-Cal - Aktywacja konta";
         String message = "Witam\n\n" +
                 "Dziękujemy za rejestrację w CompCal, serwisie do obsługi finansów w firmie.\n\n" +
-                "W celu zakołczenia aktywacji konta należy kliknąć w poniższy link, lub przekopiować go w adres przeglądarki.\n\n" +
-                "http://" + serviceAddress + "/user/authorize/" + hash +
+                "W celu aktywacji konta należy kliknąć w poniższy link, lub przekopiować go w adres przeglądarki.\n\n" +
+                "http://" + serviceAddress + "/activate/:" + hash +
                 "\n\n" +
                 "Życzymy miłego dnia"
                 ;

@@ -94,7 +94,6 @@ public class KpirControllerImpl implements KpirController {
             Kpir entity = optional.get();
             boolean recalculate = !entity.getEconomicEventDate().equals(kpirDTO.getEconomicEventDate());
             BeanUtils.copyProperties(kpirDTO, entity, "id", "idx", "kpirList", "bankAccounts", "contractor", "createdAt", "type");
-            BeanUtils.copyProperties(kpirDTO, entity, "id", "idx", "kpirList", "bankAccounts", "contractor", "createdAt", "type");
             entity.setModifiedAt(LocalDateTime.now());
             kpirRepository.save(entity);
             if (recalculate){
