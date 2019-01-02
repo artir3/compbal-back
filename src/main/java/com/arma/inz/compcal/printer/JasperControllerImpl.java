@@ -74,8 +74,7 @@ public class JasperControllerImpl implements JasperController {
         kpirFilterDTO.setType(null);
         List<KpirDTO> kpirDTOList = kpirController.getAll(baseUser, kpirFilterDTO);
         Map<String, Object> parameters = new HashMap<>();
-        JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(kpirDTOList);
-        parameters.put("datasource", ds);
+        prepareParameters(parameters, kpirDTOList);
 
         String prefix = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + "-" + baseUser.getCompany().toUpperCase() + "-KPIR";
         File pdfFile = File.createTempFile(prefix, ".pdf");
@@ -87,5 +86,45 @@ public class JasperControllerImpl implements JasperController {
             e.printStackTrace();
         }
         return Files.readAllBytes(pdfFile.toPath());
+    }
+
+    private void prepareParameters(Map<String, Object> parameters, List<KpirDTO> kpirDTOList) {
+        BigDecimal totalSoldIncome = BigDecimal.ZERO;
+        BigDecimal totalOtherIncome = BigDecimal.ZERO;
+        BigDecimal totalAllIncome = BigDecimal.ZERO;
+        BigDecimal totalPurchaseCosts = BigDecimal.ZERO;
+        BigDecimal totalPurchaseSideCosts = BigDecimal.ZERO;
+        BigDecimal totalPaymentCost = BigDecimal.ZERO;
+        BigDecimal totalOtherCosts = BigDecimal.ZERO;
+        BigDecimal totalSumCosts = BigDecimal.ZERO;
+        BigDecimal totalOther = BigDecimal.ZERO;
+        BigDecimal totalRadCosts = BigDecimal.ZERO;
+
+        for (KpirDTO dto: kpirDTOList) {
+            totalSoldIncome = totalSoldIncome.add(dto.getSoldIncome() == null ? BigDecimal.ZERO : dto.getSoldIncome());
+            totalOtherIncome = totalOtherIncome.add(dto.getOtherIncome() == null ? BigDecimal.ZERO : dto.getOtherIncome());
+            totalAllIncome = totalAllIncome.add(dto.getAllIncome() == null ? BigDecimal.ZERO : dto.getAllIncome());
+            totalPurchaseCosts = totalPurchaseCosts.add(dto.getPurchaseCosts() == null ? BigDecimal.ZERO : dto.getPurchaseCosts());
+            totalPurchaseSideCosts = totalPurchaseSideCosts.add(dto.getPurchaseSideCosts() == null ? BigDecimal.ZERO : dto.getPurchaseSideCosts());
+            totalPaymentCost = totalPaymentCost.add(dto.getPaymentCost() == null ? BigDecimal.ZERO : dto.getPaymentCost());
+            totalOtherCosts = totalOtherCosts.add(dto.getOtherCosts() == null ? BigDecimal.ZERO : dto.getOtherCosts());
+            totalSumCosts = totalSumCosts.add(dto.getSumCosts() == null ? BigDecimal.ZERO : dto.getSumCosts());
+            totalOther = totalOther.add(dto.getOther() == null ? BigDecimal.ZERO : dto.getOther());
+            totalRadCosts = totalRadCosts.add(dto.getRadCosts() == null ? BigDecimal.ZERO : dto.getRadCosts());
+        }
+        parameters.put("totalSoldIncome", totalSoldIncome);
+        parameters.put("totalOtherIncome", totalOtherIncome);
+        parameters.put("totalAllIncome", totalAllIncome);
+        parameters.put("totalPurchaseCosts", totalPurchaseCosts);
+        parameters.put("totalPurchaseSideCosts", totalPurchaseSideCosts);
+        parameters.put("totalPaymentCost", totalPaymentCost);
+        parameters.put("totalOtherCosts", totalOtherCosts);
+        parameters.put("totalSumCosts", totalSumCosts);
+        parameters.put("totalOther", totalOther);
+        parameters.put("totalRadCosts", totalRadCosts);
+
+        JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(kpirDTOList);
+        parameters.put("datasource", ds);
+
     }
 }

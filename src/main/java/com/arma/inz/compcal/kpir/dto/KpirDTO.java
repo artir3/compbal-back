@@ -22,7 +22,7 @@ public class KpirDTO {
     private BigDecimal paymentCost;
     private BigDecimal otherCosts;
     private BigDecimal sumCosts;
-    private String other;
+    private BigDecimal other;
     private String comments;
     private BigDecimal radCosts;
     private String radDescription;

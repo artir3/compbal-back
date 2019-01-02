@@ -51,7 +51,7 @@ public class Kpir {
     @Column(name = "sumCosts")
     private BigDecimal sumCosts;
     @Column(name = "other")
-    private String other;
+    private BigDecimal other;
     @Column(name = "radCosts")
     private BigDecimal radCosts;
     @Column(name = "radDescription")
