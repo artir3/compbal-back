@@ -1,15 +1,12 @@
 package com.arma.inz.compcal.kpir;
 
 import com.arma.inz.compcal.AuthorizationHeaderUtils;
-import com.arma.inz.compcal.contractor.dto.ContractorDTO;
-import com.arma.inz.compcal.contractor.dto.ContractorFilterDTO;
-import com.arma.inz.compcal.contractor.dto.ContractorMiniDTO;
 import com.arma.inz.compcal.kpir.dto.KpirCreateDTO;
 import com.arma.inz.compcal.kpir.dto.KpirDTO;
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
 import com.arma.inz.compcal.printer.JasperController;
 import com.arma.inz.compcal.users.BaseUser;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,16 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 public class KpirServiceImpl implements KpirService {
-    @Autowired
-    private KpirController kpirController;
-
-    @Autowired
-    private AuthorizationHeaderUtils header;
-
-    @Autowired
-    private JasperController jasperController;
+    private final KpirController kpirController;
+    private final AuthorizationHeaderUtils header;
+    private final JasperController jasperController;
 
     @Override
     public ResponseEntity get(String authorization, KpirFilterDTO kpirFilterDTO) {

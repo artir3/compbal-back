@@ -6,9 +6,12 @@ import com.arma.inz.compcal.kpir.dto.KpirCreateDTO;
 import com.arma.inz.compcal.kpir.dto.KpirDTO;
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
 import com.arma.inz.compcal.users.BaseUser;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
@@ -17,13 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
 @Controller
 public class KpirControllerImpl implements KpirController {
-    @Autowired
-    private KpirRepository kpirRepository;
-
-    @Autowired
-    private ContractorController contractorController;
+    private final KpirRepository kpirRepository;
+    private final ContractorController contractorController;
 
     @Override
     public List<KpirDTO> getAll(BaseUser baseUser, KpirFilterDTO filterDTO) {

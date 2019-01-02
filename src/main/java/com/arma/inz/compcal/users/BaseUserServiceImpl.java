@@ -5,8 +5,8 @@ import com.arma.inz.compcal.users.dto.ActivateDTO;
 import com.arma.inz.compcal.users.dto.UserDTO;
 import com.arma.inz.compcal.users.dto.UserLoginDTO;
 import com.arma.inz.compcal.users.dto.UserRegistrationDTO;
+import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,15 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 
 @Log
+@AllArgsConstructor
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class BaseUserServiceImpl implements BaseUserService {
-
-    @Autowired
-    private BaseUserController baseUserController;
-
-    @Autowired
-    private AuthorizationHeaderUtils header;
+    private final BaseUserController baseUserController;
+    private final AuthorizationHeaderUtils header;
 
     @Override
     public ResponseEntity registration(UserRegistrationDTO user) {

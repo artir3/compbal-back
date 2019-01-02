@@ -10,6 +10,6 @@ import java.io.IOException;
 @RequestMapping("/printer")
 public interface JasperService {
 
-    @GetMapping("/kpir/{id}")
+    @PostMapping("/kpirs")
     ResponseEntity<byte[]> getKpir(@RequestHeader(value="Authorization") String authorization, @RequestBody KpirFilterDTO kpirFilterDTO) throws IOException;
 }

@@ -6,22 +6,18 @@ import com.arma.inz.compcal.contractor.dto.ContractorFilterDTO;
 import com.arma.inz.compcal.contractor.dto.ContractorMiniDTO;
 import com.arma.inz.compcal.contractor.dto.ContractorSelectDTO;
 import com.arma.inz.compcal.users.BaseUser;
-import com.arma.inz.compcal.users.BaseUserController;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 public class ContractorServiceImpl implements ContractorService {
-
-    @Autowired
-    private ContractorController contractorController;
-
-    @Autowired
-    private AuthorizationHeaderUtils header;
+    private final ContractorController contractorController;
+    private final AuthorizationHeaderUtils header;
 
     @Override
     public ResponseEntity get(String authorization, ContractorFilterDTO contractorFilterDTO) {

@@ -8,8 +8,8 @@ import com.arma.inz.compcal.contractor.dto.ContractorFilterDTO;
 import com.arma.inz.compcal.contractor.dto.ContractorMiniDTO;
 import com.arma.inz.compcal.contractor.dto.ContractorSelectDTO;
 import com.arma.inz.compcal.users.BaseUser;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDateTime;
@@ -18,14 +18,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+@AllArgsConstructor
 @Controller
 public class ContractorControllerImpl implements ContractorController {
-
-    @Autowired
-    private ContractorRepository contractorRepository;
-
-    @Autowired
-    private BankAccountController bankAccountController;
+    private final ContractorRepository contractorRepository;
+    private final BankAccountController bankAccountController;
 
     @Override
     public ContractorMiniDTO parseToDTO(Contractor contractor) {

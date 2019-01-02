@@ -1,24 +1,21 @@
 package com.arma.inz.compcal.printer;
 
-import com.arma.inz.compcal.AuthorizationHeaderUtils;
 import com.arma.inz.compcal.kpir.KpirController;
 import com.arma.inz.compcal.kpir.dto.KpirDTO;
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
 import com.arma.inz.compcal.users.BaseUser;
-import com.arma.inz.compcal.users.BaseUserController;
-import com.arma.inz.compcal.users.dto.UserDTO;
+import lombok.AllArgsConstructor;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSaver;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.jasperreports.JasperReportsUtils;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -27,20 +24,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@AllArgsConstructor
 @Controller
 public class JasperControllerImpl implements JasperController {
 
-    @Autowired
-    private BaseUserController baseUserController;
-
-    @Autowired
-    private KpirController kpirController;
-
-    @Autowired
-    private AuthorizationHeaderUtils header;
-
-    @Autowired
-    private JasperController jasperController;
+    private final KpirController kpirController;
 
     @Override
     public void compileFile(JasperEnum file) throws JRException {
@@ -60,7 +48,6 @@ public class JasperControllerImpl implements JasperController {
         JasperReport jasperReport = getJasperReport(jasperFile);
         final JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(Collections.singletonList("Invoice"));
         JasperReportsUtils.renderAsPdf(jasperReport, parameters, dataSource, outputStream);
-//        JasperExportManager.exportReportToPdfFile(jasperReport, "src/main/resources/table.pdf");
     }
 
     private JasperReport getJasperReport(JasperEnum jasperFile) throws JRException {

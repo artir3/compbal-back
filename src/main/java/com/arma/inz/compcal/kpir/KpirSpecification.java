@@ -4,11 +4,10 @@ import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
 import com.arma.inz.compcal.users.BaseUser;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.*;
-import java.time.LocalDate;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Predicate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,13 +27,13 @@ public class KpirSpecification {
         return (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (filterDTO.getCompany() != null && !filterDTO.getCompany().isEmpty()) {
-                predicates.add(builder.like(builder.lower(root.<String>get("company")), "%" + filterDTO.getCompany().trim().toLowerCase() + "%"));
+                predicates.add(builder.like(builder.lower(root.get("company")), "%" + filterDTO.getCompany().trim().toLowerCase() + "%"));
             }
             if (filterDTO.getNip() != null && !filterDTO.getNip().isEmpty()) {
-                predicates.add(builder.like(builder.lower(root.<String>get("nip")), "%" + filterDTO.getNip().trim().toLowerCase() + "%"));
+                predicates.add(builder.like(builder.lower(root.get("nip")), "%" + filterDTO.getNip().trim().toLowerCase() + "%"));
             }
             if (filterDTO.getRegistrationNumber() != null && !filterDTO.getRegistrationNumber().isEmpty()) {
-                predicates.add(builder.like(builder.lower(root.<String>get("registrationNumber")), "%" + filterDTO.getRegistrationNumber().trim().toLowerCase() + "%"));
+                predicates.add(builder.like(builder.lower(root.get("registrationNumber")), "%" + filterDTO.getRegistrationNumber().trim().toLowerCase() + "%"));
             }
             if (filterDTO.getIsPayed() != null && Boolean.TRUE.equals(filterDTO.getIsPayed())) {
                 predicates.add(builder.equal(root.<Boolean>get("payed"), Boolean.TRUE));
@@ -46,7 +45,7 @@ public class KpirSpecification {
             }
 
             if (filterDTO.getEconomicEventDate() != null) {
-                predicates.add(builder.between(root.<LocalDateTime>get("economicEventDate"),
+                predicates.add(builder.between(root.get("economicEventDate"),
                         LocalDateTime.of(filterDTO.getEconomicEventDate().toLocalDate(), LocalTime.of(0,0)),
                         LocalDateTime.of(filterDTO.getEconomicEventDate().plusDays(1l).toLocalDate(), LocalTime.of(0,0))));
             } else {
@@ -63,7 +62,7 @@ public class KpirSpecification {
                 Predicate isNotPayed = builder.equal(root.<Boolean>get("payed"), Boolean.FALSE);
                 Predicate isNull = builder.isNull(root.<Boolean>get("payed"));
                 predicates.add(builder.or(isNotPayed,isNull));
-                predicates.add(builder.lessThan(root.<LocalDateTime>get("paymentDateMax"), LocalDateTime.now()));
+                predicates.add(builder.lessThan(root.get("paymentDateMax"), LocalDateTime.now()));
             }
 
             if (filterDTO.getType() != null) {

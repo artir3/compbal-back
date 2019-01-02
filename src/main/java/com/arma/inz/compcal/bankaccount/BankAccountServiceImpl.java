@@ -1,19 +1,18 @@
 package com.arma.inz.compcal.bankaccount;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 @Log
+@AllArgsConstructor
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class BankAccountServiceImpl implements BankAccountService {
-
-    @Autowired
-    private BankAccountController bankAccountController;
+    private final BankAccountController bankAccountController;
 
     @Override
     public ResponseEntity deleteAccount(Long id) {

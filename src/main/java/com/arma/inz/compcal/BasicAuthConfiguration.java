@@ -1,6 +1,5 @@
 package com.arma.inz.compcal;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,11 +16,10 @@ import javax.sql.DataSource;
 import java.util.Arrays;
 
 @Configuration
-public class BasicAuthConfiguration
-        extends WebSecurityConfigurerAdapter {
+public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private DataSource dataSource;
+    private final DataSource dataSource;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Value("${spring.queries.users-query}")
     private String usersQuery;
@@ -29,8 +27,10 @@ public class BasicAuthConfiguration
     @Value("${spring.queries.roles-query}")
     private String rolesQuery;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    public BasicAuthConfiguration(DataSource dataSource, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.dataSource = dataSource;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -65,7 +65,6 @@ public class BasicAuthConfiguration
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        super.configure(http);
         http.csrf().disable().cors()
                 .and()
                 .authorizeRequests()

@@ -3,8 +3,8 @@ package com.arma.inz.compcal.bankaccount;
 import com.arma.inz.compcal.contractor.Contractor;
 import com.arma.inz.compcal.currency.CurrencyEnum;
 import com.arma.inz.compcal.users.BaseUser;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,11 +14,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+@AllArgsConstructor
 @Controller
 public class BankAccountControllerImpl implements BankAccountController {
-
-    @Autowired
-    private BankAccountRepository bankAccountRepository;
+    private final BankAccountRepository bankAccountRepository;
 
     @Override
     public void saveOrUpdate(Collection<BankAccountDTO> collection, Contractor contractor) {

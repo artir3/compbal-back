@@ -8,27 +8,24 @@ import com.arma.inz.compcal.users.dto.UserLoginDTO;
 import com.arma.inz.compcal.users.dto.UserRegistrationDTO;
 import com.arma.inz.compcal.users.enums.RolesEnum;
 import com.arma.inz.compcal.users.enums.TaxFormEnum;
+import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Base64;
+import java.util.Collections;
+import java.util.Optional;
 
 @Log
+@AllArgsConstructor
 @Controller
 public class BaseUserControllerImpl implements BaseUserController {
-
-    @Autowired
-    private BaseUserRepository baseUserRepository;
-
-    @Autowired
-    private BankAccountController bankAccountController;
-
-    @Autowired
-    private EmailService emailService;
+    private final BaseUserRepository baseUserRepository;
+    private final BankAccountController bankAccountController;
+    private final EmailService emailService;
 
     @Override
     public boolean registration(UserRegistrationDTO user) {

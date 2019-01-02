@@ -18,7 +18,8 @@ public class CurrencyCrawler {
 
     @Value("${crawler.nbp.api}")
     private String nbpApiTodayUrl;
-    private CurrencyRepository currencyRepository;
+
+    private final CurrencyRepository currencyRepository;
 
     public CurrencyCrawler(CurrencyRepository currencyRepository){
         this.currencyRepository = currencyRepository;
