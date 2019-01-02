@@ -3,7 +3,7 @@ package com.arma.inz.compcal.printer;
 import lombok.Getter;
 
 public enum JasperEnum {
-    KPIR("Księga przychodów i rozchodów", "jasper/kpir.jrxml", "jasper/kpir.jasper"),
+    KPIR("Księga przychodów i rozchodów", "jasper/kpir.jrxml", "/jasper/kpir.jasper"),
     ;
 
     @Getter

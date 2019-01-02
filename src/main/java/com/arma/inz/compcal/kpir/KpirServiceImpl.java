@@ -7,12 +7,14 @@ import com.arma.inz.compcal.contractor.dto.ContractorMiniDTO;
 import com.arma.inz.compcal.kpir.dto.KpirCreateDTO;
 import com.arma.inz.compcal.kpir.dto.KpirDTO;
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
+import com.arma.inz.compcal.printer.JasperController;
 import com.arma.inz.compcal.users.BaseUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -23,6 +25,9 @@ public class KpirServiceImpl implements KpirService {
     @Autowired
     private AuthorizationHeaderUtils header;
 
+    @Autowired
+    private JasperController jasperController;
+
     @Override
     public ResponseEntity get(String authorization, KpirFilterDTO kpirFilterDTO) {
         BaseUser baseUser = header.getUserFromAuthorization(authorization);
@@ -30,6 +35,11 @@ public class KpirServiceImpl implements KpirService {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
         List<KpirDTO> list = kpirController.getAll(baseUser, kpirFilterDTO);
+        try {
+            jasperController.generateKpir(baseUser,kpirFilterDTO);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 

@@ -1,6 +1,7 @@
 package com.arma.inz.compcal.printer;
 
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
+import com.arma.inz.compcal.users.BaseUser;
 import net.sf.jasperreports.engine.JRException;
 
 import java.io.IOException;
@@ -15,5 +16,5 @@ public interface JasperController {
 
     void export(JasperEnum jasperFile, Map<String, Object> parameters, OutputStream outputStream) throws JRException;
 
-    byte[] generateKpir(String hash, KpirFilterDTO kpirFilterDTO) throws IOException;
+    byte[] generateKpir(BaseUser baseUser, KpirFilterDTO kpirFilterDTO) throws IOException;
 }

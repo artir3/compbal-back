@@ -20,7 +20,7 @@ public class JasperServiceImpl implements JasperService {
 
     @Override
     public ResponseEntity<byte[]> getKpir(String authorization, KpirFilterDTO kpirFilterDTO) throws IOException {
-        byte[] pdf = jasperController.generateKpir(header.hashFromHeader(authorization), kpirFilterDTO);
+        byte[] pdf = jasperController.generateKpir(header.getUserFromAuthorization(authorization), kpirFilterDTO);
         return new ResponseEntity(pdf, HttpStatus.OK);
     }
 

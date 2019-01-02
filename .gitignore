@@ -1,4 +1,6 @@
 /target/
+classes/
+src/main/resources/jasper/.gitignore
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###

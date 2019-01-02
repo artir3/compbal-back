@@ -9,6 +9,7 @@ import com.arma.inz.compcal.users.BaseUserController;
 import com.arma.inz.compcal.users.dto.UserDTO;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -59,7 +60,7 @@ public class JasperControllerImpl implements JasperController {
         JasperReport jasperReport = getJasperReport(jasperFile);
         final JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(Collections.singletonList("Invoice"));
         JasperReportsUtils.renderAsPdf(jasperReport, parameters, dataSource, outputStream);
-
+//        JasperExportManager.exportReportToPdfFile(jasperReport, "src/main/resources/table.pdf");
     }
 
     private JasperReport getJasperReport(JasperEnum jasperFile) throws JRException {
@@ -69,13 +70,16 @@ public class JasperControllerImpl implements JasperController {
     }
 
     @Override
-    public byte[] generateKpir(String authorization, KpirFilterDTO kpirFilterDTO) throws IOException {
-        BaseUser baseUser = header.getUserFromAuthorization(authorization);
+    public byte[] generateKpir(BaseUser baseUser, KpirFilterDTO kpirFilterDTO) throws IOException {
+        kpirFilterDTO.setType(null);
         List<KpirDTO> kpirDTOList = kpirController.getAll(baseUser, kpirFilterDTO);
         Map<String, Object> parameters = new HashMap<>();
+        JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(kpirDTOList);
+        parameters.put("datasource", ds);
 
         String prefix = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + "-" + baseUser.getCompany().toUpperCase() + "-KPIR";
         File pdfFile = File.createTempFile(prefix, ".pdf");
+        pdfFile = new File("/Users/arma/Desktop/"+prefix+".pdf");
         OutputStream fileOutputStream = new FileOutputStream(pdfFile);
         try {
             export(JasperEnum.KPIR, parameters, fileOutputStream);
