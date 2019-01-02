@@ -57,14 +57,11 @@ public class JasperControllerImpl implements JasperController {
 
     @Override
     public byte[] generateKpir(BaseUser baseUser, KpirFilterDTO kpirFilterDTO) throws IOException {
-        kpirFilterDTO.setType(null);
-        List<KpirDTO> kpirDTOList = kpirController.getAll(baseUser, kpirFilterDTO);
-        Map<String, Object> parameters = new HashMap<>();
-        prepareParameters(parameters, kpirDTOList);
+        List<KpirDTO> kpirDTOList = kpirController.getAllForPrint(baseUser, kpirFilterDTO);
+        Map<String, Object> parameters = prepareParameters(kpirDTOList);
 
         String prefix = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + "-" + baseUser.getCompany().toUpperCase() + "-KPIR";
         File pdfFile = File.createTempFile(prefix, ".pdf");
-        pdfFile = new File("/Users/arma/Desktop/"+prefix+".pdf");
         OutputStream fileOutputStream = new FileOutputStream(pdfFile);
         try {
             export(JasperEnum.KPIR, parameters, fileOutputStream);
@@ -74,7 +71,8 @@ public class JasperControllerImpl implements JasperController {
         return Files.readAllBytes(pdfFile.toPath());
     }
 
-    private void prepareParameters(Map<String, Object> parameters, List<KpirDTO> kpirDTOList) {
+    private Map<String, Object> prepareParameters(List<KpirDTO> kpirDTOList) {
+        Map<String, Object> parameters = new HashMap<>();
         BigDecimal totalSoldIncome = BigDecimal.ZERO;
         BigDecimal totalOtherIncome = BigDecimal.ZERO;
         BigDecimal totalAllIncome = BigDecimal.ZERO;
@@ -87,16 +85,16 @@ public class JasperControllerImpl implements JasperController {
         BigDecimal totalRadCosts = BigDecimal.ZERO;
 
         for (KpirDTO dto: kpirDTOList) {
-            totalSoldIncome = totalSoldIncome.add(dto.getSoldIncome() == null ? BigDecimal.ZERO : dto.getSoldIncome());
-            totalOtherIncome = totalOtherIncome.add(dto.getOtherIncome() == null ? BigDecimal.ZERO : dto.getOtherIncome());
-            totalAllIncome = totalAllIncome.add(dto.getAllIncome() == null ? BigDecimal.ZERO : dto.getAllIncome());
-            totalPurchaseCosts = totalPurchaseCosts.add(dto.getPurchaseCosts() == null ? BigDecimal.ZERO : dto.getPurchaseCosts());
-            totalPurchaseSideCosts = totalPurchaseSideCosts.add(dto.getPurchaseSideCosts() == null ? BigDecimal.ZERO : dto.getPurchaseSideCosts());
-            totalPaymentCost = totalPaymentCost.add(dto.getPaymentCost() == null ? BigDecimal.ZERO : dto.getPaymentCost());
-            totalOtherCosts = totalOtherCosts.add(dto.getOtherCosts() == null ? BigDecimal.ZERO : dto.getOtherCosts());
-            totalSumCosts = totalSumCosts.add(dto.getSumCosts() == null ? BigDecimal.ZERO : dto.getSumCosts());
-            totalOther = totalOther.add(dto.getOther() == null ? BigDecimal.ZERO : dto.getOther());
-            totalRadCosts = totalRadCosts.add(dto.getRadCosts() == null ? BigDecimal.ZERO : dto.getRadCosts());
+            totalSoldIncome = totalSoldIncome.add(getNotNullBigDecimal(dto.getSoldIncome()));
+            totalOtherIncome = totalOtherIncome.add(getNotNullBigDecimal(dto.getOtherIncome()));
+            totalAllIncome = totalAllIncome.add(getNotNullBigDecimal(dto.getAllIncome()));
+            totalPurchaseCosts = totalPurchaseCosts.add(getNotNullBigDecimal(dto.getPurchaseCosts()));
+            totalPurchaseSideCosts = totalPurchaseSideCosts.add(getNotNullBigDecimal(dto.getPurchaseSideCosts()));
+            totalPaymentCost = totalPaymentCost.add(getNotNullBigDecimal(dto.getPaymentCost()));
+            totalOtherCosts = totalOtherCosts.add(getNotNullBigDecimal(dto.getOtherCosts()));
+            totalSumCosts = totalSumCosts.add(getNotNullBigDecimal(dto.getSumCosts()));
+            totalOther = totalOther.add(getNotNullBigDecimal(dto.getOther()));
+            totalRadCosts = totalRadCosts.add(getNotNullBigDecimal(dto.getRadCosts()));
         }
         parameters.put("totalSoldIncome", totalSoldIncome);
         parameters.put("totalOtherIncome", totalOtherIncome);
@@ -111,6 +109,10 @@ public class JasperControllerImpl implements JasperController {
 
         JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(kpirDTOList);
         parameters.put("datasource", ds);
+        return parameters;
+    }
 
+    private BigDecimal getNotNullBigDecimal(BigDecimal soldIncome) {
+        return soldIncome == null ? BigDecimal.ZERO : soldIncome;
     }
 }

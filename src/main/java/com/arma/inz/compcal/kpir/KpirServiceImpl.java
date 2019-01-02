@@ -28,11 +28,6 @@ public class KpirServiceImpl implements KpirService {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
         List<KpirDTO> list = kpirController.getAll(baseUser, kpirFilterDTO);
-        try {
-            jasperController.generateKpir(baseUser,kpirFilterDTO);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 

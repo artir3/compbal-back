@@ -61,43 +61,43 @@
 		<field name="radCosts" class="java.math.BigDecimal"/>
 		<field name="radDescription" class="java.lang.String"/>
 		<field name="payed" class="java.lang.Boolean"/>
-		<variable name="PagedSoldIncome" class="java.math.BigDecimal" resetType="Page" incrementType="Page" calculation="Sum">
+		<variable name="PagedSoldIncome" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
 			<variableExpression><![CDATA[$F{soldIncome}]]></variableExpression>
 			<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
 		</variable>
-		<variable name="PagedOtherIncome" class="java.math.BigDecimal" resetType="Page" incrementType="Page" calculation="Sum">
+		<variable name="PagedOtherIncome" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
 			<variableExpression><![CDATA[$F{otherIncome}]]></variableExpression>
 			<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
 		</variable>
-		<variable name="PagedAllIncome" class="java.math.BigDecimal" resetType="Page" incrementType="Page" calculation="Sum">
+		<variable name="PagedAllIncome" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
 			<variableExpression><![CDATA[$F{allIncome}]]></variableExpression>
 			<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
 		</variable>
-		<variable name="PagedPurchaseCosts" class="java.math.BigDecimal" resetType="Page" incrementType="Page" calculation="Sum">
+		<variable name="PagedPurchaseCosts" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
 			<variableExpression><![CDATA[$F{purchaseCosts}]]></variableExpression>
 			<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
 		</variable>
-		<variable name="PagedPurchaseSideCosts" class="java.math.BigDecimal" resetType="Page" incrementType="Page" calculation="Sum">
+		<variable name="PagedPurchaseSideCosts" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
 			<variableExpression><![CDATA[$F{purchaseSideCosts}]]></variableExpression>
 			<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
 		</variable>
-		<variable name="PagedPaymentCost" class="java.math.BigDecimal" resetType="Page" incrementType="Page" calculation="Sum">
+		<variable name="PagedPaymentCost" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
 			<variableExpression><![CDATA[$F{paymentCost}]]></variableExpression>
 			<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
 		</variable>
-		<variable name="PagedOtherCosts" class="java.math.BigDecimal" resetType="Page" incrementType="Page" calculation="Sum">
+		<variable name="PagedOtherCosts" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
 			<variableExpression><![CDATA[$F{otherCosts}]]></variableExpression>
 			<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
 		</variable>
-		<variable name="PagedSumCosts" class="java.math.BigDecimal" resetType="Page" incrementType="Page" calculation="Sum">
+		<variable name="PagedSumCosts" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
 			<variableExpression><![CDATA[$F{sumCosts}]]></variableExpression>
 			<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
 		</variable>
-		<variable name="PagedOther" class="java.math.BigDecimal" resetType="Page" incrementType="Page" calculation="Sum">
+		<variable name="PagedOther" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
 			<variableExpression><![CDATA[$F{other}]]></variableExpression>
 			<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
 		</variable>
-		<variable name="PagedRadCosts" class="java.math.BigDecimal" resetType="Page" incrementType="Page" calculation="Sum">
+		<variable name="PagedRadCosts" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
 			<variableExpression><![CDATA[$F{radCosts}]]></variableExpression>
 			<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
 		</variable>

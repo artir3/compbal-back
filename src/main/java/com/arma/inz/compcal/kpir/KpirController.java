@@ -25,4 +25,6 @@ public interface KpirController {
     Integer getNextIdx(LocalDateTime economicEventDate, BaseUser baseUser);
 
     void recalculateIdx(BaseUser baseUser, LocalDateTime localDateTime);
+
+    List<KpirDTO> getAllForPrint(BaseUser baseUser, KpirFilterDTO filterDTO);
 }

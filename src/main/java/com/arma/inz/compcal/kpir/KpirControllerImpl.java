@@ -30,24 +30,7 @@ public class KpirControllerImpl implements KpirController {
     public List<KpirDTO> getAll(BaseUser baseUser, KpirFilterDTO filterDTO) {
         Sort sort = Sort.by("economicEventDate").descending();
         List<Kpir> list = getKpirs(baseUser, filterDTO, sort);
-        List<KpirDTO> result = new ArrayList<>();
-        for (Kpir kpir : list) {
-            KpirDTO dto = parseToDTO(kpir);
-            result.add(dto);
-        }
-        return result;
-    }
-
-    private List<Kpir> getKpirs(BaseUser baseUser, KpirFilterDTO filterDTO, Sort sort) {
-        return kpirRepository.findAll(KpirSpecification.getAllByFilter(baseUser, filterDTO), sort);
-    }
-
-    private KpirDTO parseToDTO(Kpir kpir) {
-        KpirDTO dto = new KpirDTO();
-        BeanUtils.copyProperties(kpir, dto);
-        dto.setAddress(kpir.getContractor().getPrettyAddress());
-        dto.setFullName(kpir.getContractor().getCompany());
-        return dto;
+        return parseListToDTO(list);
     }
 
     @Override
@@ -139,5 +122,34 @@ public class KpirControllerImpl implements KpirController {
             entity.setModifiedAt(LocalDateTime.now());
             kpirRepository.save(entity);
         }
+    }
+
+    @Override
+    public List<KpirDTO> getAllForPrint(BaseUser baseUser, KpirFilterDTO filterDTO) {
+        filterDTO.setType(null);
+        filterDTO.setSelectedMonth(null);
+        List<Kpir> list = getKpirs(baseUser, filterDTO, Sort.by("idx").ascending());
+        return parseListToDTO(list);
+    }
+
+    private List<KpirDTO> parseListToDTO(List<Kpir> list) {
+        List<KpirDTO> result = new ArrayList<>();
+        for (Kpir kpir : list) {
+            KpirDTO dto = parseToDTO(kpir);
+            result.add(dto);
+        }
+        return result;
+    }
+
+    private List<Kpir> getKpirs(BaseUser baseUser, KpirFilterDTO filterDTO, Sort sort) {
+        return kpirRepository.findAll(KpirSpecification.getAllByFilter(baseUser, filterDTO), sort);
+    }
+
+    private KpirDTO parseToDTO(Kpir kpir) {
+        KpirDTO dto = new KpirDTO();
+        BeanUtils.copyProperties(kpir, dto);
+        dto.setAddress(kpir.getContractor().getPrettyAddress());
+        dto.setFullName(kpir.getContractor().getCompany());
+        return dto;
     }
 }
