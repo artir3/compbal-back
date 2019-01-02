@@ -7,7 +7,7 @@ public enum TaxFormEnum {
     TAX_CARD("Karta podatkowa"),
     ;
 
-    private String label;
+    private final String label;
     TaxFormEnum(String label){
         this.label = label;
     }

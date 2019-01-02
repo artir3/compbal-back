@@ -52,8 +52,7 @@ public class JasperControllerImpl implements JasperController {
 
     private JasperReport getJasperReport(JasperEnum jasperFile) throws JRException {
         InputStream jasperInputStream = getClass().getResourceAsStream(jasperFile.getJasperPath());
-        JasperReport jasperReport = (JasperReport) JRLoader.loadObject(jasperInputStream);
-        return jasperReport;
+        return (JasperReport) JRLoader.loadObject(jasperInputStream);
     }
 
     @Override

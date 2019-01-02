@@ -17,5 +17,4 @@ public interface BankAccountController {
 
     Set<BankAccountDTO> copyToDTO(Collection<BankAccount> bankAccountSet);
 
-    BankAccountDTO copyToDTO(BankAccount account);
 }

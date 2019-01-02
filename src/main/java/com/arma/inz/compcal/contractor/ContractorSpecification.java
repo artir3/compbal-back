@@ -10,7 +10,7 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContractorSpecification {
+class ContractorSpecification {
     //    https://docs.spring.io/spring-data/jpa/docs/current/reference/html/
 
     public static Specification<Contractor> byBaseUser(BaseUser baseUser) {

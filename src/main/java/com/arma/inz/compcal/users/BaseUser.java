@@ -13,7 +13,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table
-@ToString(exclude = "bankAccountSet")
+@ToString()
 public class BaseUser {
 
     @Id

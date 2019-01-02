@@ -70,8 +70,7 @@ public class BankAccountControllerImpl implements BankAccountController {
         return bankAccounts;
     }
 
-    @Override
-    public BankAccountDTO copyToDTO(BankAccount account) {
+    private BankAccountDTO copyToDTO(BankAccount account) {
         BankAccountDTO dto = new BankAccountDTO();
         BeanUtils.copyProperties(account, dto);
         dto.setCurrency(account.getCurrency().name());

@@ -7,11 +7,11 @@ public enum JasperEnum {
     ;
 
     @Getter
-    private String label;
+    private final String label;
     @Getter
-    private String jrxmlPath;
+    private final String jrxmlPath;
     @Getter
-    private String jasperPath;
+    private final String jasperPath;
 
     JasperEnum(String label, String jrxmlPath, String jasperPath){
         this.label = label;

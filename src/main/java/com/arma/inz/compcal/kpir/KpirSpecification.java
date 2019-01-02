@@ -11,7 +11,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KpirSpecification {
+class KpirSpecification {
     //    https://docs.spring.io/spring-data/jpa/docs/current/reference/html/
 
     public static Specification<Kpir> getAllByYearAndUser(Integer searchByYear, BaseUser baseUser) {

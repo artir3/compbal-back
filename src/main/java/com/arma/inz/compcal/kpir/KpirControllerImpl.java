@@ -123,7 +123,7 @@ public class KpirControllerImpl implements KpirController {
     public Integer getNextIdx(LocalDateTime economicEventDate, BaseUser baseUser) {
         Pageable pageable = PageRequest.of(0, 1, Sort.by("idx").descending());
         Page nextKpir = kpirRepository.findAll(KpirSpecification.getAllByYearAndUser(economicEventDate.getYear(), baseUser), pageable);
-        Integer idx = (nextKpir == null || nextKpir.isEmpty() ? 0 : ((Kpir) nextKpir.getContent().get(0)).getIdx());
+        int idx = (nextKpir == null || nextKpir.isEmpty() ? 0 : ((Kpir) nextKpir.getContent().get(0)).getIdx());
         return idx + 1;
     }
 
