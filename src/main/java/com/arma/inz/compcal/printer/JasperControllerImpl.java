@@ -11,6 +11,8 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSaver;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.jasperreports.JasperReportsUtils;
 
@@ -37,14 +39,12 @@ public class JasperControllerImpl implements JasperController {
         JRSaver.saveObject(jasperReport, file.getJasperPath());
     }
 
-    @Override
-    public void export(String name, Map<String, Object> parameters, OutputStream outputStream) throws JRException {
+    private void export(String name, Map<String, Object> parameters, OutputStream outputStream) throws JRException {
         JasperEnum jasperFile = JasperEnum.valueOf(name.toUpperCase());
         export(jasperFile, parameters, outputStream);
     }
 
-    @Override
-    public void export(JasperEnum jasperFile, Map<String, Object> parameters, OutputStream outputStream) throws JRException {
+    private void export(JasperEnum jasperFile, Map<String, Object> parameters, OutputStream outputStream) throws JRException {
         JasperReport jasperReport = getJasperReport(jasperFile);
         final JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(Collections.singletonList("Invoice"));
         JasperReportsUtils.renderAsPdf(jasperReport, parameters, dataSource, outputStream);
@@ -55,20 +55,28 @@ public class JasperControllerImpl implements JasperController {
         return (JasperReport) JRLoader.loadObject(jasperInputStream);
     }
 
-    @Override
-    public byte[] generateKpir(BaseUser baseUser, KpirFilterDTO kpirFilterDTO) throws IOException {
+    private File generateKpir(BaseUser baseUser, KpirFilterDTO kpirFilterDTO) throws JRException, IOException {
         List<KpirDTO> kpirDTOList = kpirController.getAllForPrint(baseUser, kpirFilterDTO);
         Map<String, Object> parameters = prepareParameters(kpirDTOList);
 
         String prefix = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + "-" + baseUser.getCompany().toUpperCase() + "-KPIR";
         File pdfFile = File.createTempFile(prefix, ".pdf");
         OutputStream fileOutputStream = new FileOutputStream(pdfFile);
-        try {
-            export(JasperEnum.KPIR, parameters, fileOutputStream);
-        } catch (JRException e) {
-            e.printStackTrace();
-        }
-        return Files.readAllBytes(pdfFile.toPath());
+        export(JasperEnum.KPIR, parameters, fileOutputStream);
+        return pdfFile;
+    }
+
+    @Override
+    public Resource getKpirResource(BaseUser baseUser, KpirFilterDTO kpirFilterDTO) throws IOException, JRException {
+        File file = generateKpir(baseUser,kpirFilterDTO);
+        Resource urlResource = new UrlResource(file.toURI());
+        return urlResource;
+    }
+
+    @Override
+    public byte[] getKpirBytes(BaseUser baseUser, KpirFilterDTO kpirFilterDTO) throws IOException, JRException {
+        File file = generateKpir(baseUser,kpirFilterDTO);
+        return Files.readAllBytes(file.toPath());
     }
 
     private Map<String, Object> prepareParameters(List<KpirDTO> kpirDTOList) {

@@ -2,7 +2,7 @@
 classes/
 src/main/resources/jasper/.gitignore
 !.mvn/wrapper/maven-wrapper.jar
-
+*.DS_Store
 ### STS ###
 .apt_generated
 .classpath
