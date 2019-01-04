@@ -43,7 +43,8 @@ public class BaseUserControllerImpl implements BaseUserController {
     }
 
     private void sendEmailWithAuthorizationHash(String email, String hash) {
-        baseUserMailSender.sendActivationEmail(email, hash);
+        BaseUser user = baseUserRepository.findOneByHash(hash);
+        baseUserMailSender.sendActivationEmail(email, hash, user);
     }
 
     @Override
