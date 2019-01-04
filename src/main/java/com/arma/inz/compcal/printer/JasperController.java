@@ -2,19 +2,19 @@ package com.arma.inz.compcal.printer;
 
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
 import com.arma.inz.compcal.users.BaseUser;
-import net.sf.jasperreports.engine.JRException;
 import org.springframework.core.io.Resource;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Map;
 
 public interface JasperController {
 
-    void compileFile(JasperEnum file) throws JRException;
+    void compileFile(JasperEnum file);
 
-    Resource getKpirResource(BaseUser baseUser, KpirFilterDTO kpirFilterDTO) throws IOException, JRException;
+    Resource getKpirResource(BaseUser baseUser, KpirFilterDTO kpirFilterDTO);
 
-    byte[] getKpirBytes(BaseUser baseUser, KpirFilterDTO kpirFilterDTO) throws IOException, JRException;
+    byte[] getKpirBytes(BaseUser baseUser, KpirFilterDTO kpirFilterDTO);
+
+    File getKpirFile(BaseUser baseUser, KpirFilterDTO kpirFilterDTO);
+
+    void sendKpirPdftoMail(BaseUser baseUser, KpirFilterDTO kpirFilterDTO);
 }

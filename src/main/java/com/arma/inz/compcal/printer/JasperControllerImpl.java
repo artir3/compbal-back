@@ -4,7 +4,7 @@ import com.arma.inz.compcal.kpir.KpirController;
 import com.arma.inz.compcal.kpir.dto.KpirDTO;
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
 import com.arma.inz.compcal.users.BaseUser;
-import lombok.AllArgsConstructor;
+import lombok.extern.java.Log;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
@@ -26,17 +26,76 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@AllArgsConstructor
+@Log
 @Controller
 public class JasperControllerImpl implements JasperController {
 
     private final KpirController kpirController;
+    private final JasperMailSender jasperMailSender;
+    private File generatedPdf;
+
+    public JasperControllerImpl(KpirController kpirController, JasperMailSender jasperMailSender) {
+        this.kpirController = kpirController;
+        this.jasperMailSender = jasperMailSender;
+        generatedPdf = null;
+    }
 
     @Override
-    public void compileFile(JasperEnum file) throws JRException {
-        InputStream jrxmlInputStream = getClass().getResourceAsStream(file.getJrxmlPath());
-        JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlInputStream);
-        JRSaver.saveObject(jasperReport, file.getJasperPath());
+    public void compileFile(JasperEnum file) {
+        try {
+            InputStream jrxmlInputStream = getClass().getResourceAsStream(file.getJrxmlPath());
+            JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlInputStream);
+            JRSaver.saveObject(jasperReport, file.getJasperPath());
+        } catch (JRException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Resource getKpirResource(BaseUser baseUser, KpirFilterDTO kpirFilterDTO) {
+        Resource urlResource = null;
+        try {
+            generateKpir(baseUser, kpirFilterDTO);
+            urlResource = new UrlResource(generatedPdf.toURI());
+        } catch (IOException | JRException e) {
+            e.printStackTrace();
+        }
+        return urlResource;
+    }
+
+    @Override
+    public byte[] getKpirBytes(BaseUser baseUser, KpirFilterDTO kpirFilterDTO) {
+        byte[] bytes = new byte[0];
+        try {
+            generateKpir(baseUser, kpirFilterDTO);
+            bytes = Files.readAllBytes(generatedPdf.toPath());
+            deletePdfFile();
+        } catch (IOException | JRException e) {
+            e.printStackTrace();
+        }
+        return bytes;
+    }
+
+
+    @Override
+    public File getKpirFile(BaseUser baseUser, KpirFilterDTO kpirFilterDTO) {
+        try {
+            generateKpir(baseUser, kpirFilterDTO);
+        } catch (JRException | IOException e) {
+            e.printStackTrace();
+        }
+        return generatedPdf;
+    }
+
+    @Override
+    public void sendKpirPdftoMail(BaseUser baseUser, KpirFilterDTO kpirFilterDTO) {
+        try {
+            generateKpir(baseUser, kpirFilterDTO);
+        } catch (JRException | IOException e) {
+            e.printStackTrace();
+        }
+        jasperMailSender.sendKpirEmailWithFile(baseUser, generatedPdf);
+        deletePdfFile();
     }
 
     private void export(String name, Map<String, Object> parameters, OutputStream outputStream) throws JRException {
@@ -55,28 +114,14 @@ public class JasperControllerImpl implements JasperController {
         return (JasperReport) JRLoader.loadObject(jasperInputStream);
     }
 
-    private File generateKpir(BaseUser baseUser, KpirFilterDTO kpirFilterDTO) throws JRException, IOException {
+    private void generateKpir(BaseUser baseUser, KpirFilterDTO kpirFilterDTO) throws JRException, IOException {
         List<KpirDTO> kpirDTOList = kpirController.getAllForPrint(baseUser, kpirFilterDTO);
         Map<String, Object> parameters = prepareParameters(kpirDTOList);
-
+        deletePdfFile();
         String prefix = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + "-" + baseUser.getCompany().toUpperCase() + "-KPIR";
-        File pdfFile = File.createTempFile(prefix, ".pdf");
-        OutputStream fileOutputStream = new FileOutputStream(pdfFile);
+        generatedPdf = File.createTempFile(prefix, ".pdf");
+        OutputStream fileOutputStream = new FileOutputStream(generatedPdf);
         export(JasperEnum.KPIR, parameters, fileOutputStream);
-        return pdfFile;
-    }
-
-    @Override
-    public Resource getKpirResource(BaseUser baseUser, KpirFilterDTO kpirFilterDTO) throws IOException, JRException {
-        File file = generateKpir(baseUser,kpirFilterDTO);
-        Resource urlResource = new UrlResource(file.toURI());
-        return urlResource;
-    }
-
-    @Override
-    public byte[] getKpirBytes(BaseUser baseUser, KpirFilterDTO kpirFilterDTO) throws IOException, JRException {
-        File file = generateKpir(baseUser,kpirFilterDTO);
-        return Files.readAllBytes(file.toPath());
     }
 
     private Map<String, Object> prepareParameters(List<KpirDTO> kpirDTOList) {
@@ -92,7 +137,7 @@ public class JasperControllerImpl implements JasperController {
         BigDecimal totalOther = BigDecimal.ZERO;
         BigDecimal totalRadCosts = BigDecimal.ZERO;
 
-        for (KpirDTO dto: kpirDTOList) {
+        for (KpirDTO dto : kpirDTOList) {
             totalSoldIncome = totalSoldIncome.add(getNotNullBigDecimal(dto.getSoldIncome()));
             totalOtherIncome = totalOtherIncome.add(getNotNullBigDecimal(dto.getOtherIncome()));
             totalAllIncome = totalAllIncome.add(getNotNullBigDecimal(dto.getAllIncome()));
@@ -122,5 +167,16 @@ public class JasperControllerImpl implements JasperController {
 
     private BigDecimal getNotNullBigDecimal(BigDecimal soldIncome) {
         return soldIncome == null ? BigDecimal.ZERO : soldIncome;
+    }
+
+    private void deletePdfFile() {
+        try {
+            if (generatedPdf != null) {
+                Files.delete(generatedPdf.toPath());
+                generatedPdf = null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

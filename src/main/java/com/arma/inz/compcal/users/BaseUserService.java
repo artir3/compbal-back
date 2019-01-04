@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/user")
 public interface BaseUserService {
+    @CrossOrigin
     @PostMapping("/registration")
     ResponseEntity registration(@RequestBody UserRegistrationDTO user);
 
+    @CrossOrigin
     @PostMapping("/login")
     ResponseEntity login(@RequestBody UserLoginDTO user);
 
+    @CrossOrigin
     @GetMapping("/login/hash")
     ResponseEntity loginHash(@RequestHeader(value="Authorization") String authorization);
 
@@ -26,9 +29,11 @@ public interface BaseUserService {
     @PutMapping("/")
     ResponseEntity update(@RequestBody UserDTO userDTO);
 
+    @CrossOrigin
     @PostMapping("/authorize")
     ResponseEntity authorize(@RequestBody ActivateDTO activateDTO);
 
+    @CrossOrigin
     @GetMapping("/registration/date")
     ResponseEntity registrationDate(@RequestHeader(value="Authorization") String authorization);
 }

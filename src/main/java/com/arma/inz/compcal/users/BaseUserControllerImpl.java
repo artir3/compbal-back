@@ -1,7 +1,6 @@
 package com.arma.inz.compcal.users;
 
 import com.arma.inz.compcal.bankaccount.BankAccountController;
-import com.arma.inz.compcal.mail.EmailService;
 import com.arma.inz.compcal.users.dto.ActivateDTO;
 import com.arma.inz.compcal.users.dto.UserDTO;
 import com.arma.inz.compcal.users.dto.UserLoginDTO;
@@ -25,7 +24,7 @@ import java.util.Optional;
 public class BaseUserControllerImpl implements BaseUserController {
     private final BaseUserRepository baseUserRepository;
     private final BankAccountController bankAccountController;
-    private final EmailService emailService;
+    private final BaseUserMailSender baseUserMailSender;
 
     @Override
     public boolean registration(UserRegistrationDTO user) {
@@ -44,7 +43,7 @@ public class BaseUserControllerImpl implements BaseUserController {
     }
 
     private void sendEmailWithAuthorizationHash(String email, String hash) {
-        emailService.sendActivationEmail(email, hash);
+        baseUserMailSender.sendActivationEmail(email, hash);
     }
 
     @Override

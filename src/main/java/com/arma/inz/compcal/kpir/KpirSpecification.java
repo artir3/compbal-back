@@ -1,10 +1,12 @@
 package com.arma.inz.compcal.kpir;
 
+import com.arma.inz.compcal.contractor.Contractor;
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
 import com.arma.inz.compcal.users.BaseUser;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -27,10 +29,12 @@ class KpirSpecification {
         return (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (filterDTO.getCompany() != null && !filterDTO.getCompany().isEmpty()) {
-                predicates.add(builder.like(builder.lower(root.get("company")), "%" + filterDTO.getCompany().trim().toLowerCase() + "%"));
+                Join<Kpir, Contractor> contractor = root.join("contractor");
+                predicates.add(builder.like(builder.lower(contractor.get("company")), "%" + filterDTO.getCompany().trim().toLowerCase() + "%"));
             }
             if (filterDTO.getNip() != null && !filterDTO.getNip().isEmpty()) {
-                predicates.add(builder.like(builder.lower(root.get("nip")), "%" + filterDTO.getNip().trim().toLowerCase() + "%"));
+                Join<Kpir, Contractor> contractor = root.join("contractor");
+                predicates.add(builder.like(builder.lower(contractor.get("nip")), "%" + filterDTO.getNip().trim().toLowerCase() + "%"));
             }
             if (filterDTO.getRegistrationNumber() != null && !filterDTO.getRegistrationNumber().isEmpty()) {
                 predicates.add(builder.like(builder.lower(root.get("registrationNumber")), "%" + filterDTO.getRegistrationNumber().trim().toLowerCase() + "%"));
