@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Log
 @AllArgsConstructor
 @RestController
-@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600)
+@CrossOrigin(origins = "http://46.101.227.24:8080", maxAge = 3600)
 public class BaseUserServiceImpl implements BaseUserService {
     private final BaseUserController baseUserController;
     private final AuthorizationHeaderUtils header;

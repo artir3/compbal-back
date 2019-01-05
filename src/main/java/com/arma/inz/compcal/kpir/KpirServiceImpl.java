@@ -16,7 +16,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600)
+@CrossOrigin(origins = "http://46.101.227.24:8080", maxAge = 3600)
 public class KpirServiceImpl implements KpirService {
     private final KpirController kpirController;
     private final AuthorizationHeaderUtils header;

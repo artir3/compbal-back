@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Log
 @AllArgsConstructor
 @RestController
-@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600)
+@CrossOrigin(origins = "http://46.101.227.24:8080", maxAge = 3600)
 public class BankAccountServiceImpl implements BankAccountService {
     private final BankAccountController bankAccountController;
 
