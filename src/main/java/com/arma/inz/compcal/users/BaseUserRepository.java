@@ -9,12 +9,10 @@ import org.springframework.stereotype.Repository;
 public interface BaseUserRepository extends JpaRepository<BaseUser, Long> {
     BaseUser findByEmail(String email);
 
-    @Query("select u.password from BaseUser u where u.email = :email")
-    String findPasswordByEmail(@Param("email") String email);
-
-    BaseUser findOneByEmail(String email);
-
     BaseUser findOneByHash(String hash);
+
+    @Query("select b.id from BaseUser b where b.hash like %:hash%")
+    Long findOneLikeHash(@Param("hash") String hash);
 
 }
 

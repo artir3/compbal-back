@@ -89,7 +89,7 @@ public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().loginPage("/index.html")
                 .and()
-                .httpBasic()
+                .httpBasic().disable()
         ;
 
     }

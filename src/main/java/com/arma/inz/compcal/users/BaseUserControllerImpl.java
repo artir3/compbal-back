@@ -111,7 +111,8 @@ public class BaseUserControllerImpl implements BaseUserController {
         BaseUser entity = baseUserRepository.findOneByHash(code);
         if (entity != null) {
             entity.setActive(Boolean.TRUE);
-            baseUserRepository.save(entity);
+            entity = baseUserRepository.save(entity);
+            return entity.isActive();
         }
         return entity != null;
     }
