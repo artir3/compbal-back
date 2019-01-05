@@ -7,6 +7,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Controller
+@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600)
 public class EmailControllerImpl implements EmailController {
 
     private final JavaMailSender emailSender;
@@ -60,14 +62,15 @@ public class EmailControllerImpl implements EmailController {
 
     private void markAsSent(Long id) {
         Optional<Email> optional = emailRepository.findById(id);
-        if (!optional.isEmpty()) {
+        if (optional != null) {
             optional.get().setStatus(EmailStatusEnum.SENT);
             emailRepository.save(optional.get());
         }
     }
 
     private Long saveMessage(BaseUser baseUser, String subject, String text, File file) {
-        Email message = new Email(baseUser, EmailStatusEnum.READY_TO_SEND, subject, text, file.getName());
+        String fileName = file == null ? null : file.getName();
+        Email message = new Email(baseUser, EmailStatusEnum.READY_TO_SEND, subject, text, fileName);
         message = emailRepository.save(message);
         return message.getId();
     }

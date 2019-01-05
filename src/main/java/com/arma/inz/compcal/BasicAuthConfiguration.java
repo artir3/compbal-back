@@ -3,6 +3,7 @@ package com.arma.inz.compcal;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -48,7 +49,7 @@ public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
+        web.ignoring().antMatchers("/resources/**", "/static/**", "/jasper/**" ,"/css/**", "/js/**", "/images/**");
     }
 
     @Bean
@@ -72,8 +73,21 @@ public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/login").permitAll()
                 .antMatchers("/user/login/hash").permitAll()
                 .antMatchers("/user/authorize").permitAll()
+                .antMatchers("/activate/*").permitAll()
+                .antMatchers("/").permitAll()
+                .antMatchers("/0.js").permitAll()
+                .antMatchers("/favicon.ico").permitAll()
+                .antMatchers("/main.js").permitAll()
+                .antMatchers("/polyfills.js").permitAll()
+                .antMatchers("/runtime.js").permitAll()
+                .antMatchers("/styles.js").permitAll()
+                .antMatchers("/vendor.js").permitAll()
+                .antMatchers("/index.html").permitAll()
                 .anyRequest()
                 .authenticated()
+                .antMatchers(HttpMethod.GET,"/kpir/income").authenticated()
+                .and()
+                .formLogin().loginPage("/index.html")
                 .and()
                 .httpBasic()
         ;

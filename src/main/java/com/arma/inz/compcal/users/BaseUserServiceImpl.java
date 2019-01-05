@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Log
 @AllArgsConstructor
 @RestController
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600)
 public class BaseUserServiceImpl implements BaseUserService {
     private final BaseUserController baseUserController;
     private final AuthorizationHeaderUtils header;
@@ -56,6 +56,13 @@ public class BaseUserServiceImpl implements BaseUserService {
     public ResponseEntity authorize(ActivateDTO activateDTO) {
         boolean authorize = baseUserController.authorize(activateDTO);
         return new ResponseEntity<>(authorize, HttpStatus.OK);
+    }
+
+    @Override
+    public String authorizeOld(String hash) {
+        baseUserController.authorize(new ActivateDTO(hash));
+        log.info("authorize");
+        return "redirect:/";
     }
 
     @Override

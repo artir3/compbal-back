@@ -1,15 +1,12 @@
 package com.arma.inz.compcal.printer;
 
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
-import net.sf.jasperreports.engine.JRException;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/printer")
 public interface JasperService {
     @CrossOrigin

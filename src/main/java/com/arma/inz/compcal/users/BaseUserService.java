@@ -34,6 +34,10 @@ public interface BaseUserService {
     ResponseEntity authorize(@RequestBody ActivateDTO activateDTO);
 
     @CrossOrigin
+    @GetMapping("/authorize/{hash}")
+    String authorizeOld(@PathVariable String hash);
+
+    @CrossOrigin
     @GetMapping("/registration/date")
     ResponseEntity registrationDate(@RequestHeader(value="Authorization") String authorization);
 }

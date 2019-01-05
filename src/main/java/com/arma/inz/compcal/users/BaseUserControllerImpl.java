@@ -12,6 +12,8 @@ import lombok.extern.java.Log;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Base64;
@@ -25,13 +27,19 @@ public class BaseUserControllerImpl implements BaseUserController {
     private final BaseUserRepository baseUserRepository;
     private final BankAccountController bankAccountController;
     private final BaseUserMailSender baseUserMailSender;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     public boolean registration(UserRegistrationDTO user) {
+        BaseUser existUser = baseUserRepository.findByEmail(user.getEmail());
+        if (existUser == null){
+            return false;
+        }
         BaseUser entity = new BaseUser();
         BeanUtils.copyProperties(user, entity);
         entity.setHash(Base64.getEncoder().encodeToString((user.getEmail() + ":" + user.getPassword()).getBytes()));
-        entity.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        entity.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         entity.setActive(Boolean.FALSE);
         entity.setRoles(RolesEnum.USER);
         entity.setModifiedAt(LocalDateTime.now());
@@ -84,6 +92,12 @@ public class BaseUserControllerImpl implements BaseUserController {
             BeanUtils.copyProperties(userDTO, entity, "id", "email", "nip", "createdAt", "bankAccountSet", "password");
             entity.setTaxForm(TaxFormEnum.valueOf(userDTO.getTaxForm()));
             entity.setModifiedAt(LocalDateTime.now());
+
+            if (userDTO.getPassword() != null) {
+                entity.setHash(Base64.getEncoder().encodeToString((userDTO.getEmail() + ":" + userDTO.getPassword()).getBytes()));
+                entity.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
+            }
+
             entity = baseUserRepository.save(entity);
             bankAccountController.saveOrUpdate(userDTO.getBankAccountSet(), entity);
         }

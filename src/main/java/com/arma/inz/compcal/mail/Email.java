@@ -34,7 +34,7 @@ public class Email {
     private EmailStatusEnum status;
     @Column(name = "subject")
     private String subject;
-    @Column(name = "text")
+    @Column(name = "text", columnDefinition = "text")
     private String text;
     @Column(name = "fileName")
     private String fileName;
