@@ -27,6 +27,7 @@ public class KpirDTO {
     private BigDecimal radCosts;
     private String radDescription;
     private Boolean payed;
+    private Boolean overduePayment;
     private LocalDateTime paymentDateMin;
     private LocalDateTime paymentDateMax;
 }

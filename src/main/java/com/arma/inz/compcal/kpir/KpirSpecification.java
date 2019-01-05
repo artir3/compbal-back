@@ -5,9 +5,7 @@ import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
 import com.arma.inz.compcal.users.BaseUser;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -63,10 +61,7 @@ class KpirSpecification {
             }
 
             if (Boolean.TRUE.equals(filterDTO.getOverdue())) {
-                Predicate isNotPayed = builder.equal(root.<Boolean>get("payed"), Boolean.FALSE);
-                Predicate isNull = builder.isNull(root.<Boolean>get("payed"));
-                predicates.add(builder.or(isNotPayed,isNull));
-                predicates.add(builder.lessThan(root.get("paymentDateMax"), LocalDateTime.now()));
+                isOverdue(root, builder, predicates);
             }
 
             if (filterDTO.getType() != null) {
@@ -77,5 +72,22 @@ class KpirSpecification {
             return builder.and(predicates.toArray(new Predicate[predicates.size()]));
         };
     }
+
+    public static Specification<Kpir> getOverdue(Long id) {
+        return (root, query, builder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(builder.equal(root.get("id"), id));
+            isOverdue(root,builder,predicates);
+            return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+        };
+    }
+
+    private static void isOverdue(Root<Kpir> root, CriteriaBuilder builder, List<Predicate> predicates) {
+        Predicate isNotPayed = builder.equal(root.<Boolean>get("payed"), Boolean.FALSE);
+        Predicate isNull = builder.isNull(root.<Boolean>get("payed"));
+        predicates.add(builder.or(isNotPayed,isNull));
+        predicates.add(builder.lessThan(root.get("paymentDateMax"), LocalDateTime.now()));
+    }
+
 
 }

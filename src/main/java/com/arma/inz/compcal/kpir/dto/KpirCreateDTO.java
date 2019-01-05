@@ -29,4 +29,5 @@ public class KpirCreateDTO {
     private LocalDateTime paymentDateMin;
     private LocalDateTime paymentDateMax;
     private String type;
+    private Boolean overduePayment;
 }

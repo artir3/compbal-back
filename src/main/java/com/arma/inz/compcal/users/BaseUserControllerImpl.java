@@ -33,7 +33,7 @@ public class BaseUserControllerImpl implements BaseUserController {
     @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     public boolean registration(UserRegistrationDTO user) {
         BaseUser existUser = baseUserRepository.findByEmail(user.getEmail());
-        if (existUser == null){
+        if (existUser != null){
             return false;
         }
         BaseUser entity = new BaseUser();

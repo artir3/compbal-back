@@ -42,6 +42,7 @@ public class KpirControllerImpl implements KpirController {
             dto = new KpirCreateDTO();
             BeanUtils.copyProperties(kpir, dto);
             dto.setContractor(kpir.getContractor().getId());
+            dto.setOverduePayment(calculateOverduePayment(dto));
         }
         return dto;
     }
@@ -49,7 +50,7 @@ public class KpirControllerImpl implements KpirController {
     @Override
     public Boolean createOne(BaseUser baseUser, KpirCreateDTO dto) {
         Kpir entity = new Kpir();
-        BeanUtils.copyProperties(dto, entity, "id", "kpirList", "bankAccounts", "contractor", "type");
+        BeanUtils.copyProperties(dto, entity, "id", "kpirList", "bankAccounts", "contractor", "type", "overduePayment");
         entity.setBaseUser(baseUser);
         entity.setModifiedAt(LocalDateTime.now());
         entity.setCreatedAt(LocalDateTime.now());
@@ -77,7 +78,7 @@ public class KpirControllerImpl implements KpirController {
         if (optional != null) {
             Kpir entity = optional.get();
             boolean recalculate = !entity.getEconomicEventDate().equals(kpirDTO.getEconomicEventDate());
-            BeanUtils.copyProperties(kpirDTO, entity, "id", "idx", "kpirList", "bankAccounts", "contractor", "createdAt", "type");
+            BeanUtils.copyProperties(kpirDTO, entity, "id", "idx", "kpirList", "bankAccounts", "contractor", "createdAt", "type", "overduePayment");
             entity.setModifiedAt(LocalDateTime.now());
             kpirRepository.save(entity);
             if (recalculate){
@@ -150,6 +151,15 @@ public class KpirControllerImpl implements KpirController {
         BeanUtils.copyProperties(kpir, dto);
         dto.setAddress(kpir.getContractor().getPrettyAddress());
         dto.setFullName(kpir.getContractor().getCompany());
+        dto.setOverduePayment(calculateOverduePayment(dto));
         return dto;
+    }
+
+    private boolean calculateOverduePayment(KpirDTO dto) {
+        return Boolean.FALSE.equals(dto.getPayed()) && dto.getPaymentDateMax().isBefore(LocalDateTime.now());
+    }
+
+    private boolean calculateOverduePayment(KpirCreateDTO dto) {
+        return Boolean.FALSE.equals(dto.getPayed()) && dto.getPaymentDateMax().isBefore(LocalDateTime.now());
     }
 }
