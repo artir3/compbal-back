@@ -1,18 +1,42 @@
 package com.arma.inz.compcal.database;
 
 import com.arma.inz.compcal.MapperToObject;
+import com.arma.inz.compcal.contractor.dto.ContractorDTO;
+import com.arma.inz.compcal.contractor.dto.ContractorFilterDTO;
+import com.arma.inz.compcal.contractor.dto.ContractorSelectDTO;
+import com.arma.inz.compcal.kpir.dto.KpirCreateDTO;
+import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
 import com.arma.inz.compcal.mail.Email;
 import com.arma.inz.compcal.users.BaseUser;
 import com.arma.inz.compcal.users.dto.ActivateDTO;
+import com.arma.inz.compcal.users.dto.UserDTO;
 import com.arma.inz.compcal.users.dto.UserLoginDTO;
 import com.arma.inz.compcal.users.dto.UserRegistrationDTO;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseModelsFromJsons {
+    public static ActivateDTO activateFullDTO() {
+        return (ActivateDTO) MapperToObject.FileToObject(new ActivateDTO(), "baseUser/");
+    }
+
+    public static ActivateDTO activateDTOFromAngular() {
+        return (ActivateDTO) MapperToObject.FileToObject(new ActivateDTO(), "baseUser/", "ActivateDTOFromAngular");
+    }
+
     public static BaseUser baseUser() {
         BaseUser object = new BaseUser();
-        object = (BaseUser) MapperToObject.FileToObject(object);
+        object = (BaseUser) MapperToObject.FileToObject(object, "baseUser/");
+        object.setCreatedAt(LocalDateTime.now());
+        object.setModifiedAt(LocalDateTime.now());
+        return object;
+    }
+
+    public static BaseUser baseUserPassword() {
+        BaseUser object = new BaseUser();
+        object = (BaseUser) MapperToObject.FileToObject(object, "baseUser/", "BaseUserPassword");
         object.setCreatedAt(LocalDateTime.now());
         object.setModifiedAt(LocalDateTime.now());
         return object;
@@ -24,30 +48,157 @@ public class DatabaseModelsFromJsons {
         return object;
     }
 
-    public static UserRegistrationDTO userRegistrationDTO() {
-        return (UserRegistrationDTO) MapperToObject.FileToObject(new UserRegistrationDTO());
-    }
-
-    public static ActivateDTO activateDTOFromAngular() {
-        return (ActivateDTO) MapperToObject.FileToObject(new ActivateDTO(), "ActivateDTOFromAngular");
-    }
-
-    public static ActivateDTO activateFullDTO() {
-        return (ActivateDTO) MapperToObject.FileToObject(new ActivateDTO());
-    }
-
     public static Email email(BaseUser baseUser) {
-        Email object = (Email) MapperToObject.FileToObject(new Email());
+        Email object = (Email) MapperToObject.FileToObject(new Email(), "baseUser/");
         object.setCreatedAt(LocalDateTime.now());
         object.addBaseUser(baseUser);
         return object;
     }
 
-    public static UserLoginDTO userLoginDTO() {
-        return (UserLoginDTO) MapperToObject.FileToObject(new UserLoginDTO());
+    public static UserDTO userDTO() {
+        return (UserDTO) MapperToObject.FileToObject(new UserLoginDTO(), "baseUser/", "UserDTO");
     }
 
+    public static UserDTO userDTOPassword() {
+        return (UserDTO) MapperToObject.FileToObject(new UserLoginDTO(), "baseUser/", "UserDTOPassword");
+    }
+
+    public static UserLoginDTO userLoginDTO() {
+        return (UserLoginDTO) MapperToObject.FileToObject(new UserLoginDTO(), "baseUser/");
+    }
+
+    public static UserRegistrationDTO userRegistrationDTO() {
+        return (UserRegistrationDTO) MapperToObject.FileToObject(new UserRegistrationDTO(), "baseUser/");
+    }
+
+    //------------------- main folder
+
     public static String hash() {
-        return (String) MapperToObject.FileToObject("", "Hash");
+        return (String) MapperToObject.FileToObject(new String(), "", "Hash");
+    }
+
+    public static String authorization() {
+        return (String) MapperToObject.FileToObject(new String(), "", "Authorization");
+    }
+
+    //------------------- contractor
+
+    public static ContractorDTO contractorDTO(int fileNumber) {
+        return (ContractorDTO) MapperToObject.FileToObject(new ContractorDTO(), "contractor/", "ContractorDTO" + fileNumber);
+    }
+
+    public static List<ContractorDTO> contractorDTOList() {
+        List<ContractorDTO> result = new ArrayList<>();
+        for (int i = 1; i < 7; i++) {
+            result.add((ContractorDTO) MapperToObject.FileToObject(new ContractorDTO(), "contractor/", "ContractorDTO" + i));
+        }
+        return result;
+    }
+
+    public static ContractorFilterDTO ContractorFilterDTOFContractor() {
+        return (ContractorFilterDTO) MapperToObject.FileToObject(new ContractorFilterDTO(), "contractor/", "ContractorFilterDTOEmpty");
+    }
+
+    public static ContractorFilterDTO ContractorFilterDTOEmpty() {
+        return (ContractorFilterDTO) MapperToObject.FileToObject(new ContractorFilterDTO(), "contractor/", "ContractorFilterDTOFContractor");
+    }
+
+    public static ContractorFilterDTO ContractorFilterDTOFContractorBrand() {
+        return (ContractorFilterDTO) MapperToObject.FileToObject(new ContractorFilterDTO(), "contractor/", "ContractorFilterDTOFContractorBrand");
+    }
+
+    public static List<ContractorDTO> ContractorMiniDTO() {
+        List<ContractorDTO> filterDTO = (List<ContractorDTO>) MapperToObject.FileToObject(new ArrayList<ContractorDTO>(), "contractor/", "ContractorMiniDTO");
+        return filterDTO;
+    }
+
+    public static List<ContractorDTO> ContractorMiniDTOList() {
+        List<ContractorDTO> filterDTO = (List<ContractorDTO>) MapperToObject.FileToObject(new ArrayList<ContractorDTO>(), "contractor/", "ContractorMiniDTOList");
+        return filterDTO;
+    }
+
+    public static List<ContractorDTO> ContractorMiniDTOListContractorBrand() {
+        List<ContractorDTO> filterDTO = (List<ContractorDTO>) MapperToObject.FileToObject(new ArrayList<ContractorDTO>(), "contractor/", "ContractorMiniDTOListContractorBrand");
+        return filterDTO;
+    }
+
+    public static List<ContractorDTO> ContractorMiniDTOListFContactor() {
+        List<ContractorDTO> filterDTO = (List<ContractorDTO>) MapperToObject.FileToObject(new ArrayList<ContractorDTO>(), "contractor/", "ContractorMiniDTOListFContactor");
+        return filterDTO;
+    }
+
+    public static List<ContractorSelectDTO> ContractorSelectDTO() {
+        List<ContractorSelectDTO> filterDTO = (List<ContractorSelectDTO>) MapperToObject.FileToObject(new ArrayList<ContractorSelectDTO>(), "contractor/", "ContractorSelectDTO");
+        return filterDTO;
+    }
+
+    //------------------- kpir print
+
+    public static KpirFilterDTO kpirFilterDTOPrint() {
+        return (KpirFilterDTO) MapperToObject.FileToObject(new KpirFilterDTO(), "", "KpirFilterDTOPrint");
+    }
+
+    public static KpirCreateDTO kpirCreateDTO(String folder, int fileNumber) {
+        return (KpirCreateDTO) MapperToObject.FileToObject(new KpirCreateDTO(), folder, "KpirCreateDTO" + fileNumber);
+    }
+
+    public static List<KpirCreateDTO> kpirCreateDTOList() {
+        List<KpirCreateDTO> result = new ArrayList<>();
+        result.addAll(kpirCreateDTOIncomeList());
+        result.addAll(kpirCreateDTOCostsList());
+        return result;
+    }
+
+    //------------------- kpir income
+
+    public static KpirCreateDTO kpirCreateDTOIncome(int fileNumber) {
+        return (KpirCreateDTO) MapperToObject.FileToObject(new KpirCreateDTO(), "kpirIncome/", "KpirCreateDTO" + fileNumber);
+    }
+
+    public static List<KpirCreateDTO> kpirCreateDTOIncomeList() {
+        List<KpirCreateDTO> result = new ArrayList<>();
+        for (int i = 1; i < 11; i++) {
+            result.add((KpirCreateDTO) MapperToObject.FileToObject(new KpirCreateDTO(), "kpirIncome/", "KpirCreateDTO" + i));
+        }
+        return result;
+    }
+
+    public static KpirFilterDTO KpirFilterDTOEmpty() {
+        return (KpirFilterDTO) MapperToObject.FileToObject(new KpirFilterDTO(), "kpirIncome/", "KpirFilterDTOEmpty");
+    }
+
+    public static KpirFilterDTO KpirFilterDTOYearContrNotPay() {
+        return (KpirFilterDTO) MapperToObject.FileToObject(new KpirFilterDTO(), "kpirIncome/", "KpirFilterDTOYearContrNotPay");
+    }
+
+    public static List<KpirCreateDTO> KpirDTOIncomeListYearContrNotPay() {
+        List<KpirCreateDTO> filterDTO = (List<KpirCreateDTO>) MapperToObject.FileToObject(new ArrayList<KpirCreateDTO>(), "kpirIncome/", "KpirDTOListYearContrNotPay");
+        return filterDTO;
+    }
+    //------------------- kpir outcome
+
+    public static KpirCreateDTO kpirCreateDTOCosts(int fileNumber) {
+        return (KpirCreateDTO) MapperToObject.FileToObject(new KpirCreateDTO(), "kpirCosts/", "KpirCreateDTO" + fileNumber);
+    }
+
+    public static List<KpirCreateDTO> kpirCreateDTOCostsList() {
+        List<KpirCreateDTO> result = new ArrayList<>();
+        for (int i = 1; i < 11; i++) {
+            result.add((KpirCreateDTO) MapperToObject.FileToObject(new KpirCreateDTO(), "kpirCosts/", "KpirCreateDTO" + i));
+        }
+        return result;
+    }
+
+    public static KpirFilterDTO kpirFilterDTOCostsEmpty() {
+        return (KpirFilterDTO) MapperToObject.FileToObject(new KpirFilterDTO(), "kpirCosts/", "KpirFilterDTOEmpty");
+    }
+
+    public static KpirFilterDTO kpirFilterDTOCostsNotPayed() {
+        return (KpirFilterDTO) MapperToObject.FileToObject(new KpirFilterDTO(), "kpirCosts/", "KpirFilterDTONotPayed");
+    }
+
+    public static List<KpirCreateDTO> kpirDTOCostsListNotPayed() {
+        List<KpirCreateDTO> filterDTO = (List<KpirCreateDTO>) MapperToObject.FileToObject(new ArrayList<KpirCreateDTO>(), "kpirCosts/", "KpirDTOListNotPayed");
+        return filterDTO;
     }
 }

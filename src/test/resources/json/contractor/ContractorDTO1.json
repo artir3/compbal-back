@@ -1,0 +1,19 @@
+{
+  "id": null,
+  "email": "tinoh@mailinator.com",
+  "firstname": "Mufutau",
+  "company": "Flores Ellison LLC",
+  "nip": "3351532558",
+  "surname": "Peck",
+  "street": "Brązowa",
+  "parcelNo": "45",
+  "homeNo": "74",
+  "zip": "87-090",
+  "city": "Młynków",
+  "country": "Polska",
+  "phone": "+66 985 204 399",
+  "trade": "sprzedawca",
+  "bankAccounts": [
+    null
+  ]
+}

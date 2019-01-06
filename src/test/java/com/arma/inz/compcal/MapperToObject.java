@@ -4,44 +4,51 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 
 public class MapperToObject {
-    public static Object JsonToObject(String json, Object object) {
+    public static Object JsonToObject(String json, Object result) {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            object = mapper.readValue(json, object.getClass());
+            result = mapper.readValue(json, result.getClass());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return object;
+        return result;
     }
 
-    public static Object FileToObject(Object object) {
-        File file = getFile(object.getClass().getSimpleName());
+    public static Object FileToObject(Object result, String folder) {
+        File file = getFile(folder, result.getClass().getSimpleName());
         ObjectMapper mapper = new ObjectMapper();
-        return mapObject(object, file, mapper);
+        return mapObject(result, file, mapper);
     }
 
-    public static Object FileToObject(Object object, String filename) {
-        File file = getFile(filename);
+    public static Object FileToObject(Object result, String folder, String filename) {
+        File file = getFile(folder, filename);
         ObjectMapper mapper = new ObjectMapper();
-        return mapObject(object, file, mapper);
+        return mapObject(result, file, mapper);
     }
 
-    private static String getFolderPath() {
-        return "/Users/arma/Downloads/compcal/src/test/resources/json/";
+    public static Object FileToObject(Collection<Object> result, String folder, String filename) {
+        File file = getFile(folder, filename);
+        ObjectMapper mapper = new ObjectMapper();
+        return mapObject(result, file, mapper);
     }
 
-    private static Object mapObject(Object object, File file, ObjectMapper mapper) {
+    private static String getFolderPath(String folder) {
+        return "/Users/arma/Downloads/compcal/src/test/resources/json/" + folder;
+    }
+
+    private static Object mapObject(Object result, File file, ObjectMapper mapper) {
         try {
-            object = mapper.readValue(file, object.getClass());
+            result = mapper.readValue(file, result.getClass());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return object;
+        return result;
     }
 
-    private static File getFile(String filename) {
-        return new File(getFolderPath() + filename + ".json");
+    private static File getFile(String folder, String filename) {
+        return new File(getFolderPath(folder) + filename + ".json");
     }
 }

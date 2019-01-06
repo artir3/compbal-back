@@ -1,0 +1,24 @@
+{
+  "id": null,
+  "email": "keso@mailinator.net",
+  "firstname": "Trevor",
+  "company": "Ward Riley Trading",
+  "nip": "0202538068",
+  "surname": "Ferguson",
+  "street": "Nowa",
+  "parcelNo": "52",
+  "homeNo": "68",
+  "zip": "93-426",
+  "city": "Warszawa",
+  "country": "Polska",
+  "phone": "+79 757 152 459",
+  "trade": "spedycja",
+  "bankAccounts": [
+    {
+      "id": null,
+      "accountNo": "36716671855699901107248739",
+      "currency": "PLN",
+      "swift": "BPKOPLPW"
+    }
+  ]
+}

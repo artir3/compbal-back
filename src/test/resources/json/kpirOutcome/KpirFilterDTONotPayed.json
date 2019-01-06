@@ -1,0 +1,12 @@
+{
+  "selectedYear": 2019,
+  "selectedMonth": null,
+  "economicEventDate": null,
+  "company": null,
+  "nip": null,
+  "isPayed": null,
+  "notPayed": true,
+  "overdue": false,
+  "registrationNumber": null,
+  "type": "COSTS"
+}

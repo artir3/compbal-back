@@ -1,0 +1,24 @@
+{
+  "id": null,
+  "email": "cixa@mailinator.net",
+  "firstname": "Ingrid",
+  "company": "Farmer Figueroa Co",
+  "nip": "0624252430",
+  "surname": "Marks",
+  "street": "Kamienna",
+  "parcelNo": "67",
+  "homeNo": "63",
+  "zip": "71-120",
+  "city": "Młynków",
+  "country": "Polska",
+  "phone": "+59 753 579 915",
+  "trade": "spedycja",
+  "bankAccounts": [
+    {
+      "id": null,
+      "accountNo": "92492786817042105156765994",
+      "currency": "EUR",
+      "swift": "BPKOPLPW"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": null,
+  "email": "fadexa@mailinator.com",
+  "firstname": "Quin",
+  "company": "Hampton Pittman Associates",
+  "nip": "3628469793",
+  "surname": "Farrell",
+  "street": "Kamienna",
+  "parcelNo": "30",
+  "homeNo": "62",
+  "zip": "37-330",
+  "city": "Wrocław",
+  "country": "Polska",
+  "phone": "+99 576 514 511",
+  "trade": "kurier",
+  "bankAccounts": [
+    null
+  ]
+}

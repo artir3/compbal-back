@@ -1,0 +1,12 @@
+{
+  "selectedYear": 2019,
+  "selectedMonth": null,
+  "economicEventDate": null,
+  "company": "Trad",
+  "nip": null,
+  "isPayed": false,
+  "notPayed": true,
+  "overdue": null,
+  "registrationNumber": null,
+  "type": "INCOME"
+}

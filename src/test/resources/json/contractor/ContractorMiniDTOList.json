@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1852,
+    "personName": "Mufutau Peck",
+    "company": "Flores Ellison LLC",
+    "nip": "3351532558",
+    "email": "tinoh@mailinator.com",
+    "phone": "+66 985 204 399",
+    "address": "ul. Brązowa 45/74, 87-090 Młynków Polska",
+    "trade": "sprzedawca"
+  },
+  {
+    "id": 1853,
+    "personName": "Ingrid Marks",
+    "company": "Farmer Figueroa Co",
+    "nip": "0624252430",
+    "email": "cixa@mailinator.net",
+    "phone": "+59 753 579 915",
+    "address": "ul. Kamienna 67/63, 71-120 Młynków Polska",
+    "trade": "spedycja"
+  },
+  {
+    "id": 1857,
+    "personName": "Cara Bradford",
+    "company": "Beasley and Pratt LLC",
+    "nip": "2087183711",
+    "email": "xotogyqi@mailinator.com",
+    "phone": "+72 588 547 511",
+    "address": "ul. Kamienna 17/79, 40-649 Młynków Polska",
+    "trade": "komputery"
+  },
+  {
+    "id": 1860,
+    "personName": "Shay Newton",
+    "company": "Holmes and Glenn Associates",
+    "nip": "4414302867",
+    "email": "mekinydysu@mailinator.com",
+    "phone": "+49 418 222 123",
+    "address": "ul. Brązowa 6/47, 84-514 Wrocław Polska",
+    "trade": "kwiaty"
+  },
+  {
+    "id": 1861,
+    "personName": "Trevor Ferguson",
+    "company": "Ward Riley Trading",
+    "nip": "0202538068",
+    "email": "keso@mailinator.net",
+    "phone": "+79 757 152 459",
+    "address": "ul. Nowa 52/68, 93-426 Warszawa Polska",
+    "trade": "spedycja"
+  },
+  {
+    "id": 1863,
+    "personName": "Quin Farrell",
+    "company": "Hampton Pittman Associates",
+    "nip": "3628469793",
+    "email": "fadexa@mailinator.com",
+    "phone": "+99 576 514 511",
+    "address": "ul. Kamienna 30/62, 37-330 Wrocław Polska",
+    "trade": "kurier"
+  }
+]

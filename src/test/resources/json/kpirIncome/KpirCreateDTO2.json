@@ -1,0 +1,25 @@
+{
+  "id": null,
+  "idx": 2,
+  "economicEventDate": null
+  "registrationNumber": "2019-003089",
+  "contractor": 1853,
+  "description": "Dolorum placeat velit inventore id",
+  "soldIncome": 87065,
+  "otherIncome": 4763,
+  "allIncome": 91828,
+  "purchaseCosts": null,
+  "purchaseSideCosts": null,
+  "paymentCost": null,
+  "otherCosts": null,
+  "sumCosts": null,
+  "other": null,
+  "radCosts": null,
+  "radDescription": null,
+  "comments": "Atque porro magna est exercitation reprehenderit excepteur enim veritatis sit exercitation occaecat modi",
+  "payed": true,
+  "paymentDateMin": null,
+  "paymentDateMax": null,
+  "type": "INCOME",
+  "overduePayment": null
+}

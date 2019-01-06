@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1852,
+    "personName": "Mufutau Peck",
+    "company": "Flores Ellison LLC",
+    "nip": "3351532558",
+    "email": "tinoh@mailinator.com",
+    "phone": "+66 985 204 399",
+    "address": "ul. Brązowa 45/74, 87-090 Młynków Polska",
+    "trade": "sprzedawca"
+  },
+  {
+    "id": 1857,
+    "personName": "Cara Bradford",
+    "company": "Beasley and Pratt LLC",
+    "nip": "2087183711",
+    "email": "xotogyqi@mailinator.com",
+    "phone": "+72 588 547 511",
+    "address": "ul. Kamienna 17/79, 40-649 Młynków Polska",
+    "trade": "komputery"
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "id": null,
+  "email": "xotogyqi@mailinator.com",
+  "firstname": "Cara",
+  "company": "Beasley and Pratt LLC",
+  "nip": "2087183711",
+  "surname": "Bradford",
+  "street": "Kamienna",
+  "parcelNo": "17",
+  "homeNo": "79",
+  "zip": "40-649",
+  "city": "Młynków",
+  "country": "Polska",
+  "phone": "+72 588 547 511",
+  "trade": "komputery",
+  "bankAccounts": [
+    {
+      "id": null,
+      "accountNo": "04756153170686223577927758",
+      "currency": "GBP",
+      "swift": "BIGBPLPW"
+    }
+  ]
+}

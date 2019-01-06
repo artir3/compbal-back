@@ -1,0 +1,80 @@
+{
+  "id": null,
+  "createdAt": {
+    "month": "JANUARY",
+    "dayOfWeek": "SUNDAY",
+    "dayOfYear": 6,
+    "nano": 379809000,
+    "year": 2019,
+    "monthValue": 1,
+    "dayOfMonth": 6,
+    "hour": 15,
+    "minute": 42,
+    "second": 58,
+    "chronology": {
+      "id": "ISO",
+      "calendarType": "iso8601"
+    }
+  },
+  "status": "READY_TO_SEND",
+  "subject": "Comp-Cal - Aktywacja konta",
+  "text": "Witam\n\nDziękujemy za rejestrację w CompCal, serwisie do obsługi finansów w firmie.\n\nW celu aktywacji konta należy kliknąć w poniższy link, lub przekopiować go w adres przeglądarki.\n\nhttp://localhost:4200/activate/YnV0dUBtYWlsaW5hdG9yLm5ldDpjeXd5Z2V4YQ==\n\nŻyczymy miłego dnia\n",
+  "fileName": null,
+  "baseUsers": [
+    {
+      "id": 2,
+      "active": true,
+      "hash": "YnV0dUBtYWlsaW5hdG9yLm5ldDpjeXd5Z2V4YQ==",
+      "roles": "USER",
+      "email": "butu@mailinator.net",
+      "password": "$2a$10$l8QIeZ4iMd6F9L3pUJ.y2eS9yMTZkusdwuDhTVY4ko3whslwVTVGK",
+      "firstName": "Wyatt",
+      "company": "Little and Kent LLC",
+      "nip": "5304706075",
+      "surname": "Holland",
+      "street": "Kamienna",
+      "parcelNo": "11",
+      "homeNo": "89",
+      "zip": "82-985",
+      "city": "Młynków",
+      "taxForm": "GENERAL_RULES_FLAT_TAX",
+      "pkd": null,
+      "regon": null,
+      "bankAccounts": null,
+      "createdAt": {
+        "month": "JANUARY",
+        "dayOfWeek": "SUNDAY",
+        "dayOfYear": 6,
+        "nano": 367788000,
+        "year": 2019,
+        "monthValue": 1,
+        "dayOfMonth": 6,
+        "hour": 15,
+        "minute": 42,
+        "second": 58,
+        "chronology": {
+          "id": "ISO",
+          "calendarType": "iso8601"
+        }
+      },
+      "modifiedAt": {
+        "month": "JANUARY",
+        "dayOfWeek": "SUNDAY",
+        "dayOfYear": 6,
+        "nano": 367747000,
+        "year": 2019,
+        "monthValue": 1,
+        "dayOfMonth": 6,
+        "hour": 15,
+        "minute": 42,
+        "second": 58,
+        "chronology": {
+          "id": "ISO",
+          "calendarType": "iso8601"
+        }
+      },
+      "country": "Poland",
+      "sendMails": []
+    }
+  ]
+}

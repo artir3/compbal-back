@@ -1,0 +1,19 @@
+{
+  "id": null,
+  "email": "mekinydysu@mailinator.com",
+  "firstname": "Shay",
+  "company": "Holmes and Glenn Associates",
+  "nip": "4414302867",
+  "surname": "Newton",
+  "street": "Brązowa",
+  "parcelNo": "6",
+  "homeNo": "47",
+  "zip": "84-514",
+  "city": "Wrocław",
+  "country": "Polska",
+  "phone": "+49 418 222 123",
+  "trade": "kwiaty",
+  "bankAccounts": [
+    null
+  ]
+}

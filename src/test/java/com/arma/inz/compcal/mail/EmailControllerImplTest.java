@@ -34,7 +34,7 @@ public class EmailControllerImplTest {
     @Autowired
     private BaseUserRepository baseUserRepository;
 
-    BaseUser baseUser;
+    private BaseUser baseUser;
 
     @Before
     public void setUp() throws Exception {
@@ -60,12 +60,12 @@ public class EmailControllerImplTest {
     @Test
     public void sendMessageWithAttachment() throws IOException {
         Email email = DatabaseModelsFromJsons.email(baseUser);
-        File file = File.createTempFile("test","pdf");
+        File file = File.createTempFile("test", ".pdf");
         emailController.sendMessageWithAttachment("test@localhost", email.getSubject(), email.getText(), file,baseUser);
-        Optional<Email> optional = emailRepository.findById(2l);
+        Optional<Email> optional = emailRepository.findById(4l);
         assertThat(optional.get()).isNotNull();
         assertThat(optional.get().getStatus()).isEqualTo(EmailStatusEnum.SENT);
         assertThat(optional.get().getFileName()).isNotNull();
-        assertThat(optional.get().getFileName()).isEqualToIgnoringCase("test.pdf");
+        assertThat(optional.get().getFileName()).matches("test\\w+\\.pdf");
     }
 }

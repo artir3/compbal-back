@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1870,
+    "idx": 9,
+    "economicEventDate": null,
+    "registrationNumber": "2017-000766",
+    "fullName": "Ward Riley Trading",
+    "address": "ul. Nowa 52/68, 93-426 Warszawa Polska",
+    "description": "Anim voluptatem Sequi in omnis voluptas sit autem temporibus voluptatibus incidunt consequatur cum in ut provident dolores",
+    "soldIncome": 43441.00,
+    "otherIncome": 8087.00,
+    "allIncome": 51528.00,
+    "purchaseCosts": null,
+    "purchaseSideCosts": null,
+    "paymentCost": null,
+    "otherCosts": null,
+    "sumCosts": null,
+    "other": null,
+    "comments": "Nam aut explicabo Reiciendis aut qui proident cillum",
+    "radCosts": null,
+    "radDescription": null,
+    "payed": false,
+    "overduePayment": false,
+    "paymentDateMin": null,
+    "paymentDateMax": null
+  }
+]
