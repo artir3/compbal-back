@@ -38,6 +38,9 @@ public class Email {
     private String text;
     @Column(name = "fileName")
     private String fileName;
+    @ManyToMany(mappedBy = "sendMails")
+    private Set<Email> employees = new HashSet<>();
+
 
     public Email(BaseUser baseUser, EmailStatusEnum status, String subject, String text, String fileName) {
         this.createdAt = LocalDateTime.now();

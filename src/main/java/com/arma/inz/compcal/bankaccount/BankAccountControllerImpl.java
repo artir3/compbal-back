@@ -1,5 +1,6 @@
 package com.arma.inz.compcal.bankaccount;
 
+import com.arma.inz.compcal.MapperToJson;
 import com.arma.inz.compcal.contractor.Contractor;
 import com.arma.inz.compcal.currency.CurrencyEnum;
 import com.arma.inz.compcal.users.BaseUser;
@@ -49,6 +50,8 @@ public class BankAccountControllerImpl implements BankAccountController {
             BeanUtils.copyProperties(dto, bankAccount, "id", "baseUser", "contractor", "createdAt");
             bankAccount.setCurrency(CurrencyEnum.valueOf(dto.getCurrency()));
             bankAccount.setModifiedAt(LocalDateTime.now());
+            MapperToJson.convertToJson(bankAccount, this.getClass().getName() + "saveMessage");
+
             bankAccountRepository.save(bankAccount);
         }
     }
@@ -63,9 +66,11 @@ public class BankAccountControllerImpl implements BankAccountController {
     @Override
     public Set<BankAccountDTO> copyToDTO(Collection<BankAccount> bankAccountSet) {
         Set<BankAccountDTO> bankAccounts = new HashSet<>();
-        for (BankAccount account: bankAccountSet) {
-            BankAccountDTO dto = copyToDTO(account);
-            bankAccounts.add(dto);
+        if (bankAccounts != null) {
+            for (BankAccount account : bankAccountSet) {
+                BankAccountDTO dto = copyToDTO(account);
+                bankAccounts.add(dto);
+            }
         }
         return bankAccounts;
     }
@@ -74,6 +79,8 @@ public class BankAccountControllerImpl implements BankAccountController {
         BankAccountDTO dto = new BankAccountDTO();
         BeanUtils.copyProperties(account, dto);
         dto.setCurrency(account.getCurrency().name());
+        MapperToJson.convertToJson(dto, this.getClass().getName() + "dto");
+
         return dto;
     }
 }

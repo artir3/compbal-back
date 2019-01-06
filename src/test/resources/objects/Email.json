@@ -1,0 +1,77 @@
+{
+  "id" : null,
+  "createdAt" : {
+    "nano" : 63619000,
+    "year" : 2019,
+    "monthValue" : 1,
+    "dayOfMonth" : 6,
+    "hour" : 7,
+    "minute" : 14,
+    "second" : 1,
+    "month" : "JANUARY",
+    "dayOfWeek" : "SUNDAY",
+    "dayOfYear" : 6,
+    "chronology" : {
+      "id" : "ISO",
+      "calendarType" : "iso8601"
+    }
+  },
+  "baseUsers" : [ {
+    "id" : 3,
+    "active" : false,
+    "hash" : "YnV0dUBtYWlsaW5hdG9yLm5ldDpjeXd5Z2V4YQ==",
+    "roles" : "USER",
+    "email" : "butu@mailinator.net",
+    "password" : "$2a$10$vwJhHvMbgUqL4PIZzkNmqu.EdnGVBa/Kac84dAZ/mKUbqKh6b6H8K",
+    "firstName" : "Wyatt",
+    "company" : "Little and Kent LLC",
+    "nip" : "5304706075",
+    "surname" : "Holland",
+    "street" : "Kamienna",
+    "parcelNo" : "11",
+    "homeNo" : "89",
+    "zip" : "82-985",
+    "city" : "Młynków",
+    "taxForm" : "GENERAL_RULES_FLAT_TAX",
+    "pkd" : null,
+    "regon" : null,
+    "bankAccounts" : [ ],
+    "createdAt" : {
+      "nano" : 45451000,
+      "year" : 2019,
+      "monthValue" : 1,
+      "dayOfMonth" : 6,
+      "hour" : 7,
+      "minute" : 14,
+      "second" : 1,
+      "month" : "JANUARY",
+      "dayOfWeek" : "SUNDAY",
+      "dayOfYear" : 6,
+      "chronology" : {
+        "id" : "ISO",
+        "calendarType" : "iso8601"
+      }
+    },
+    "modifiedAt" : {
+      "nano" : 45487000,
+      "year" : 2019,
+      "monthValue" : 1,
+      "dayOfMonth" : 6,
+      "hour" : 7,
+      "minute" : 14,
+      "second" : 1,
+      "month" : "JANUARY",
+      "dayOfWeek" : "SUNDAY",
+      "dayOfYear" : 6,
+      "chronology" : {
+        "id" : "ISO",
+        "calendarType" : "iso8601"
+      }
+    },
+    "country" : "Poland"
+  } ],
+  "status" : "READY_TO_SEND",
+  "subject" : "Comp-Cal - Aktywacja konta",
+  "text" : "Witam\n\nDziękujemy za rejestrację w CompCal, serwisie do obsługi finansów w firmie.\n\nW celu aktywacji konta należy kliknąć w poniższy link, lub przekopiować go w adres przeglądarki.\n\nhttp://localhost:8080/activate/YnV0dUBtYWlsaW5hdG9yLm5ldDpjeXd5Z2V4YQ==\n\nŻyczymy miłego dnia\n",
+  "fileName" : "test13220734078455289839pdf"
+}

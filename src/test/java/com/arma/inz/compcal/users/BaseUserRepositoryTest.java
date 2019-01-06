@@ -33,18 +33,21 @@ public class BaseUserRepositoryTest {
     @Test
     public void testFindByEmail() {
         BaseUser user = this.repository.findByEmail("butu@mailinator.net");
+        assertThat(user).isNotNull();
         assertThat(user.getHash()).isEqualTo("YnV0dUBtYWlsaW5hdG9yLm5ldDpjeXd5Z2V4YQ==");
     }
 
     @Test
     public void testFindOneByHash() {
         BaseUser user = this.repository.findOneByHash("YnV0dUBtYWlsaW5hdG9yLm5ldDpjeXd5Z2V4YQ==");
+        assertThat(user).isNotNull();
         assertThat(user.getEmail()).isEqualTo("butu@mailinator.net");
     }
 
     @Test
     public void testFindOneLikeHash() {
         BaseUser user = this.repository.findOneLikeHash("YnV0dUBtYWlsaW5hdG9yLm5ldDpjeXd5Z2V4YQ");
+        assertThat(user).isNotNull();
         assertThat(user.getEmail()).isEqualTo("butu@mailinator.net");
     }
 

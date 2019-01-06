@@ -1,21 +1,20 @@
 package com.arma.inz.compcal.users;
 
 import com.arma.inz.compcal.bankaccount.BankAccount;
+import com.arma.inz.compcal.mail.Email;
 import com.arma.inz.compcal.users.enums.RolesEnum;
 import com.arma.inz.compcal.users.enums.TaxFormEnum;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
 @Entity
 @Table
-@ToString(exclude = "bankAccounts")
+@ToString(exclude = { "bankAccounts", "sendMails"})
 @AllArgsConstructor
 @NoArgsConstructor
 public class BaseUser {
@@ -68,5 +67,12 @@ public class BaseUser {
     private LocalDateTime modifiedAt;
     @Column(name = "country")
     private String country;
-
+    @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+    @JoinTable(
+            name = "base_user_email",
+            inverseJoinColumns = { @JoinColumn(name = "email_id") },
+            joinColumns = { @JoinColumn(name = "baseUser_id") }
+    )
+    private Set<Email> sendMails = new HashSet<Email>();
 }

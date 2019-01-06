@@ -23,22 +23,25 @@ public class MailSenderConfiguration {
     private String smtpMailProtocol;
     @Value("${smpt.mail.debug}")
     private String smtpMailDebug;
+    @Value("${smpt.mail.enable}")
+    private boolean smtpMailEnable;
 
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost(smtpMailHost);
-        mailSender.setPort(smtpMailPort);
+        if(smtpMailEnable) {
+            mailSender.setHost(smtpMailHost);
+            mailSender.setPort(smtpMailPort);
 
-        mailSender.setUsername(smtpMailUser);
-        mailSender.setPassword(smtpMailPassword);
+            mailSender.setUsername(smtpMailUser);
+            mailSender.setPassword(smtpMailPassword);
 
-        Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", smtpMailProtocol);
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", smtpMailDebug);
-
+            Properties props = mailSender.getJavaMailProperties();
+            props.put("mail.transport.protocol", smtpMailProtocol);
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.debug", smtpMailDebug);
+        }
         return mailSender;
     }
 }

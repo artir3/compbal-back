@@ -11,8 +11,8 @@ public interface BaseUserRepository extends JpaRepository<BaseUser, Long> {
 
     BaseUser findOneByHash(String hash);
 
-    @Query("select b.id from BaseUser b where b.hash like %:hash%")
-    Long findOneLikeHash(@Param("hash") String hash);
+    @Query("from BaseUser b where b.hash like %:hash%")
+    BaseUser findOneLikeHash(@Param("hash") String hash);
 
 }
 

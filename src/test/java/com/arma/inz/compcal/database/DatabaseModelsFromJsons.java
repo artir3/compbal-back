@@ -18,6 +18,12 @@ public class DatabaseModelsFromJsons {
         return object;
     }
 
+    public static BaseUser baseUserActivated() {
+        BaseUser object = baseUser();
+        object.setActive(Boolean.TRUE);
+        return object;
+    }
+
     public static UserRegistrationDTO userRegistrationDTO() {
         return (UserRegistrationDTO) MapperToObject.FileToObject(new UserRegistrationDTO());
     }
