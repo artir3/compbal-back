@@ -3,9 +3,7 @@ package com.arma.inz.compcal.contractor;
 import com.arma.inz.compcal.bankaccount.BankAccount;
 import com.arma.inz.compcal.kpir.Kpir;
 import com.arma.inz.compcal.users.BaseUser;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,7 +12,9 @@ import java.util.Set;
 @Data
 @Entity
 @Table
-@ToString(exclude = "baseUser")
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString(exclude = {"baseUser", "bankAccounts", "kpirList"})
 public class Contractor {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

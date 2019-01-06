@@ -3,9 +3,7 @@ package com.arma.inz.compcal.bankaccount;
 import com.arma.inz.compcal.contractor.Contractor;
 import com.arma.inz.compcal.currency.CurrencyEnum;
 import com.arma.inz.compcal.users.BaseUser;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,7 +11,9 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table
-@ToString(exclude = "baseUser")
+@ToString(exclude = {"baseUser", "contractor"})
+@AllArgsConstructor
+@NoArgsConstructor
 public class BankAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,13 +1,17 @@
 package com.arma.inz.compcal.users.dto;
 
 import com.arma.inz.compcal.bankaccount.BankAccountDTO;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.Set;
 
 @Data
 @ToString(exclude = "bankAccountSet")
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDTO {
 
     private Long id;

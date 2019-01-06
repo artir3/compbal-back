@@ -1,11 +1,15 @@
 package com.arma.inz.compcal.contractor.dto;
 
 import com.arma.inz.compcal.bankaccount.BankAccountDTO;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ContractorDTO {
     private Long id;
     private String email;

@@ -2,9 +2,7 @@ package com.arma.inz.compcal.kpir;
 
 import com.arma.inz.compcal.contractor.Contractor;
 import com.arma.inz.compcal.users.BaseUser;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -13,7 +11,9 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table
-@ToString(exclude = "baseUser")
+@ToString(exclude = {"baseUser", "contractor"})
+@AllArgsConstructor
+@NoArgsConstructor
 public class Kpir {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

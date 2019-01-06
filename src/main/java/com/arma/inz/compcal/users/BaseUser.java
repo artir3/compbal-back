@@ -3,7 +3,9 @@ package com.arma.inz.compcal.users;
 import com.arma.inz.compcal.bankaccount.BankAccount;
 import com.arma.inz.compcal.users.enums.RolesEnum;
 import com.arma.inz.compcal.users.enums.TaxFormEnum;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -13,7 +15,9 @@ import java.util.Set;
 @Data
 @Entity
 @Table
-@ToString()
+@ToString(exclude = "bankAccounts")
+@AllArgsConstructor
+@NoArgsConstructor
 public class BaseUser {
 
     @Id
@@ -56,7 +60,7 @@ public class BaseUser {
     private String pkd;
     @Column(name = "regon")
     private String regon;
-    @OneToMany(mappedBy = "baseUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY/*, orphanRemoval = true*/)
+    @OneToMany(mappedBy = "baseUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<BankAccount> bankAccounts;
     @Column(name = "createdAt")
     private LocalDateTime createdAt;

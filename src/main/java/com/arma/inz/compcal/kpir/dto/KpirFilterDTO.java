@@ -1,10 +1,14 @@
 package com.arma.inz.compcal.kpir.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class KpirFilterDTO {
     private Integer selectedYear;
     private Integer selectedMonth;
