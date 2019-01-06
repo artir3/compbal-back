@@ -3,7 +3,6 @@ package com.arma.inz.compcal.printer;
 import com.arma.inz.compcal.contractor.Contractor;
 import com.arma.inz.compcal.contractor.ContractorController;
 import com.arma.inz.compcal.contractor.ContractorRepository;
-import com.arma.inz.compcal.contractor.ContractorService;
 import com.arma.inz.compcal.contractor.dto.ContractorDTO;
 import com.arma.inz.compcal.database.DatabaseModelsFromJsons;
 import com.arma.inz.compcal.kpir.KpirController;
@@ -70,15 +69,8 @@ public class JasperControllerImplTest {
         baseUser = baseUserRepository.save(DatabaseModelsFromJsons.baseUser());
         for (ContractorDTO contractorDTO : DatabaseModelsFromJsons.contractorDTOList()) {
             contractorController.createOne(baseUser, contractorDTO);
-            Contractor contractor = new Contractor();
-            contractor.setBaseUser(baseUser);
-            contractor.setNip(contractorDTO.getNip());
-            contractor.setCompany(contractorDTO.getCompany());
-            Example example = Example.of(contractor);
-            Optional<Contractor> one = contractorRepository.findOne(example);
-            assertThat(one).isNotNull();
-            assertThat(one).isNotEmpty();
-            contractorMap.put(contractorDTO.getId(), one.get().getId());
+            Contractor one = getContractor(contractorDTO);
+            contractorMap.put(contractorDTO.getId(), one.getId());
         }
         for (KpirCreateDTO dtp : DatabaseModelsFromJsons.kpirCreateDTOList()) {
             Long contractorId = contractorMap.get(dtp.getContractor());
@@ -86,6 +78,18 @@ public class JasperControllerImplTest {
             kpirController.createOne(baseUser, dtp);
         }
 
+    }
+
+    private Contractor getContractor(ContractorDTO contractorDTO) {
+        Contractor contractor = new Contractor();
+        contractor.setBaseUser(baseUser);
+        contractor.setNip(contractorDTO.getNip());
+        contractor.setCompany(contractorDTO.getCompany());
+        Example example = Example.of(contractor);
+        Optional<Contractor> one = contractorRepository.findOne(example);
+        assertThat(one).isNotNull();
+        assertThat(one).isNotEmpty();
+        return one.get();
     }
 
     @After

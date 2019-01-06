@@ -12,6 +12,8 @@ import com.arma.inz.compcal.users.BaseUser;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -54,7 +56,7 @@ public class ContractorControllerImpl implements ContractorController {
     public ContractorDTO getOne(Long id) {
         Optional<Contractor> entity = contractorRepository.findById(id);
         ContractorDTO dto = null;
-        if (entity != null) {
+        if (entity != null && entity.get() != null) {
             Contractor contractor = entity.get();
             dto = new ContractorDTO();
             BeanUtils.copyProperties(contractor, dto);
@@ -65,12 +67,14 @@ public class ContractorControllerImpl implements ContractorController {
     }
 
     @Override
+    @Transactional
     public Contractor getOneEntity(Long id) {
         Optional<Contractor> entity = contractorRepository.findById(id);
         return entity != null? entity.get() : null;
     }
 
     @Override
+    @Transactional
     public Boolean updateOne(ContractorDTO dto) {
         Optional<Contractor> optional = contractorRepository.findById(dto.getId());
 //MapperToJson.convertToJson(dto, "ContractorDTOUpdate");
@@ -86,6 +90,7 @@ public class ContractorControllerImpl implements ContractorController {
     }
 
     @Override
+    @Transactional
     public Boolean createOne(BaseUser baseUser, ContractorDTO dto) {
         Contractor entity = new Contractor();
 //MapperToJson.convertToJson(dto, "ContractorDTOCreate");
@@ -100,6 +105,7 @@ public class ContractorControllerImpl implements ContractorController {
     }
 
     @Override
+    @Transactional
     public Boolean deleteOne(Long id) {
         Optional<Contractor> optional = contractorRepository.findById(id);
         if (optional != null) {

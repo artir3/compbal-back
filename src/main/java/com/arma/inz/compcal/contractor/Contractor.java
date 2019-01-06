@@ -7,6 +7,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -26,7 +27,7 @@ public class Contractor {
     private LocalDateTime modifiedAt;
     @OneToMany(mappedBy = "contractor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @EqualsAndHashCode.Exclude
-    private Set<Kpir> kpirList;
+    private Set<Kpir> kpirList = new HashSet<>();
     @Column(unique = true, name = "email")
     private String email;
     @Column(name = "firstName")
@@ -53,13 +54,15 @@ public class Contractor {
     private String phone;
     @Column(name = "trade")
     private String trade;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @EqualsAndHashCode.Exclude
     @JoinColumn(name = "baseUser_id", nullable = false)
     private BaseUser baseUser;
+
+    @OneToMany(mappedBy = "contractor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "contractor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<BankAccount> bankAccounts;
+    private Set<BankAccount> bankAccounts = new HashSet<>();
 
     public String getPrettyName() {
         return this.firstname + " " + this.surname;

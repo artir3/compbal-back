@@ -59,7 +59,7 @@ public class BaseUser {
     private String pkd;
     @Column(name = "regon")
     private String regon;
-    @OneToMany(mappedBy = "baseUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "baseUser", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     private Set<BankAccount> bankAccounts;
     @Column(name = "createdAt")

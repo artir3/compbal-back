@@ -29,7 +29,7 @@ public class Kpir {
     private LocalDateTime economicEventDate;
     @Column(name = "registrationNumber")
     private String registrationNumber;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @EqualsAndHashCode.Exclude
     @JoinColumn(name = "contractor_id", nullable = false)
     private Contractor contractor;

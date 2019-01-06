@@ -28,7 +28,7 @@ public class BankAccount {
     @EqualsAndHashCode.Exclude
     @JoinColumn(name = "baseUser_id")
     private BaseUser baseUser;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @EqualsAndHashCode.Exclude
     @JoinColumn(name = "contractor_id")
     private Contractor contractor;

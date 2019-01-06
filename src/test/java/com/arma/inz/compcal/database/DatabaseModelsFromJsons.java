@@ -104,11 +104,11 @@ public class DatabaseModelsFromJsons {
         return result;
     }
 
-    public static ContractorFilterDTO ContractorFilterDTOFContractor() {
+    public static ContractorFilterDTO ContractorFilterDTOEmpty() {
         return (ContractorFilterDTO) MapperToObject.FileToObject(new ContractorFilterDTO(), "contractor/", "ContractorFilterDTOEmpty");
     }
 
-    public static ContractorFilterDTO ContractorFilterDTOEmpty() {
+    public static ContractorFilterDTO ContractorFilterDTOFContractor() {
         return (ContractorFilterDTO) MapperToObject.FileToObject(new ContractorFilterDTO(), "contractor/", "ContractorFilterDTOFContractor");
     }
 
