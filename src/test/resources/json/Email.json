@@ -1,0 +1,9 @@
+{
+  "id": null,
+  "createdAt": null,
+  "baseUsers": [],
+  "status": "READY_TO_SEND",
+  "subject": "Comp-Cal - Aktywacja konta",
+  "text": "Witam\n\nDziękujemy za rejestrację w CompCal, serwisie do obsługi finansów w firmie.\n\nW celu aktywacji konta należy kliknąć w poniższy link, lub przekopiować go w adres przeglądarki.\n\nhttp://localhost:8080/activate/YnV0dUBtYWlsaW5hdG9yLm5ldDpjeXd5Z2V4YQ==\n\nŻyczymy miłego dnia\n",
+  "fileName": null
+}
