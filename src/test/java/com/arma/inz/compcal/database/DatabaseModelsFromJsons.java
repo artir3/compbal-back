@@ -9,7 +9,7 @@ import com.arma.inz.compcal.users.dto.UserRegistrationDTO;
 
 import java.time.LocalDateTime;
 
-public class DatabaseModelsInitialization {
+public class DatabaseModelsFromJsons {
     public static BaseUser baseUser() {
         BaseUser object = new BaseUser();
         object = (BaseUser) MapperToObject.FileToObject(object);
@@ -19,30 +19,29 @@ public class DatabaseModelsInitialization {
     }
 
     public static UserRegistrationDTO userRegistrationDTO() {
-        UserRegistrationDTO object = new UserRegistrationDTO();
-        object = (UserRegistrationDTO) MapperToObject.FileToObject(object);
-        return object;
+        return (UserRegistrationDTO) MapperToObject.FileToObject(new UserRegistrationDTO());
     }
 
     public static ActivateDTO activateDTOFromAngular() {
-        ActivateDTO object = new ActivateDTO();
-        object = (ActivateDTO) MapperToObject.FileToObject(object);
-        return object;
+        return (ActivateDTO) MapperToObject.FileToObject(new ActivateDTO(), "ActivateDTOFromAngular");
     }
 
     public static ActivateDTO activateFullDTO() {
-        return new ActivateDTO("YnV0dUBtYWlsaW5hdG9yLm5ldDpjeXd5Z2V4YQ==");
+        return (ActivateDTO) MapperToObject.FileToObject(new ActivateDTO());
     }
 
-    public static Email email() {
-        Email object = new Email();
-        object = (Email) MapperToObject.FileToObject(object);
+    public static Email email(BaseUser baseUser) {
+        Email object = (Email) MapperToObject.FileToObject(new Email());
+        object.setCreatedAt(LocalDateTime.now());
+        object.addBaseUser(baseUser);
         return object;
     }
 
     public static UserLoginDTO userLoginDTO() {
-        UserLoginDTO object = new UserLoginDTO();
-        object = (UserLoginDTO) MapperToObject.FileToObject(object);
-        return object;
+        return (UserLoginDTO) MapperToObject.FileToObject(new UserLoginDTO());
+    }
+
+    public static String hash() {
+        return (String) MapperToObject.FileToObject("", "Hash");
     }
 }
