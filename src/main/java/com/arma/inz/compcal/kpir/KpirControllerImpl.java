@@ -1,5 +1,6 @@
 package com.arma.inz.compcal.kpir;
 
+import com.arma.inz.compcal.MapperToJson;
 import com.arma.inz.compcal.contractor.Contractor;
 import com.arma.inz.compcal.contractor.ContractorController;
 import com.arma.inz.compcal.kpir.dto.KpirCreateDTO;
@@ -13,6 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,6 +33,8 @@ public class KpirControllerImpl implements KpirController {
     public List<KpirDTO> getAll(BaseUser baseUser, KpirFilterDTO filterDTO) {
         Sort sort = Sort.by("economicEventDate").descending();
         List<Kpir> list = getKpirs(baseUser, filterDTO, sort);
+//MapperToJson.convertToJson(filterDTO, "KpirFilterDTO");
+
         return parseListToDTO(list);
     }
 
@@ -48,6 +53,7 @@ public class KpirControllerImpl implements KpirController {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Boolean createOne(BaseUser baseUser, KpirCreateDTO dto) {
         Kpir entity = new Kpir();
         BeanUtils.copyProperties(dto, entity, "id", "kpirList", "bankAccounts", "contractor", "type", "overduePayment");
@@ -69,6 +75,8 @@ public class KpirControllerImpl implements KpirController {
         if (!isTodaysKpir){
             recalculateIdx(entity.getBaseUser(), entity.getEconomicEventDate());
         }
+//MapperToJson.convertToJson(dto, "KpirCreateDTOCreate");
+//MapperToJson.convertToJson(entity, "KpirCreateCreate");
         return entity.getId() != null;
     }
 
@@ -84,6 +92,10 @@ public class KpirControllerImpl implements KpirController {
             if (recalculate){
                 recalculateIdx(entity.getBaseUser(), entity.getEconomicEventDate());
             }
+//MapperToJson.convertToJson(kpirDTO, "KpirCreateDTOUpdate");
+//MapperToJson.convertToJson(entity, "KpirCreateUpdate");
+
+
         }
         return optional != null;
     }
@@ -130,6 +142,7 @@ public class KpirControllerImpl implements KpirController {
         filterDTO.setType(null);
         filterDTO.setSelectedMonth(null);
         List<Kpir> list = getKpirs(baseUser, filterDTO, Sort.by("idx").ascending());
+//MapperToJson.convertToJson(filterDTO, "KpirFilterDTOPrint");
         return parseListToDTO(list);
     }
 
@@ -139,6 +152,8 @@ public class KpirControllerImpl implements KpirController {
             KpirDTO dto = parseToDTO(kpir);
             result.add(dto);
         }
+//MapperToJson.convertToJson(result, "KpirDTOList");
+
         return result;
     }
 

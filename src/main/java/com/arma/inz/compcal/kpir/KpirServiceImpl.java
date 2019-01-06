@@ -1,10 +1,9 @@
 package com.arma.inz.compcal.kpir;
 
-import com.arma.inz.compcal.AuthorizationHeaderUtils;
+import com.arma.inz.compcal.users.AuthorizationHeaderUtils;
 import com.arma.inz.compcal.kpir.dto.KpirCreateDTO;
 import com.arma.inz.compcal.kpir.dto.KpirDTO;
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
-import com.arma.inz.compcal.printer.JasperController;
 import com.arma.inz.compcal.users.BaseUser;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,6 @@ import java.util.List;
 public class KpirServiceImpl implements KpirService {
     private final KpirController kpirController;
     private final AuthorizationHeaderUtils header;
-    private final JasperController jasperController;
 
     @Override
     public ResponseEntity get(String authorization, KpirFilterDTO kpirFilterDTO) {

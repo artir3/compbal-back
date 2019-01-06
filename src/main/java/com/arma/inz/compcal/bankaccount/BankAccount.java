@@ -24,7 +24,7 @@ public class BankAccount {
     @Column(name = "currency")
     @Enumerated(EnumType.STRING)
     private CurrencyEnum currency;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @EqualsAndHashCode.Exclude
     @JoinColumn(name = "baseUser_id")
     private BaseUser baseUser;

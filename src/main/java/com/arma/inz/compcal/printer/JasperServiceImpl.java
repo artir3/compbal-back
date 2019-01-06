@@ -1,6 +1,6 @@
 package com.arma.inz.compcal.printer;
 
-import com.arma.inz.compcal.AuthorizationHeaderUtils;
+import com.arma.inz.compcal.users.AuthorizationHeaderUtils;
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
 import com.arma.inz.compcal.users.BaseUser;
 import lombok.AllArgsConstructor;

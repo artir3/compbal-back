@@ -84,12 +84,10 @@ public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/vendor.js").permitAll()
                 .antMatchers("/index.html").permitAll()
                 .anyRequest()
-                .authenticated()
-                .antMatchers(HttpMethod.GET,"/kpir/income").authenticated()
-                .and()
+                .authenticated().and()
                 .formLogin().loginPage("/index.html")
                 .and()
-                .httpBasic().disable()
+                .httpBasic()//.disable()
         ;
 
     }

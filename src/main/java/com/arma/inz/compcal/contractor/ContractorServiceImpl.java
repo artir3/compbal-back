@@ -1,6 +1,6 @@
 package com.arma.inz.compcal.contractor;
 
-import com.arma.inz.compcal.AuthorizationHeaderUtils;
+import com.arma.inz.compcal.users.AuthorizationHeaderUtils;
 import com.arma.inz.compcal.contractor.dto.ContractorDTO;
 import com.arma.inz.compcal.contractor.dto.ContractorFilterDTO;
 import com.arma.inz.compcal.contractor.dto.ContractorMiniDTO;

@@ -60,6 +60,7 @@ public class BaseUser {
     @Column(name = "regon")
     private String regon;
     @OneToMany(mappedBy = "baseUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
     private Set<BankAccount> bankAccounts;
     @Column(name = "createdAt")
     private LocalDateTime createdAt;

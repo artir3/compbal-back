@@ -13,9 +13,14 @@ import com.arma.inz.compcal.users.dto.UserDTO;
 import com.arma.inz.compcal.users.dto.UserLoginDTO;
 import com.arma.inz.compcal.users.dto.UserRegistrationDTO;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Month;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class DatabaseModelsFromJsons {
     public static ActivateDTO activateFullDTO() {
@@ -56,11 +61,11 @@ public class DatabaseModelsFromJsons {
     }
 
     public static UserDTO userDTO() {
-        return (UserDTO) MapperToObject.FileToObject(new UserLoginDTO(), "baseUser/", "UserDTO");
+        return (UserDTO) MapperToObject.FileToObject(new UserDTO(), "baseUser/", "UserDTO");
     }
 
     public static UserDTO userDTOPassword() {
-        return (UserDTO) MapperToObject.FileToObject(new UserLoginDTO(), "baseUser/", "UserDTOPassword");
+        return (UserDTO) MapperToObject.FileToObject(new UserDTO(), "baseUser/", "UserDTOPassword");
     }
 
     public static UserLoginDTO userLoginDTO() {
@@ -75,6 +80,10 @@ public class DatabaseModelsFromJsons {
 
     public static String hash() {
         return (String) MapperToObject.FileToObject(new String(), "", "Hash");
+    }
+
+    public static String hashUpdated() {
+        return (String) MapperToObject.FileToObject(new String(), "", "HashUpdated");
     }
 
     public static String authorization() {
@@ -152,13 +161,17 @@ public class DatabaseModelsFromJsons {
     //------------------- kpir income
 
     public static KpirCreateDTO kpirCreateDTOIncome(int fileNumber) {
-        return (KpirCreateDTO) MapperToObject.FileToObject(new KpirCreateDTO(), "kpirIncome/", "KpirCreateDTO" + fileNumber);
+        KpirCreateDTO kpirCreateDTO = (KpirCreateDTO) MapperToObject.FileToObject(new KpirCreateDTO(), "kpirIncome/", "KpirCreateDTO" + fileNumber);
+        kpirCreateDTO.setEconomicEventDate(randomLocalDateTime());
+        kpirCreateDTO.setPaymentDateMin(kpirCreateDTO.getEconomicEventDate().plusDays(20));
+        kpirCreateDTO.setPaymentDateMax(kpirCreateDTO.getPaymentDateMin().plusDays(20));
+        return kpirCreateDTO;
     }
 
     public static List<KpirCreateDTO> kpirCreateDTOIncomeList() {
         List<KpirCreateDTO> result = new ArrayList<>();
         for (int i = 1; i < 11; i++) {
-            result.add((KpirCreateDTO) MapperToObject.FileToObject(new KpirCreateDTO(), "kpirIncome/", "KpirCreateDTO" + i));
+            result.add(kpirCreateDTOIncome(i));
         }
         return result;
     }
@@ -178,13 +191,17 @@ public class DatabaseModelsFromJsons {
     //------------------- kpir outcome
 
     public static KpirCreateDTO kpirCreateDTOCosts(int fileNumber) {
-        return (KpirCreateDTO) MapperToObject.FileToObject(new KpirCreateDTO(), "kpirCosts/", "KpirCreateDTO" + fileNumber);
+        KpirCreateDTO kpirCreateDTO = (KpirCreateDTO) MapperToObject.FileToObject(new KpirCreateDTO(), "kpirCosts/", "KpirCreateDTO" + fileNumber);
+        kpirCreateDTO.setEconomicEventDate(randomLocalDateTime());
+        kpirCreateDTO.setPaymentDateMin(kpirCreateDTO.getEconomicEventDate().plusDays(20));
+        kpirCreateDTO.setPaymentDateMax(kpirCreateDTO.getPaymentDateMin().plusDays(20));
+        return kpirCreateDTO;
     }
 
     public static List<KpirCreateDTO> kpirCreateDTOCostsList() {
         List<KpirCreateDTO> result = new ArrayList<>();
         for (int i = 1; i < 11; i++) {
-            result.add((KpirCreateDTO) MapperToObject.FileToObject(new KpirCreateDTO(), "kpirCosts/", "KpirCreateDTO" + i));
+            result.add(kpirCreateDTOCosts(i));
         }
         return result;
     }
@@ -201,4 +218,18 @@ public class DatabaseModelsFromJsons {
         List<KpirCreateDTO> filterDTO = (List<KpirCreateDTO>) MapperToObject.FileToObject(new ArrayList<KpirCreateDTO>(), "kpirCosts/", "KpirDTOListNotPayed");
         return filterDTO;
     }
+
+//    ---------------------------
+
+    private static LocalDateTime randomLocalDateTime() {
+        return randomLocalDateTime(LocalDateTime.now());
+    }
+
+    private static LocalDateTime randomLocalDateTime(LocalDateTime maxLocalDateTime) {
+        LocalDate start = LocalDate.of(2018, Month.JANUARY, 1);
+        long days = ChronoUnit.DAYS.between(start, maxLocalDateTime.toLocalDate());
+        LocalDate randomDate = start.plusDays(new Random().nextInt((int) days + 1));
+        return LocalDateTime.of(randomDate, LocalTime.MIDNIGHT);
+    }
 }
+

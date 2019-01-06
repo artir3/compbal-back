@@ -21,14 +21,14 @@ public class Email {
     private Long id;
     @Column(name = "createdAt")
     private LocalDateTime createdAt;
-    @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
-    @EqualsAndHashCode.Exclude
-    @JoinTable(
-            name = "base_user_email",
-            joinColumns = { @JoinColumn(name = "email_id") },
-            inverseJoinColumns = { @JoinColumn(name = "baseUser_id") }
-    )
-    private Set<BaseUser> baseUsers = new HashSet<>();
+    //    @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+//    @EqualsAndHashCode.Exclude
+//    @JoinTable(
+//            name = "base_user_email",
+//            joinColumns = { @JoinColumn(name = "email_id") },
+//            inverseJoinColumns = { @JoinColumn(name = "baseUser_id") }
+//    )
+//    private Set<BaseUser> baseUsers = new HashSet<>();
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private EmailStatusEnum status;
@@ -39,7 +39,8 @@ public class Email {
     @Column(name = "fileName")
     private String fileName;
     @ManyToMany(mappedBy = "sendMails")
-    private Set<Email> employees = new HashSet<>();
+    @EqualsAndHashCode.Exclude
+    private Set<BaseUser> baseUsers = new HashSet<>();
 
 
     public Email(BaseUser baseUser, EmailStatusEnum status, String subject, String text, String fileName) {

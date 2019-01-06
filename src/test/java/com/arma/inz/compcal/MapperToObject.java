@@ -1,11 +1,13 @@
 package com.arma.inz.compcal;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.java.Log;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 
+@Log
 public class MapperToObject {
     public static Object JsonToObject(String json, Object result) {
         ObjectMapper mapper = new ObjectMapper();
@@ -41,6 +43,7 @@ public class MapperToObject {
 
     private static Object mapObject(Object result, File file, ObjectMapper mapper) {
         try {
+            log.info(file.getAbsoluteFile().toString());
             result = mapper.readValue(file, result.getClass());
         } catch (IOException e) {
             e.printStackTrace();

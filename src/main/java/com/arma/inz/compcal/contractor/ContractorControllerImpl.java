@@ -1,6 +1,7 @@
 package com.arma.inz.compcal.contractor;
 
 
+import com.arma.inz.compcal.MapperToJson;
 import com.arma.inz.compcal.bankaccount.BankAccountController;
 import com.arma.inz.compcal.bankaccount.BankAccountDTO;
 import com.arma.inz.compcal.contractor.dto.ContractorDTO;
@@ -30,17 +31,22 @@ public class ContractorControllerImpl implements ContractorController {
         BeanUtils.copyProperties(contractor, dto);
         dto.setAddress(contractor.getPrettyAddress());
         dto.setPersonName(contractor.getPrettyName());
+//MapperToJson.convertToJson(dto, "ContractorMiniDTO");
+
         return dto;
     }
 
     @Override
     public List<ContractorMiniDTO> getAll(BaseUser baseUser, ContractorFilterDTO filterDTO) {
         List<Contractor> list = contractorRepository.findAll(ContractorSpecification.getAllByFilter(baseUser, filterDTO));
+//MapperToJson.convertToJson(filterDTO, "ContractorFilterDTOAll");
         List<ContractorMiniDTO> result = new ArrayList<>();
         for (Contractor contractor : list) {
             ContractorMiniDTO dto = parseToDTO(contractor);
             result.add(dto);
         }
+//MapperToJson.convertToJson(result, "ContractorMiniDTOList");
+
         return result;
     }
 
@@ -67,6 +73,8 @@ public class ContractorControllerImpl implements ContractorController {
     @Override
     public Boolean updateOne(ContractorDTO dto) {
         Optional<Contractor> optional = contractorRepository.findById(dto.getId());
+//MapperToJson.convertToJson(dto, "ContractorDTOUpdate");
+
         if (optional != null) {
             Contractor contractor = optional.get();
             BeanUtils.copyProperties(dto, contractor, "id", "baseUser", "createdAt", "kpirList", "bankAccounts");
@@ -80,6 +88,8 @@ public class ContractorControllerImpl implements ContractorController {
     @Override
     public Boolean createOne(BaseUser baseUser, ContractorDTO dto) {
         Contractor entity = new Contractor();
+//MapperToJson.convertToJson(dto, "ContractorDTOCreate");
+
         BeanUtils.copyProperties(dto, entity, "id", "kpirList", "bankAccounts");
         entity.setBaseUser(baseUser);
         entity.setModifiedAt(LocalDateTime.now());
@@ -107,6 +117,8 @@ public class ContractorControllerImpl implements ContractorController {
             BeanUtils.copyProperties(contractor, target);
             result.add(target);
         }
+//MapperToJson.convertToJson(result, "ContractorSelectDTOList");
+
         return result;
     }
 }

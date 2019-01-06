@@ -24,7 +24,8 @@ public class Contractor {
     private LocalDateTime createdAt;
     @Column(name = "modifiedAt")
     private LocalDateTime modifiedAt;
-    @OneToMany(mappedBy = "contractor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "contractor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
     private Set<Kpir> kpirList;
     @Column(unique = true, name = "email")
     private String email;
@@ -56,7 +57,8 @@ public class Contractor {
     @EqualsAndHashCode.Exclude
     @JoinColumn(name = "baseUser_id", nullable = false)
     private BaseUser baseUser;
-    @OneToMany(mappedBy = "contractor", cascade = CascadeType.ALL, fetch = FetchType.LAZY/*, orphanRemoval = true*/)
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "contractor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<BankAccount> bankAccounts;
 
     public String getPrettyName() {

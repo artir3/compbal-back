@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Base64;
-import java.util.Collections;
 import java.util.Optional;
 
 @Log
@@ -92,7 +91,7 @@ public class BaseUserControllerImpl implements BaseUserController {
 
     @Override
     public boolean updateBaseUser(UserDTO userDTO) {
-//        MapperToJson.convertToJson(userDTO, this.getClass().getName() + "updateBaseUser");
+//MapperToJson.convertToJson(userDTO, this.getClass().getName() + "BaseUserUpdate");
         Optional<BaseUser> optional = baseUserRepository.findById(userDTO.getId());
         if (optional != null){
             BaseUser entity = optional.get();

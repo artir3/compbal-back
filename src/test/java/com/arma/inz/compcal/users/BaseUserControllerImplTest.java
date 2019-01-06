@@ -1,6 +1,5 @@
 package com.arma.inz.compcal.users;
 
-import com.arma.inz.compcal.bankaccount.BankAccountController;
 import com.arma.inz.compcal.bankaccount.BankAccountRepository;
 import com.arma.inz.compcal.database.DatabaseModelsFromJsons;
 import com.arma.inz.compcal.mail.Email;
@@ -16,7 +15,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestComponent;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -36,14 +34,6 @@ public class BaseUserControllerImplTest {
 
     @Autowired
     private BaseUserRepository baseUserRepository;
-//    @Autowired
-//    private BankAccountController bankAccountController;
-//    @Autowired
-//    private BaseUserMailSender baseUserMailSender;
-//    @Autowired
-//    private BCryptPasswordEncoder bCryptPasswordEncoder;
-//    @Autowired
-//    private BaseUserRepository baseUserRepository;
 
     @Autowired
     private EmailRepository emailRepository;
@@ -113,7 +103,17 @@ public class BaseUserControllerImplTest {
 
     @Test
     public void updateBaseUser() {
-
+        UserDTO baseUserDTO = DatabaseModelsFromJsons.userDTOPassword();
+        assertThat(baseUserDTO).isNotNull();
+        BaseUser actualBaseUser = baseUserRepository.findByEmail(baseUserDTO.getEmail());
+        assertThat(actualBaseUser).isNotNull();
+        baseUserDTO.setId(actualBaseUser.getId());
+        baseUserController.updateBaseUser(baseUserDTO);
+        BaseUser upgradedBaseUser = baseUserRepository.findById(actualBaseUser.getId()).get();
+        assertThat(upgradedBaseUser).isNotNull();
+        assertThat(upgradedBaseUser.getHash()).isNotEqualTo(actualBaseUser.getHash());
+        assertThat(upgradedBaseUser.getPassword()).isNotEqualTo(actualBaseUser.getPassword());
+        assertThat(upgradedBaseUser.getCreatedAt()).isEqualTo(actualBaseUser.getCreatedAt());
     }
 
     @Test

@@ -172,7 +172,9 @@ public class JasperControllerImpl implements JasperController {
     private void deletePdfFile() {
         try {
             if (generatedPdf != null) {
-                Files.delete(generatedPdf.toPath());
+                if (Files.exists(generatedPdf.toPath())) {
+                    Files.delete(generatedPdf.toPath());
+                }
                 generatedPdf = null;
             }
         } catch (IOException e) {

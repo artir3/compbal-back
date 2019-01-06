@@ -22,6 +22,8 @@ public class BankAccountControllerImpl implements BankAccountController {
 
     @Override
     public void saveOrUpdate(Collection<BankAccountDTO> collection, Contractor contractor) {
+//MapperToJson.convertToJson(collection, "BankAccountDTOList");
+
         for (BankAccountDTO dto: collection) {
             saveOrUpdate(dto, null, contractor);
         }
@@ -29,6 +31,8 @@ public class BankAccountControllerImpl implements BankAccountController {
 
     @Override
     public void saveOrUpdate(Collection<BankAccountDTO> bankAccountSet, BaseUser baseUser) {
+//MapperToJson.convertToJson(bankAccountSet, "BankAccountDTOList");
+
         for (BankAccountDTO dto: bankAccountSet) {
             saveOrUpdate(dto, baseUser, null);
         }
@@ -50,7 +54,7 @@ public class BankAccountControllerImpl implements BankAccountController {
             BeanUtils.copyProperties(dto, bankAccount, "id", "baseUser", "contractor", "createdAt");
             bankAccount.setCurrency(CurrencyEnum.valueOf(dto.getCurrency()));
             bankAccount.setModifiedAt(LocalDateTime.now());
-            MapperToJson.convertToJson(bankAccount, this.getClass().getName() + "saveMessage");
+//MapperToJson.convertToJson(bankAccount, this.getClass().getName() + "saveMessage");
 
             bankAccountRepository.save(bankAccount);
         }
@@ -72,6 +76,7 @@ public class BankAccountControllerImpl implements BankAccountController {
                 bankAccounts.add(dto);
             }
         }
+//MapperToJson.convertToJson(bankAccounts, "BankAccountDTOList");
         return bankAccounts;
     }
 
@@ -79,7 +84,7 @@ public class BankAccountControllerImpl implements BankAccountController {
         BankAccountDTO dto = new BankAccountDTO();
         BeanUtils.copyProperties(account, dto);
         dto.setCurrency(account.getCurrency().name());
-        MapperToJson.convertToJson(dto, this.getClass().getName() + "dto");
+//MapperToJson.convertToJson(dto, this.getClass().getName() + "dto");
 
         return dto;
     }
