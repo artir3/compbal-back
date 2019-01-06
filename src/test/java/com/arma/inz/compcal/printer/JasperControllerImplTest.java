@@ -68,9 +68,10 @@ public class JasperControllerImplTest {
         Map<Long, Long> contractorMap = new HashMap<>();
         baseUser = baseUserRepository.save(DatabaseModelsFromJsons.baseUser());
         for (ContractorDTO contractorDTO : DatabaseModelsFromJsons.contractorDTOList()) {
+            Long id = contractorDTO.getId();
             contractorController.createOne(baseUser, contractorDTO);
             Contractor one = getContractor(contractorDTO);
-            contractorMap.put(contractorDTO.getId(), one.getId());
+            contractorMap.put(id, one.getId());
         }
         for (KpirCreateDTO dtp : DatabaseModelsFromJsons.kpirCreateDTOList()) {
             Long contractorId = contractorMap.get(dtp.getContractor());

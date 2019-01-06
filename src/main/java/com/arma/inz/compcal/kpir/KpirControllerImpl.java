@@ -1,6 +1,6 @@
 package com.arma.inz.compcal.kpir;
 
-import com.arma.inz.compcal.MapperToJson;
+
 import com.arma.inz.compcal.contractor.Contractor;
 import com.arma.inz.compcal.contractor.ContractorController;
 import com.arma.inz.compcal.kpir.dto.KpirCreateDTO;
@@ -33,8 +33,6 @@ public class KpirControllerImpl implements KpirController {
     public List<KpirDTO> getAll(BaseUser baseUser, KpirFilterDTO filterDTO) {
         Sort sort = Sort.by("economicEventDate").descending();
         List<Kpir> list = getKpirs(baseUser, filterDTO, sort);
-//MapperToJson.convertToJson(filterDTO, "KpirFilterDTO");
-
         return parseListToDTO(list);
     }
 
@@ -75,8 +73,6 @@ public class KpirControllerImpl implements KpirController {
         if (!isTodaysKpir){
             recalculateIdx(entity.getBaseUser(), entity.getEconomicEventDate());
         }
-//MapperToJson.convertToJson(dto, "KpirCreateDTOCreate");
-//MapperToJson.convertToJson(entity, "KpirCreateCreate");
         return entity.getId() != null;
     }
 
@@ -92,10 +88,6 @@ public class KpirControllerImpl implements KpirController {
             if (recalculate){
                 recalculateIdx(entity.getBaseUser(), entity.getEconomicEventDate());
             }
-//MapperToJson.convertToJson(kpirDTO, "KpirCreateDTOUpdate");
-//MapperToJson.convertToJson(entity, "KpirCreateUpdate");
-
-
         }
         return optional != null;
     }
@@ -142,7 +134,6 @@ public class KpirControllerImpl implements KpirController {
         filterDTO.setType(null);
         filterDTO.setSelectedMonth(null);
         List<Kpir> list = getKpirs(baseUser, filterDTO, Sort.by("idx").ascending());
-//MapperToJson.convertToJson(filterDTO, "KpirFilterDTOPrint");
         return parseListToDTO(list);
     }
 
@@ -152,8 +143,6 @@ public class KpirControllerImpl implements KpirController {
             KpirDTO dto = parseToDTO(kpir);
             result.add(dto);
         }
-//MapperToJson.convertToJson(result, "KpirDTOList");
-
         return result;
     }
 

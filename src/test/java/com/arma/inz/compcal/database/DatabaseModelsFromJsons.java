@@ -176,7 +176,7 @@ public class DatabaseModelsFromJsons {
         return result;
     }
 
-    public static KpirFilterDTO KpirFilterDTOEmpty() {
+    public static KpirFilterDTO KpirFilterDTOIncomeEmpty() {
         return (KpirFilterDTO) MapperToObject.FileToObject(new KpirFilterDTO(), "kpirIncome/", "KpirFilterDTOEmpty");
     }
 

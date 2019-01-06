@@ -1,6 +1,5 @@
 package com.arma.inz.compcal.users;
 
-import com.arma.inz.compcal.MapperToJson;
 import com.arma.inz.compcal.bankaccount.BankAccountController;
 import com.arma.inz.compcal.users.dto.ActivateDTO;
 import com.arma.inz.compcal.users.dto.UserDTO;
@@ -47,15 +46,11 @@ public class BaseUserControllerImpl implements BaseUserController {
         entity.setTaxForm(TaxFormEnum.valueOf(user.getTaxForm()));
         BaseUser save = baseUserRepository.save(entity);
         sendEmailWithAuthorizationHash(entity.getEmail(), entity.getHash());
-//        MapperToJson.convertToJson(user, this.getClass().getName() + "registration");
-//        MapperToJson.convertToJson(entity, this.getClass().getName() + "registration");
         return save != null;
     }
 
     private void sendEmailWithAuthorizationHash(String email, String hash) {
         BaseUser user = baseUserRepository.findOneByHash(hash);
-//        MapperToJson.convertToJson(email, this.getClass().getName() + "sendEmailWithAuthorizationHash");
-//        MapperToJson.convertToJson(hash, this.getClass().getName() + "sendEmailWithAuthorizationHash");
         baseUserMailSender.sendActivationEmail(email, hash, user);
     }
 
@@ -63,7 +58,6 @@ public class BaseUserControllerImpl implements BaseUserController {
     public boolean login(UserLoginDTO user) {
         String hash = Base64.getEncoder().encodeToString((user.getEmail() + ":" + user.getPassword()).getBytes());
         BaseUser entity = baseUserRepository.findOneByHash(hash);
-//        MapperToJson.convertToJson(user, this.getClass().getName() + "login");
         return entity != null && entity.isActive();
     }
 
@@ -91,7 +85,6 @@ public class BaseUserControllerImpl implements BaseUserController {
 
     @Override
     public boolean updateBaseUser(UserDTO userDTO) {
-//MapperToJson.convertToJson(userDTO, this.getClass().getName() + "BaseUserUpdate");
         Optional<BaseUser> optional = baseUserRepository.findById(userDTO.getId());
         if (optional != null){
             BaseUser entity = optional.get();
@@ -112,9 +105,6 @@ public class BaseUserControllerImpl implements BaseUserController {
 
     @Override
     public boolean authorize(ActivateDTO activateDTO) {
-//        MapperToJson.convertToJson(activateDTO, this.getClass().getName() + "authorize");
-//        int nAdditionalSigns = (activateDTO.getCode().length() / 3) % 4;
-//        String code = activateDTO.getCode() + String.join("", Collections.nCopies(nAdditionalSigns, "="));
         BaseUser entity = baseUserRepository.findOneLikeHash(activateDTO.getCode());
         if (entity != null) {
             entity.setActive(Boolean.TRUE);

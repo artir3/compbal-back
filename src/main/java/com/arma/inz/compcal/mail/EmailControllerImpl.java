@@ -1,6 +1,5 @@
 package com.arma.inz.compcal.mail;
 
-import com.arma.inz.compcal.MapperToJson;
 import com.arma.inz.compcal.users.BaseUser;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.FileSystemResource;
@@ -72,7 +71,6 @@ public class EmailControllerImpl implements EmailController {
     private Long saveMessage(BaseUser baseUser, String subject, String text, File file) {
         String fileName = file == null ? null : file.getName();
         Email email = new Email(baseUser, EmailStatusEnum.READY_TO_SEND, subject, text, fileName);
-        //MapperToJson.convertToJson(email, this.getClass().getName() + "saveMessage");
         email = emailRepository.save(email);
         return email.getId();
     }

@@ -1,8 +1,5 @@
 package com.arma.inz.compcal.users;
 
-import com.arma.inz.compcal.MapperToJson;
-import com.arma.inz.compcal.users.BaseUser;
-import com.arma.inz.compcal.users.BaseUserController;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +13,6 @@ public class AuthorizationHeaderUtils {
     }
 
     public BaseUser getUserFromAuthorization(String authorization){
-//MapperToJson.convertToJson(authorization, "Authorization");
-
         return baseUserController.getBaseUser(hashFromHeader(authorization));
     }
 }
