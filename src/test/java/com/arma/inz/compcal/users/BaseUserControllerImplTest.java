@@ -1,7 +1,7 @@
 package com.arma.inz.compcal.users;
 
 import com.arma.inz.compcal.bankaccount.BankAccountController;
-import com.arma.inz.compcal.database.DatabaseModelsInitialization;
+import com.arma.inz.compcal.database.DatabaseModelsFromJsons;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +24,7 @@ public class BaseUserControllerImplTest {
 
     @Before
     public void setUp() throws Exception {
-        this.repository.save(DatabaseModelsInitialization.baseUser());
+        this.repository.save(DatabaseModelsFromJsons.baseUser());
     }
 
     @After

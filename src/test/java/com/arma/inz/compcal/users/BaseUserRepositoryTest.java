@@ -1,6 +1,6 @@
 package com.arma.inz.compcal.users;
 
-import com.arma.inz.compcal.database.DatabaseModelsInitialization;
+import com.arma.inz.compcal.database.DatabaseModelsFromJsons;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +22,7 @@ public class BaseUserRepositoryTest {
 
     @Before
     public void initialize() {
-        this.repository.save(DatabaseModelsInitialization.baseUser());
+        this.repository.save(DatabaseModelsFromJsons.baseUser());
     }
 
     @After
