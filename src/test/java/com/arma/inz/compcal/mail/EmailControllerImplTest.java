@@ -40,12 +40,12 @@ public class EmailControllerImplTest {
     private BaseUser baseUser;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         baseUser = baseUserRepository.save(DatabaseModelsFromJsons.baseUser());
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         emailRepository.deleteAll();
         baseUserRepository.deleteAll();
     }
@@ -53,7 +53,7 @@ public class EmailControllerImplTest {
     @Test
     public void sendSimpleMessage() {
         Email email = DatabaseModelsFromJsons.email(baseUser);
-        emailController.sendSimpleMessage("test@localhost", email.getSubject(), email.getText(), null);
+        emailController.sendSimpleMessage("test@localhost", email.getSubject(), email.getText(), baseUser);
         Email email1 = getEmail();
         assertThat(email1.getStatus()).isEqualTo(EmailStatusEnum.SENT);
         assertThat(email1.getFileName()).isNull();

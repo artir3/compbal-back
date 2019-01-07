@@ -5,6 +5,7 @@ import com.arma.inz.compcal.kpir.KpirTypeEnum;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -27,7 +28,8 @@ public class ContractorDebtorsCreditorsScheduler {
         }
     }
 
-    private void checkAndSaveContractor(Contractor contractor) {
+    @Transactional
+    void checkAndSaveContractor(Contractor contractor) {
         BigDecimal debtorAmount = contractor.getDebtorAmount() == null ? BigDecimal.ZERO : contractor.getDebtorAmount();
         BigDecimal creditorAmount = contractor.getCreditorAmount() == null ? BigDecimal.ZERO : contractor.getCreditorAmount();
         for (Kpir kpir : contractor.getKpirList()) {

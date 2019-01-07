@@ -24,13 +24,16 @@ public class EmailControllerImpl implements EmailController {
 
     @Override
     public void sendSimpleMessage(String to, String subject, String text, BaseUser baseUser) {
-        sendMessageWithAttachment(baseUser.getEmail(), subject, text, null, baseUser);
+        Long id = saveMessage(baseUser, subject, text, null);
+        sendMessage(to, subject, text);
+        markAsSent(id);
     }
 
     @Override
     public void sendSimpleMessage(BaseUser baseUser, String subject, String text) {
-        sendMessageWithAttachment(baseUser.getEmail(), subject, text, null, baseUser);
+        sendSimpleMessage(baseUser.getEmail(), subject, text, baseUser);
     }
+
 
     @Override
     public void sendMessageWithAttachment(BaseUser baseUser, String subject, String text, File file) {
