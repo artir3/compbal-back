@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -54,9 +55,17 @@ public class BankAccountControllerImpl implements BankAccountController {
     }
 
     @Override
+    @Transactional
     public boolean delete(Long id) {
         if (id == null){ return false; }
-        bankAccountRepository.deleteById(id);
+        Optional<BankAccount> opt = bankAccountRepository.findById(id);
+        if (opt!=null) {
+            BankAccount bankAccount = opt.get();
+            bankAccount.setBaseUser(null);
+            bankAccount.setContractor(null);
+            bankAccountRepository.save(bankAccount);
+            bankAccountRepository.deleteById(id);
+        }
         return true;
     }
 

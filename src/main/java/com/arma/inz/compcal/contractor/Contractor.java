@@ -63,7 +63,8 @@ public class Contractor {
     private BigDecimal creditorAmount;
     @Column(name = "debtorAmount")
     private BigDecimal debtorAmount;
-
+    @Column(name = "deleted")
+    private Boolean deleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @EqualsAndHashCode.Exclude

@@ -14,7 +14,8 @@ class ContractorSpecification {
     //    https://docs.spring.io/spring-data/jpa/docs/current/reference/html/
 
     public static Specification<Contractor> byBaseUser(BaseUser baseUser) {
-        return (root, query, builder) -> builder.equal(root.get("baseUser"), baseUser);
+        return (root, query, builder) -> builder.and(builder.equal(root.get("baseUser"), baseUser),
+                builder.isFalse(root.get("deleted")));
     }
 
     public static Specification<Kpir> getAllByFilter(BaseUser baseUser, ContractorFilterDTO filterDTO) {
@@ -34,6 +35,7 @@ class ContractorSpecification {
                 Expression<String> fullName = builder.concat(concat, builder.lower(root.get("surname")));
                 predicates.add(builder.like(fullName,"%" + filterDTO.getPerson().trim().toLowerCase() + "%"));
             }
+            predicates.add(builder.isFalse(root.get("deleted")));
             predicates.add(builder.equal(root.get("baseUser"), baseUser));
             return builder.and(predicates.toArray(new Predicate[predicates.size()]));
         };

@@ -80,7 +80,8 @@ public class ContractorControllerImpl implements ContractorController {
         Optional<Contractor> optional = contractorRepository.findById(dto.getId());
         if (optional != null) {
             Contractor entity = optional.get();
-            BeanUtils.copyProperties(dto, entity, "id", "baseUser", "createdAt", "kpirList", "bankAccounts");
+            BeanUtils.copyProperties(dto, entity, "id", "baseUser", "createdAt", "kpirList",
+                    "bankAccounts", "creditor", "creditorAmount", "debtor", "debtorAmount");
             entity.setModifiedAt(LocalDateTime.now());
             if (entity.getCreditor() == null) {
                 entity.setCreditor(Boolean.FALSE);
@@ -119,7 +120,10 @@ public class ContractorControllerImpl implements ContractorController {
     public Boolean deleteOne(Long id) {
         Optional<Contractor> optional = contractorRepository.findById(id);
         if (optional != null) {
-            contractorRepository.delete(optional.get());
+            Contractor contractor = optional.get();
+            contractor.setDeleted(Boolean.TRUE);
+            contractorRepository.save(contractor);
+//            contractorRepository.delete(optional.get());
         }
         return optional != null;
     }

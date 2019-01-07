@@ -49,6 +49,7 @@ public class KpirControllerImpl implements KpirController {
             BeanUtils.copyProperties(kpir, dto);
             dto.setContractor(kpir.getContractor().getId());
             dto.setOverduePayment(calculateOverduePayment(kpir));
+
         }
         return dto;
     }
@@ -76,6 +77,9 @@ public class KpirControllerImpl implements KpirController {
         if (!isTodaysKpir){
             recalculateIdx(entity.getBaseUser(), entity.getEconomicEventDate());
         }
+        if (calculateOverduePayment(entity)) {
+            addDebtorAndCreditor(entity, entity.getContractor());
+        }
         return entity.getId() != null;
     }
 
@@ -85,16 +89,25 @@ public class KpirControllerImpl implements KpirController {
         Optional<Kpir> optional = kpirRepository.findById(kpirDTO.getId());
         if (optional != null) {
             Kpir entity = optional.get();
-            boolean recalculate = !entity.getEconomicEventDate().equals(kpirDTO.getEconomicEventDate());
+            boolean addDebtorOrCreditor = !entity.getEconomicEventDate().equals(kpirDTO.getEconomicEventDate());
+            boolean removeDebtorOrCreditor = kpirDTO.getPayed() && kpirDTO.getPayed() != entity.getPayed();
             BeanUtils.copyProperties(kpirDTO, entity, "id", "idx", "kpirList", "bankAccounts", "contractor", "createdAt", "type", "overduePayment");
             entity.setModifiedAt(LocalDateTime.now());
+            if(entity.getContractor().getId() != kpirDTO.getContractor()){
+                entity.setContractor(contractorController.getOneEntity(kpirDTO.getContractor()));
+            }
             kpirRepository.save(entity);
-            if (recalculate){
+            if (addDebtorOrCreditor){
                 recalculateIdx(entity.getBaseUser(), entity.getEconomicEventDate());
+                removeDebtorAndCreditor(entity, entity.getContractor());
             }
             if (calculateOverduePayment(entity)) {
-                calculateDebtorAndCreditor(entity, entity.getContractor());
+                addDebtorAndCreditor(entity, entity.getContractor());
             }
+            if (removeDebtorOrCreditor) {
+                removeDebtorAndCreditor(entity, entity.getContractor());
+            }
+
         }
         return optional != null;
     }
@@ -177,7 +190,7 @@ public class KpirControllerImpl implements KpirController {
         return Boolean.FALSE.equals(kpir.getPayed()) && kpir.getPaymentDateMax().isBefore(LocalDateTime.now());
     }
 
-    public void calculateDebtorAndCreditor(Kpir kpir, Contractor contractor) {
+    public void addDebtorAndCreditor(Kpir kpir, Contractor contractor) {
         if (KpirTypeEnum.INCOME.equals(kpir.getType())) {
             BigDecimal amount = contractor.getDebtorAmount() == null ? BigDecimal.ZERO : contractor.getDebtorAmount();
             amount = amount.add(kpir.getSoldIncome()).add(kpir.getOtherIncome());
@@ -188,6 +201,22 @@ public class KpirControllerImpl implements KpirController {
             BigDecimal amount = contractor.getCreditorAmount() == null ? BigDecimal.ZERO : contractor.getCreditorAmount();
             amount = amount.add(kpir.getOtherCosts())
                     .add(kpir.getPaymentCost()).add(kpir.getPurchaseCosts()).add(kpir.getRadCosts());
+            contractor.setCreditor(amount.compareTo(BigDecimal.ZERO) > 0);
+            contractor.setCreditorAmount(amount);
+        }
+        contractorRepository.save(contractor);
+    }
+    public void removeDebtorAndCreditor(Kpir kpir, Contractor contractor) {
+        if (KpirTypeEnum.INCOME.equals(kpir.getType())) {
+            BigDecimal amount = contractor.getDebtorAmount() == null ? BigDecimal.ZERO : contractor.getDebtorAmount();
+            amount = amount.subtract(kpir.getSoldIncome()).subtract(kpir.getOtherIncome());
+            contractor.setDebtor(amount.compareTo(BigDecimal.ZERO) > 0);
+            contractor.setDebtorAmount(amount);
+        }
+        if (KpirTypeEnum.COSTS.equals(kpir.getType())) {
+            BigDecimal amount = contractor.getCreditorAmount() == null ? BigDecimal.ZERO : contractor.getCreditorAmount();
+            amount = amount.subtract(kpir.getOtherCosts())
+                    .subtract(kpir.getPaymentCost()).subtract(kpir.getPurchaseCosts()).subtract(kpir.getRadCosts());
             contractor.setCreditor(amount.compareTo(BigDecimal.ZERO) > 0);
             contractor.setCreditorAmount(amount);
         }
