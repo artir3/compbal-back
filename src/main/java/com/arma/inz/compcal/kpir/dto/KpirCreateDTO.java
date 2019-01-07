@@ -25,7 +25,7 @@ public class KpirCreateDTO {
     private BigDecimal paymentCost;
     private BigDecimal otherCosts;
     private BigDecimal sumCosts;
-    private String other;
+    private BigDecimal other;
     private BigDecimal radCosts;
     private String radDescription;
     private String comments;

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Set;
 
 @Data
@@ -26,4 +27,8 @@ public class ContractorDTO {
     private String phone;
     private String trade;
     private Set<BankAccountDTO> bankAccounts;
+    private Boolean creditor;
+    private Boolean debtor;
+    private BigDecimal creditorAmount;
+    private BigDecimal debtorAmount;
 }

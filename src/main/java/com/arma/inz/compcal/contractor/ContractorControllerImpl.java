@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,14 @@ public class ContractorControllerImpl implements ContractorController {
         BeanUtils.copyProperties(contractor, dto);
         dto.setAddress(contractor.getPrettyAddress());
         dto.setPersonName(contractor.getPrettyName());
+        if (contractor.getCreditor() == null) {
+            contractor.setCreditor(Boolean.FALSE);
+            contractor.setCreditorAmount(BigDecimal.ZERO);
+        }
+        if (contractor.getDebtor() == null) {
+            contractor.setDebtor(Boolean.FALSE);
+            contractor.setDebtorAmount(BigDecimal.ZERO);
+        }
         return dto;
     }
 
@@ -62,7 +71,7 @@ public class ContractorControllerImpl implements ContractorController {
     @Transactional
     public Contractor getOneEntity(Long id) {
         Optional<Contractor> entity = contractorRepository.findById(id);
-        return entity != null? entity.get() : null;
+        return entity != null ? entity.get() : null;
     }
 
     @Override
@@ -70,10 +79,18 @@ public class ContractorControllerImpl implements ContractorController {
     public Boolean updateOne(ContractorDTO dto) {
         Optional<Contractor> optional = contractorRepository.findById(dto.getId());
         if (optional != null) {
-            Contractor contractor = optional.get();
-            BeanUtils.copyProperties(dto, contractor, "id", "baseUser", "createdAt", "kpirList", "bankAccounts");
-            contractor.setModifiedAt(LocalDateTime.now());
-            Contractor entity = contractorRepository.save(contractor);
+            Contractor entity = optional.get();
+            BeanUtils.copyProperties(dto, entity, "id", "baseUser", "createdAt", "kpirList", "bankAccounts");
+            entity.setModifiedAt(LocalDateTime.now());
+            if (entity.getCreditor() == null) {
+                entity.setCreditor(Boolean.FALSE);
+                entity.setCreditorAmount(BigDecimal.ZERO);
+            }
+            if (entity.getDebtor() == null) {
+                entity.setDebtor(Boolean.FALSE);
+                entity.setDebtorAmount(BigDecimal.ZERO);
+            }
+            entity = contractorRepository.save(entity);
             bankAccountController.saveOrUpdate(dto.getBankAccounts(), entity);
         }
         return optional != null;
@@ -88,6 +105,10 @@ public class ContractorControllerImpl implements ContractorController {
         entity.setModifiedAt(LocalDateTime.now());
         entity.setCreatedAt(LocalDateTime.now());
         entity = contractorRepository.save(entity);
+        entity.setDebtor(Boolean.FALSE);
+        entity.setCreditor(Boolean.FALSE);
+        entity.setDebtorAmount(BigDecimal.ZERO);
+        entity.setCreditorAmount(BigDecimal.ZERO);
         bankAccountController.saveOrUpdate(dto.getBankAccounts(), entity);
         dto.setId(entity.getId());
         return entity.getId() != null;
@@ -114,4 +135,6 @@ public class ContractorControllerImpl implements ContractorController {
         }
         return result;
     }
+
+
 }

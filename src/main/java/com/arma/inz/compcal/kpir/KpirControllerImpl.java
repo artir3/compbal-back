@@ -3,6 +3,7 @@ package com.arma.inz.compcal.kpir;
 
 import com.arma.inz.compcal.contractor.Contractor;
 import com.arma.inz.compcal.contractor.ContractorController;
+import com.arma.inz.compcal.contractor.ContractorRepository;
 import com.arma.inz.compcal.kpir.dto.KpirCreateDTO;
 import com.arma.inz.compcal.kpir.dto.KpirDTO;
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ import java.util.Optional;
 public class KpirControllerImpl implements KpirController {
     private final KpirRepository kpirRepository;
     private final ContractorController contractorController;
+    private final ContractorRepository contractorRepository;
 
     @Override
     public List<KpirDTO> getAll(BaseUser baseUser, KpirFilterDTO filterDTO) {
@@ -45,7 +48,7 @@ public class KpirControllerImpl implements KpirController {
             dto = new KpirCreateDTO();
             BeanUtils.copyProperties(kpir, dto);
             dto.setContractor(kpir.getContractor().getId());
-            dto.setOverduePayment(calculateOverduePayment(dto));
+            dto.setOverduePayment(calculateOverduePayment(kpir));
         }
         return dto;
     }
@@ -77,6 +80,7 @@ public class KpirControllerImpl implements KpirController {
     }
 
     @Override
+    @Transactional
     public Boolean updateOne(KpirCreateDTO kpirDTO) {
         Optional<Kpir> optional = kpirRepository.findById(kpirDTO.getId());
         if (optional != null) {
@@ -88,6 +92,9 @@ public class KpirControllerImpl implements KpirController {
             if (recalculate){
                 recalculateIdx(entity.getBaseUser(), entity.getEconomicEventDate());
             }
+            if (calculateOverduePayment(entity)) {
+                calculateDebtorAndCreditor(entity, entity.getContractor());
+            }
         }
         return optional != null;
     }
@@ -96,7 +103,9 @@ public class KpirControllerImpl implements KpirController {
     public Boolean deleteOne(Long id) {
         Optional<Kpir> optional = kpirRepository.findById(id);
         if (optional != null) {
-            kpirRepository.delete(optional.get());
+            Kpir kpir = optional.get();
+            kpir.setType(KpirTypeEnum.DELETED);
+//            kpirRepository.delete(optional.get());
             recalculateIdx(optional.get().getBaseUser(), optional.get().getEconomicEventDate());
         }
         return optional != null;
@@ -153,17 +162,36 @@ public class KpirControllerImpl implements KpirController {
     private KpirDTO parseToDTO(Kpir kpir) {
         KpirDTO dto = new KpirDTO();
         BeanUtils.copyProperties(kpir, dto);
-        dto.setAddress(kpir.getContractor().getPrettyAddress());
-        dto.setFullName(kpir.getContractor().getCompany());
-        dto.setOverduePayment(calculateOverduePayment(dto));
+        if (kpir.getContractor() != null) {
+            dto.setAddress(kpir.getContractor().getPrettyAddress());
+            dto.setFullName(kpir.getContractor().getCompany());
+        } else {
+            dto.setAddress("Brak danych!");
+            dto.setFullName("Brak danych!");
+        }
+        dto.setOverduePayment(calculateOverduePayment(kpir));
         return dto;
     }
 
-    private boolean calculateOverduePayment(KpirDTO dto) {
-        return Boolean.FALSE.equals(dto.getPayed()) && dto.getPaymentDateMax().isBefore(LocalDateTime.now());
+    private boolean calculateOverduePayment(Kpir kpir) {
+        return Boolean.FALSE.equals(kpir.getPayed()) && kpir.getPaymentDateMax().isBefore(LocalDateTime.now());
     }
 
-    private boolean calculateOverduePayment(KpirCreateDTO dto) {
-        return Boolean.FALSE.equals(dto.getPayed()) && dto.getPaymentDateMax().isBefore(LocalDateTime.now());
+    public void calculateDebtorAndCreditor(Kpir kpir, Contractor contractor) {
+        if (KpirTypeEnum.INCOME.equals(kpir.getType())) {
+            BigDecimal amount = contractor.getDebtorAmount() == null ? BigDecimal.ZERO : contractor.getDebtorAmount();
+            amount = amount.add(kpir.getSoldIncome()).add(kpir.getOtherIncome());
+            contractor.setDebtor(amount.compareTo(BigDecimal.ZERO) > 0);
+            contractor.setDebtorAmount(amount);
+        }
+        if (KpirTypeEnum.COSTS.equals(kpir.getType())) {
+            BigDecimal amount = contractor.getCreditorAmount() == null ? BigDecimal.ZERO : contractor.getCreditorAmount();
+            amount = amount.add(kpir.getOtherCosts())
+                    .add(kpir.getPaymentCost()).add(kpir.getPurchaseCosts()).add(kpir.getRadCosts());
+            contractor.setCreditor(amount.compareTo(BigDecimal.ZERO) > 0);
+            contractor.setCreditorAmount(amount);
+        }
+        contractorRepository.save(contractor);
     }
+
 }

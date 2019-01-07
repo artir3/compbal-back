@@ -6,6 +6,7 @@ import com.arma.inz.compcal.users.BaseUser;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -54,6 +55,15 @@ public class Contractor {
     private String phone;
     @Column(name = "trade")
     private String trade;
+    @Column(name = "creditor")
+    private Boolean creditor;
+    @Column(name = "debtor")
+    private Boolean debtor;
+    @Column(name = "creditorAmount")
+    private BigDecimal creditorAmount;
+    @Column(name = "debtorAmount")
+    private BigDecimal debtorAmount;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @EqualsAndHashCode.Exclude

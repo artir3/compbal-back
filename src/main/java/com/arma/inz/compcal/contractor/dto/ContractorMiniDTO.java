@@ -16,5 +16,7 @@ public class ContractorMiniDTO {
     private String phone;
     private String address;
     private String trade;
+    private Boolean overduePayments;
+    private Boolean ourOverduePayments;
 
 }

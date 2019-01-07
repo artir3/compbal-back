@@ -67,6 +67,7 @@ class KpirSpecification {
             if (filterDTO.getType() != null) {
                 predicates.add(builder.equal(root.<KpirTypeEnum>get("type"), KpirTypeEnum.valueOf(filterDTO.getType())));
             }
+            predicates.add(builder.notEqual(root.<KpirTypeEnum>get("type"), KpirTypeEnum.DELETED));
 
             predicates.add(builder.equal(root.get("baseUser"), baseUser));
             return builder.and(predicates.toArray(new Predicate[predicates.size()]));

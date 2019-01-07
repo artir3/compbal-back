@@ -31,7 +31,7 @@ public class Kpir {
     private String registrationNumber;
     @ManyToOne
     @EqualsAndHashCode.Exclude
-    @JoinColumn(name = "contractor_id", nullable = false)
+    @JoinColumn(name = "contractor_id")
     private Contractor contractor;
     @Column(name = "description")
     private String description;
