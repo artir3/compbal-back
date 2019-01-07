@@ -110,6 +110,7 @@ public class ContractorControllerImpl implements ContractorController {
         entity.setCreditor(Boolean.FALSE);
         entity.setDebtorAmount(BigDecimal.ZERO);
         entity.setCreditorAmount(BigDecimal.ZERO);
+        entity.setDeleted(Boolean.FALSE);
         bankAccountController.saveOrUpdate(dto.getBankAccounts(), entity);
         dto.setId(entity.getId());
         return entity.getId() != null;

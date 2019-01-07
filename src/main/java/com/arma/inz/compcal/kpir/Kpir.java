@@ -1,6 +1,7 @@
 package com.arma.inz.compcal.kpir;
 
 import com.arma.inz.compcal.contractor.Contractor;
+import com.arma.inz.compcal.currency.CurrencyEnum;
 import com.arma.inz.compcal.users.BaseUser;
 import lombok.*;
 
@@ -72,4 +73,7 @@ public class Kpir {
     @EqualsAndHashCode.Exclude
     @JoinColumn(name="baseUser_id", nullable=false)
     private BaseUser baseUser;
+    @Column(name = "currency")
+    @Enumerated(EnumType.STRING)
+    private CurrencyEnum currency;
 }

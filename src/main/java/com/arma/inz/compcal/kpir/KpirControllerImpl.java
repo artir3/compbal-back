@@ -4,6 +4,7 @@ package com.arma.inz.compcal.kpir;
 import com.arma.inz.compcal.contractor.Contractor;
 import com.arma.inz.compcal.contractor.ContractorController;
 import com.arma.inz.compcal.contractor.ContractorRepository;
+import com.arma.inz.compcal.currency.CurrencyEnum;
 import com.arma.inz.compcal.kpir.dto.KpirCreateDTO;
 import com.arma.inz.compcal.kpir.dto.KpirDTO;
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
@@ -49,7 +50,9 @@ public class KpirControllerImpl implements KpirController {
             BeanUtils.copyProperties(kpir, dto);
             dto.setContractor(kpir.getContractor().getId());
             dto.setOverduePayment(calculateOverduePayment(kpir));
-
+            if (kpir.getCurrency() != null){
+                dto.setCurrency(kpir.getCurrency().name());
+            }
         }
         return dto;
     }
@@ -72,6 +75,7 @@ public class KpirControllerImpl implements KpirController {
         }
         Contractor one = contractorController.getOneEntity(dto.getContractor());
         entity.setContractor(one);
+        entity.setCurrency(CurrencyEnum.valueOf(dto.getCurrency()));
         entity = kpirRepository.save(entity);
 
         if (!isTodaysKpir){
@@ -93,6 +97,7 @@ public class KpirControllerImpl implements KpirController {
             boolean removeDebtorOrCreditor = kpirDTO.getPayed() && kpirDTO.getPayed() != entity.getPayed();
             BeanUtils.copyProperties(kpirDTO, entity, "id", "idx", "kpirList", "bankAccounts", "contractor", "createdAt", "type", "overduePayment");
             entity.setModifiedAt(LocalDateTime.now());
+            entity.setCurrency(CurrencyEnum.valueOf(kpirDTO.getCurrency()));
             if(entity.getContractor().getId() != kpirDTO.getContractor()){
                 entity.setContractor(contractorController.getOneEntity(kpirDTO.getContractor()));
             }
@@ -116,9 +121,11 @@ public class KpirControllerImpl implements KpirController {
     public Boolean deleteOne(Long id) {
         Optional<Kpir> optional = kpirRepository.findById(id);
         if (optional != null) {
-            Kpir kpir = optional.get();
-            kpir.setType(KpirTypeEnum.DELETED);
-//            kpirRepository.delete(optional.get());
+            Kpir entity = optional.get();
+            entity.setType(KpirTypeEnum.DELETED);
+            if (calculateOverduePayment(entity)) {
+                removeDebtorAndCreditor(entity, entity.getContractor());
+            }
             recalculateIdx(optional.get().getBaseUser(), optional.get().getEconomicEventDate());
         }
         return optional != null;
