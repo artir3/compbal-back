@@ -6,7 +6,6 @@ import com.arma.inz.compcal.contractor.dto.ContractorFilterDTO;
 import com.arma.inz.compcal.contractor.dto.ContractorMiniDTO;
 import com.arma.inz.compcal.contractor.dto.ContractorSelectDTO;
 import com.arma.inz.compcal.database.DatabaseModelsFromJsons;
-import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
 import com.arma.inz.compcal.users.BaseUser;
 import com.arma.inz.compcal.users.BaseUserRepository;
 import org.junit.After;
@@ -20,12 +19,9 @@ import org.springframework.data.domain.Example;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -149,11 +145,9 @@ public class ContractorControllerImplTest {
         Contractor contractor = contractors.get(0);
         Boolean deleted = contractorController.deleteOne(contractor.getId());
         assertThat(deleted).isTrue();
-        Optional<Contractor> entity = contractorRepository.findById(contractor.getId());
-        assertThat(entity).isEmpty();
-        Long count = contractorRepository.count();
-        assertThat(initContractorDTOS.size()).isGreaterThan(count.intValue());
-
+        Contractor entity = contractorController.getOneEntity(contractor.getId());
+        assertThat(entity).isNotNull();
+        assertThat(entity.getDeleted()).isTrue();
     }
 
     @Test

@@ -75,7 +75,9 @@ public class KpirControllerImpl implements KpirController {
         }
         Contractor one = contractorController.getOneEntity(dto.getContractor());
         entity.setContractor(one);
-        entity.setCurrency(CurrencyEnum.valueOf(dto.getCurrency()));
+        if (dto.getCurrency() != null){
+            entity.setCurrency(CurrencyEnum.valueOf(dto.getCurrency()));
+        }
         entity = kpirRepository.save(entity);
 
         if (!isTodaysKpir){
@@ -127,6 +129,7 @@ public class KpirControllerImpl implements KpirController {
                 removeDebtorAndCreditor(entity, entity.getContractor());
             }
             recalculateIdx(optional.get().getBaseUser(), optional.get().getEconomicEventDate());
+            kpirRepository.save(entity);
         }
         return optional != null;
     }

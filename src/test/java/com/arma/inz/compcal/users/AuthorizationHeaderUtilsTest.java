@@ -36,12 +36,22 @@ public class AuthorizationHeaderUtilsTest {
     }
 
     @Test
-    public void hashFromHeader() {
-        String hash = DatabaseModelsFromJsons.hashUpdated();
+    public void hashFromHeaderIsNotNull() {
         String authorization = DatabaseModelsFromJsons.authorization();
         String hashFromHeader = authorizationHeaderUtils.hashFromHeader(authorization);
         assertThat(hashFromHeader).isNotNull();
+    }
+    @Test
+    public void hashFromHeaderIsNotEmpty() {
+        String authorization = DatabaseModelsFromJsons.authorization();
+        String hashFromHeader = authorizationHeaderUtils.hashFromHeader(authorization);
         assertThat(hashFromHeader).isNotEmpty();
+    }
+    @Test
+    public void hashFromHeaderIsEqual() {
+        String hash = DatabaseModelsFromJsons.hashUpdated();
+        String authorization = DatabaseModelsFromJsons.authorization();
+        String hashFromHeader = authorizationHeaderUtils.hashFromHeader(authorization);
         assertThat(hashFromHeader).isEqualTo(hash);
     }
 

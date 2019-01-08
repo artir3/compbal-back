@@ -163,11 +163,16 @@ public class KpirControllerImplTest {
     }
 
     @Test
-    public void updateOne() {
-    }
-
-    @Test
     public void deleteOne() {
+        List<Kpir> kpirs = kpirRepository.findAll();
+        assertThat(kpirs).isNotEmpty();
+        Kpir kpir = kpirs.get(0);
+        Boolean deleted = kpirController.deleteOne(kpir.getId());
+        assertThat(deleted).isTrue();
+        Optional<Kpir> entity = kpirRepository.findById(kpir.getId());
+        assertThat(entity).isNotNull();
+        assertThat(entity.get()).isNotNull();
+        assertThat(entity.get().getType()).isEqualTo(KpirTypeEnum.DELETED);
     }
 
     @Test
