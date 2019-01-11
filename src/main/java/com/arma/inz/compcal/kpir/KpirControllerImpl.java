@@ -5,6 +5,7 @@ import com.arma.inz.compcal.contractor.Contractor;
 import com.arma.inz.compcal.contractor.ContractorController;
 import com.arma.inz.compcal.contractor.ContractorRepository;
 import com.arma.inz.compcal.currency.CurrencyEnum;
+import com.arma.inz.compcal.currency.CurrencyExchange;
 import com.arma.inz.compcal.kpir.dto.KpirCreateDTO;
 import com.arma.inz.compcal.kpir.dto.KpirDTO;
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
@@ -32,6 +33,7 @@ public class KpirControllerImpl implements KpirController {
     private final KpirRepository kpirRepository;
     private final ContractorController contractorController;
     private final ContractorRepository contractorRepository;
+    private final CurrencyExchange currencyExchange;
 
     @Override
     public List<KpirDTO> getAll(BaseUser baseUser, KpirFilterDTO filterDTO) {
@@ -103,7 +105,7 @@ public class KpirControllerImpl implements KpirController {
             if(entity.getContractor().getId() != kpirDTO.getContractor()){
                 entity.setContractor(contractorController.getOneEntity(kpirDTO.getContractor()));
             }
-            kpirRepository.save(entity);
+            entity = kpirRepository.save(entity);
             if (addDebtorOrCreditor){
                 recalculateIdx(entity.getBaseUser(), entity.getEconomicEventDate());
                 removeDebtorAndCreditor(entity, entity.getContractor());
@@ -157,7 +159,7 @@ public class KpirControllerImpl implements KpirController {
         for (Kpir entity: list) {
             entity.setIdx(idx++);
             entity.setModifiedAt(LocalDateTime.now());
-            kpirRepository.save(entity);
+            entity = kpirRepository.save(entity);
         }
     }
 
@@ -193,6 +195,7 @@ public class KpirControllerImpl implements KpirController {
             dto.setFullName("Brak danych!");
         }
         dto.setOverduePayment(calculateOverduePayment(kpir));
+        currencyExchange.exchangeSumALlIncome(kpir, dto);
         return dto;
     }
 
@@ -203,14 +206,13 @@ public class KpirControllerImpl implements KpirController {
     public void addDebtorAndCreditor(Kpir kpir, Contractor contractor) {
         if (KpirTypeEnum.INCOME.equals(kpir.getType())) {
             BigDecimal amount = contractor.getDebtorAmount() == null ? BigDecimal.ZERO : contractor.getDebtorAmount();
-            amount = amount.add(kpir.getSoldIncome()).add(kpir.getOtherIncome());
+            amount = amount.add(currencyExchange.exchangeSumALlIncome(kpir));
             contractor.setDebtor(amount.compareTo(BigDecimal.ZERO) > 0);
             contractor.setDebtorAmount(amount);
         }
         if (KpirTypeEnum.COSTS.equals(kpir.getType())) {
             BigDecimal amount = contractor.getCreditorAmount() == null ? BigDecimal.ZERO : contractor.getCreditorAmount();
-            amount = amount.add(kpir.getOtherCosts())
-                    .add(kpir.getPaymentCost()).add(kpir.getPurchaseCosts()).add(kpir.getRadCosts());
+            amount = amount.add(currencyExchange.exchangeSumAllCosts(kpir));
             contractor.setCreditor(amount.compareTo(BigDecimal.ZERO) > 0);
             contractor.setCreditorAmount(amount);
         }
@@ -219,14 +221,13 @@ public class KpirControllerImpl implements KpirController {
     public void removeDebtorAndCreditor(Kpir kpir, Contractor contractor) {
         if (KpirTypeEnum.INCOME.equals(kpir.getType())) {
             BigDecimal amount = contractor.getDebtorAmount() == null ? BigDecimal.ZERO : contractor.getDebtorAmount();
-            amount = amount.subtract(kpir.getSoldIncome()).subtract(kpir.getOtherIncome());
+            amount = amount.subtract(currencyExchange.exchangeSumALlIncome(kpir));
             contractor.setDebtor(amount.compareTo(BigDecimal.ZERO) > 0);
             contractor.setDebtorAmount(amount);
         }
         if (KpirTypeEnum.COSTS.equals(kpir.getType())) {
             BigDecimal amount = contractor.getCreditorAmount() == null ? BigDecimal.ZERO : contractor.getCreditorAmount();
-            amount = amount.subtract(kpir.getOtherCosts())
-                    .subtract(kpir.getPaymentCost()).subtract(kpir.getPurchaseCosts()).subtract(kpir.getRadCosts());
+            amount = amount.subtract(currencyExchange.exchangeSumAllCosts(kpir));
             contractor.setCreditor(amount.compareTo(BigDecimal.ZERO) > 0);
             contractor.setCreditorAmount(amount);
         }

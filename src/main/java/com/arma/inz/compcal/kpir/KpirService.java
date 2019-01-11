@@ -5,6 +5,8 @@ import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 @CrossOrigin(origins ="http://46.101.227.24:8080")
 @RequestMapping("/kpir")
 public interface KpirService {
@@ -31,4 +33,5 @@ public interface KpirService {
     @CrossOrigin
     @GetMapping("/idx")
     ResponseEntity getNextIdx(@RequestHeader(value="Authorization") String authorization);
+
 }

@@ -73,6 +73,7 @@ public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/login/hash").permitAll()
                 .antMatchers("/user/authorize").permitAll()
                 .antMatchers("/activate/*").permitAll()
+                .antMatchers("/kpir/cra/*").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/0.js").permitAll()
                 .antMatchers("/favicon.ico").permitAll()

@@ -8,6 +8,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -27,10 +28,11 @@ public class CurrencyCrawler {
 
     @Scheduled(cron = "${crawler.nbp.api.crone}")
     public void getNbpApiTableA(){
-        LocalDate lastInsertDate = currencyRepository.getLastInsertDate();
-        if (lastInsertDate == null){
+        Date time = this.currencyRepository.getLastInsertDate();
+        if (time == null){
             parseLastX(50);
         } else {
+            LocalDate lastInsertDate = time.toLocalDate();
             long daysBetween = ChronoUnit.DAYS.between(lastInsertDate, LocalDate.now());
             if (daysBetween > 0)
                 parseLastX(daysBetween);

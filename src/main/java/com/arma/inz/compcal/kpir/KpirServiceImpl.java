@@ -1,5 +1,7 @@
 package com.arma.inz.compcal.kpir;
 
+import com.arma.inz.compcal.currency.CurrencyCrawler;
+import com.arma.inz.compcal.currency.CurrencyEnum;
 import com.arma.inz.compcal.kpir.dto.KpirCreateDTO;
 import com.arma.inz.compcal.kpir.dto.KpirDTO;
 import com.arma.inz.compcal.kpir.dto.KpirFilterDTO;
@@ -11,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -19,7 +23,6 @@ import java.util.List;
 public class KpirServiceImpl implements KpirService {
     private final KpirController kpirController;
     private final AuthorizationHeaderUtils header;
-
     @Override
     public ResponseEntity get(String authorization, KpirFilterDTO kpirFilterDTO) {
         BaseUser baseUser = header.getUserFromAuthorization(authorization);
@@ -65,5 +68,7 @@ public class KpirServiceImpl implements KpirService {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
         Integer result = kpirController.getNextIdx(baseUser);
-        return new ResponseEntity<>(result, HttpStatus.OK);    }
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }
