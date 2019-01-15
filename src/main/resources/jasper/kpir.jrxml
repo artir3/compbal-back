@@ -450,7 +450,7 @@
 										<textElement textAlignment="Center" verticalAlignment="Middle">
 											<font size="8"/>
 										</textElement>
-										<textFieldExpression><![CDATA[$P{_totalSoldIncome}]]></textFieldExpression>
+										<textFieldExpression><![CDATA[$P{_totalSoldIncome}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 									</textField>
 								</jr:columnFooter>
 								<jr:column width="34" uuid="6867abec-fef8-4261-bc15-01c3e3c7277e">
@@ -482,7 +482,7 @@
 											<textElement textAlignment="Center" verticalAlignment="Middle">
 												<font size="8"/>
 											</textElement>
-											<textFieldExpression><![CDATA[$V{PagedSoldIncome}]]></textFieldExpression>
+											<textFieldExpression><![CDATA[$V{PagedSoldIncome}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 										</textField>
 									</jr:columnFooter>
 									<jr:detailCell height="40">
@@ -497,7 +497,7 @@
 											<textElement textAlignment="Center" verticalAlignment="Middle">
 												<font size="8"/>
 											</textElement>
-											<textFieldExpression><![CDATA[$F{soldIncome}]]></textFieldExpression>
+											<textFieldExpression><![CDATA[$F{soldIncome}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 										</textField>
 									</jr:detailCell>
 								</jr:column>
@@ -516,7 +516,7 @@
 										<textElement textAlignment="Center" verticalAlignment="Middle">
 											<font size="8"/>
 										</textElement>
-										<textFieldExpression><![CDATA[$P{_totalOtherIncome}]]></textFieldExpression>
+										<textFieldExpression><![CDATA[$P{_totalOtherIncome}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 									</textField>
 								</jr:columnFooter>
 								<jr:column width="33" uuid="4e7bef6f-e55e-45ab-ac79-9cb4e05ed3c3">
@@ -548,7 +548,7 @@
 											<textElement textAlignment="Center" verticalAlignment="Middle">
 												<font size="8"/>
 											</textElement>
-											<textFieldExpression><![CDATA[$V{PagedOtherIncome}]]></textFieldExpression>
+											<textFieldExpression><![CDATA[$V{PagedOtherIncome}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 										</textField>
 									</jr:columnFooter>
 									<jr:detailCell height="40">
@@ -563,7 +563,7 @@
 											<textElement textAlignment="Center" verticalAlignment="Middle">
 												<font size="8"/>
 											</textElement>
-											<textFieldExpression><![CDATA[$F{otherIncome}]]></textFieldExpression>
+											<textFieldExpression><![CDATA[$F{otherIncome}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 										</textField>
 									</jr:detailCell>
 								</jr:column>
@@ -582,7 +582,7 @@
 										<textElement textAlignment="Center" verticalAlignment="Middle">
 											<font size="8"/>
 										</textElement>
-										<textFieldExpression><![CDATA[$P{_totalAllIncome}]]></textFieldExpression>
+										<textFieldExpression><![CDATA[$P{_totalAllIncome}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 									</textField>
 								</jr:columnFooter>
 								<jr:column width="33" uuid="037aea3f-e5c9-4411-a279-313876075fe5">
@@ -614,7 +614,7 @@
 											<textElement textAlignment="Center" verticalAlignment="Middle">
 												<font size="8"/>
 											</textElement>
-											<textFieldExpression><![CDATA[$V{PagedAllIncome}]]></textFieldExpression>
+											<textFieldExpression><![CDATA[$V{PagedAllIncome}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 										</textField>
 									</jr:columnFooter>
 									<jr:detailCell height="40">
@@ -629,7 +629,7 @@
 											<textElement textAlignment="Center" verticalAlignment="Middle">
 												<font size="8"/>
 											</textElement>
-											<textFieldExpression><![CDATA[$F{allIncome}]]></textFieldExpression>
+											<textFieldExpression><![CDATA[$F{allIncome}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 										</textField>
 									</jr:detailCell>
 								</jr:column>
@@ -650,7 +650,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$P{_totalPurchaseCosts}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$P{_totalPurchaseCosts}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 							</textField>
 						</jr:columnFooter>
 						<jr:column width="33" uuid="b45fd719-37ad-496f-a002-c534058a3436">
@@ -682,7 +682,7 @@
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font size="8"/>
 									</textElement>
-									<textFieldExpression><![CDATA[$V{PagedPurchaseCosts}]]></textFieldExpression>
+									<textFieldExpression><![CDATA[$V{PagedPurchaseCosts}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 								</textField>
 							</jr:columnFooter>
 							<jr:detailCell height="40">
@@ -697,7 +697,7 @@
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font size="8"/>
 									</textElement>
-									<textFieldExpression><![CDATA[$F{purchaseCosts}]]></textFieldExpression>
+									<textFieldExpression><![CDATA[$F{purchaseCosts}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -716,7 +716,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$P{_totalPurchaseSideCosts}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$P{_totalPurchaseSideCosts}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 							</textField>
 						</jr:columnFooter>
 						<jr:column width="33" uuid="a556c98a-e23b-4850-a7e8-758d1b874ece">
@@ -748,7 +748,7 @@
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font size="8"/>
 									</textElement>
-									<textFieldExpression><![CDATA[$V{PagedPurchaseSideCosts}]]></textFieldExpression>
+									<textFieldExpression><![CDATA[$V{PagedPurchaseSideCosts}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 								</textField>
 							</jr:columnFooter>
 							<jr:detailCell height="40">
@@ -763,7 +763,7 @@
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font size="8"/>
 									</textElement>
-									<textFieldExpression><![CDATA[$F{purchaseSideCosts}]]></textFieldExpression>
+									<textFieldExpression><![CDATA[$F{purchaseSideCosts}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -801,7 +801,7 @@
 										<textElement textAlignment="Center" verticalAlignment="Middle">
 											<font size="8"/>
 										</textElement>
-										<textFieldExpression><![CDATA[$P{_totalPaymentCost}]]></textFieldExpression>
+										<textFieldExpression><![CDATA[$P{_totalPaymentCost}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 									</textField>
 								</jr:columnFooter>
 								<jr:column width="33" uuid="bf6ae068-6b99-4d80-be2c-05abff833bb9">
@@ -833,7 +833,7 @@
 											<textElement textAlignment="Center" verticalAlignment="Middle">
 												<font size="8"/>
 											</textElement>
-											<textFieldExpression><![CDATA[$V{PagedPaymentCost}]]></textFieldExpression>
+											<textFieldExpression><![CDATA[$V{PagedPaymentCost}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 										</textField>
 									</jr:columnFooter>
 									<jr:detailCell height="40">
@@ -848,7 +848,7 @@
 											<textElement textAlignment="Center" verticalAlignment="Middle">
 												<font size="8"/>
 											</textElement>
-											<textFieldExpression><![CDATA[$F{paymentCost}]]></textFieldExpression>
+											<textFieldExpression><![CDATA[$F{paymentCost}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 										</textField>
 									</jr:detailCell>
 								</jr:column>
@@ -867,7 +867,7 @@
 										<textElement textAlignment="Center" verticalAlignment="Middle">
 											<font size="8"/>
 										</textElement>
-										<textFieldExpression><![CDATA[$P{_totalOtherCosts}]]></textFieldExpression>
+										<textFieldExpression><![CDATA[$P{_totalOtherCosts}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 									</textField>
 								</jr:columnFooter>
 								<jr:column width="33" uuid="69b02a7d-3318-49fc-9ec7-8df97e665bf8">
@@ -899,7 +899,7 @@
 											<textElement textAlignment="Center" verticalAlignment="Middle">
 												<font size="8"/>
 											</textElement>
-											<textFieldExpression><![CDATA[$V{PagedOtherCosts}]]></textFieldExpression>
+											<textFieldExpression><![CDATA[$V{PagedOtherCosts}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 										</textField>
 									</jr:columnFooter>
 									<jr:detailCell height="40">
@@ -914,7 +914,7 @@
 											<textElement textAlignment="Center" verticalAlignment="Middle">
 												<font size="8"/>
 											</textElement>
-											<textFieldExpression><![CDATA[$F{otherCosts}]]></textFieldExpression>
+											<textFieldExpression><![CDATA[$F{otherCosts}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 										</textField>
 									</jr:detailCell>
 								</jr:column>
@@ -933,7 +933,7 @@
 										<textElement textAlignment="Center" verticalAlignment="Middle">
 											<font size="8"/>
 										</textElement>
-										<textFieldExpression><![CDATA[$P{_totalSumCosts}]]></textFieldExpression>
+										<textFieldExpression><![CDATA[$P{_totalSumCosts}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 									</textField>
 								</jr:columnFooter>
 								<jr:column width="33" uuid="d52ddd67-3190-4b73-9f72-acea7b9d44d0">
@@ -965,7 +965,7 @@
 											<textElement textAlignment="Center" verticalAlignment="Middle">
 												<font size="8"/>
 											</textElement>
-											<textFieldExpression><![CDATA[$V{PagedSumCosts}]]></textFieldExpression>
+											<textFieldExpression><![CDATA[$V{PagedSumCosts}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 										</textField>
 									</jr:columnFooter>
 									<jr:detailCell height="40">
@@ -980,7 +980,7 @@
 											<textElement textAlignment="Center" verticalAlignment="Middle">
 												<font size="8"/>
 											</textElement>
-											<textFieldExpression><![CDATA[$F{sumCosts}]]></textFieldExpression>
+											<textFieldExpression><![CDATA[$F{sumCosts}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 										</textField>
 									</jr:detailCell>
 								</jr:column>
@@ -999,7 +999,7 @@
 										<textElement textAlignment="Center" verticalAlignment="Middle">
 											<font size="8"/>
 										</textElement>
-										<textFieldExpression><![CDATA[$P{_totalOther}]]></textFieldExpression>
+										<textFieldExpression><![CDATA[$P{_totalOther}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 									</textField>
 								</jr:columnFooter>
 								<jr:column width="33" uuid="dda2ad8d-7df0-4831-bc69-75ca1c633517">
@@ -1031,7 +1031,7 @@
 											<textElement textAlignment="Center" verticalAlignment="Middle">
 												<font size="8"/>
 											</textElement>
-											<textFieldExpression><![CDATA[$V{PagedOther}]]></textFieldExpression>
+											<textFieldExpression><![CDATA[$V{PagedOther}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 										</textField>
 									</jr:columnFooter>
 									<jr:detailCell height="40">
@@ -1046,7 +1046,7 @@
 											<textElement textAlignment="Center" verticalAlignment="Middle">
 												<font size="8"/>
 											</textElement>
-											<textFieldExpression><![CDATA[$F{other}]]></textFieldExpression>
+											<textFieldExpression><![CDATA[$F{other}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 										</textField>
 									</jr:detailCell>
 								</jr:column>
@@ -1124,7 +1124,7 @@
 										<textElement textAlignment="Center" verticalAlignment="Middle">
 											<font size="8"/>
 										</textElement>
-										<textFieldExpression><![CDATA[$P{_totalRadCosts}]]></textFieldExpression>
+										<textFieldExpression><![CDATA[$P{_totalRadCosts}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 									</textField>
 								</jr:columnFooter>
 								<jr:column width="33" uuid="ea84bc0f-8562-4ad3-ba80-12b53d459f47">
@@ -1156,7 +1156,7 @@
 											<textElement textAlignment="Center" verticalAlignment="Middle">
 												<font size="8"/>
 											</textElement>
-											<textFieldExpression><![CDATA[$V{PagedRadCosts}]]></textFieldExpression>
+											<textFieldExpression><![CDATA[$V{PagedRadCosts}.setScale(2, BigDecimal.ROUND_CEILING)]]></textFieldExpression>
 										</textField>
 									</jr:columnFooter>
 									<jr:detailCell height="40">
@@ -1171,7 +1171,6 @@
 											<textElement textAlignment="Center" verticalAlignment="Middle">
 												<font size="8"/>
 											</textElement>
-											<textFieldExpression><![CDATA[$F{radCosts}]]></textFieldExpression>
 										</textField>
 									</jr:detailCell>
 								</jr:column>
